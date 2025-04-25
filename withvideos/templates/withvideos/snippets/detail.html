@@ -5,25 +5,87 @@
     <div class="container">
         <div class="columns is-centered">
             <div class="column is-two-thirds">
-                <div class="box">
-                    <h2 class="title is-4 mb-4">Words in this snippet</h2>
+                <div class="box"
+                     x-data="flashcards"
+                     x-init="init({{ words_json }})">
                     
-                    <div class="content">
-                        {% for word in snippet.words.all %}
-                            <div class="box mb-4">
-                                <h3 class="title is-5">{{ word.original_word }}</h3>
+                    <template x-if="currentWord">
+                        <div class="has-text-centered">
+                            <!-- Word Display -->
+                            <h2 class="title is-2 mb-6" x-text="currentWord.original_word"></h2>
+                            
+                            <!-- Meanings (Hidden by default) -->
+                            <div x-show="showMeanings" class="mb-6">
                                 <div class="content">
-                                    <ul>
-                                        {% for meaning in word.meanings.all %}
-                                            <li>{{ meaning.en }}</li>
-                                        {% endfor %}
-                                    </ul>
+                                    <div class="box">
+                                        <div class="is-size-5">
+                                            <template x-for="meaning in currentWord.meanings">
+                                                <p class="mb-3" x-text="meaning"></p>
+                                            </template>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        {% endfor %}
-                    </div>
+                            
+                            <!-- Buttons -->
+                            <div class="buttons is-centered">
+                                <template x-if="!showMeanings">
+                                    <button @click="showMeanings = true" 
+                                            class="button is-primary is-large">
+                                        <span>Reveal</span>
+                                    </button>
+                                </template>
+                                
+                                <template x-if="showMeanings">
+                                    <button @click="nextWord" 
+                                            class="button is-success is-large">
+                                        <span class="icon">
+                                            {% lucide "arrow-right" size=24 %}
+                                        </span>
+                                        <span>Next Word</span>
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                    
+                    <template x-if="!currentWord">
+                        <div class="has-text-centered">
+                            <h2 class="title is-4">Practice Complete!</h2>
+                            <a href="{% url 'withvideos:video_detail' snippet.video.youtube_id %}" 
+                               class="button is-primary">
+                                <span class="icon">
+                                    {% lucide "arrow-left" size=24 %}
+                                </span>
+                                <span>Back to Video</span>
+                            </a>
+                        </div>
+                    </template>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('flashcards', () => ({
+                words: [],
+                currentIndex: 0,
+                showMeanings: false,
+                
+                init(wordsData) {
+                    this.words = wordsData;
+                },
+                
+                get currentWord() {
+                    return this.words[this.currentIndex];
+                },
+                
+                nextWord() {
+                    this.showMeanings = false;
+                    this.currentIndex++;
+                }
+            }))
+        })
+    </script>
 {% endblock %} 
