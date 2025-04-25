@@ -1,26 +1,30 @@
-{% extends "withvideos/base.html" %}
+{% extends "withvideos/base.html" %} {% block withvideos_content %} 
+<h1 class="title is-1 mb-6">Live Videos</h1>
 
-{% block withvideos_content %}
-    <h1 class="title is-1 mb-6">Live Videos</h1>
-    
-    <div class="columns is-multiline">
-        {% for video in videos %}
-            <div class="column is-one-quarter">
-                <div class="card is-flex is-flex-direction-column" style="height: 100%;">
-                    <div class="card-image">
-                        <figure class="image is-16by9">
-                            <img 
-                                src="https://img.youtube.com/vi/{{ video.youtube_id }}/maxresdefault.jpg" 
-                                alt="Thumbnail for {{ video.title|default:video.youtube_title }}"
-                                loading="lazy"
-                            >
-                        </figure>
-                    </div>
-                    <div class="card-content is-flex-grow-1">
-                        <p class="title is-6 has-text-centered">{{ video.title|default:video.youtube_title }}</p>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
+<div class="columns is-multiline">
+  {% for video in videos %}
+  <div class="column is-one-quarter">
+    <a
+      href="{% url 'withvideos:video_detail' video.youtube_id %}"
+      class="card is-flex is-flex-direction-column"
+      style="height: 100%"
+    >
+      <div class="card-image">
+        <figure class="image is-16by9">
+          <img
+            src="https://img.youtube.com/vi/{{ video.youtube_id }}/maxresdefault.jpg"
+            alt="Thumbnail for {{ video.title|default:video.youtube_title }}"
+            loading="lazy"
+          />
+        </figure>
+      </div>
+      <div class="card-content is-flex-grow-1">
+        <p class="title is-6 has-text-centered">
+          {{ video.title|default:video.youtube_title }}
+        </p>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</div>
 {% endblock %}
