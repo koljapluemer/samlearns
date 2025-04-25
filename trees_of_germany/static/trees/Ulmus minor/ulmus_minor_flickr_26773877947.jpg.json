@@ -1,0 +1,36 @@
+{
+    "id": 26773877947,
+    "owner": {
+        "nsid": "74738817@N07",
+        "username": "anro0002",
+        "path_alias": null
+    },
+    "secret": "5f5ea54295",
+    "server": "798",
+    "farm": 1,
+    "title": "Ulmus minor",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Früchte der Feldulme (Ulmus minor) am Staden in Saarbrücken",
+    "dateupload": "1524471100",
+    "views": 245,
+    "tags": [
+        "ulmusminor"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2018-04-23 08:11:40",
+    "width": 3000,
+    "height": 2250,
+    "url": "https://live.staticflickr.com/798/26773877947_79f784d016_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Ulmus minor",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "26773877947_79f784d016_o_d",
+    "extension": "jpg"
+}

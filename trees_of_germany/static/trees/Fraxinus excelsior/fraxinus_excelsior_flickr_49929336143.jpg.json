@@ -1,0 +1,42 @@
+{
+    "id": 49929336143,
+    "owner": {
+        "nsid": "145907835@N07",
+        "username": "gertjanvannoord",
+        "path_alias": "gertjanvannoord"
+    },
+    "secret": "09b38d0775",
+    "server": "65535",
+    "farm": 66,
+    "title": "Es - Fraxinus excelsior ?",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Es - Fraxinus excelsior ?",
+    "dateupload": "1590323495",
+    "views": 161,
+    "tags": [
+        "202020200522dsc08283jpg",
+        "2020",
+        "05",
+        "22",
+        "es",
+        "fraxinus",
+        "excelsior"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2020-05-24 12:31:35",
+    "width": 5472,
+    "height": 3648,
+    "url": "https://live.staticflickr.com/65535/49929336143_b40261862d_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Fraxinus excelsior",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "49929336143_b40261862d_o_d",
+    "extension": "jpg"
+}

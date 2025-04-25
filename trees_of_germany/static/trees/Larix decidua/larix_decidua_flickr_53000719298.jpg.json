@@ -1,0 +1,34 @@
+{
+    "id": 53000719298,
+    "owner": {
+        "nsid": "194071409@N05",
+        "username": "Thibault Lefort",
+        "path_alias": null
+    },
+    "secret": "d73a68c3de",
+    "server": "65535",
+    "farm": 66,
+    "title": "Larix decidua Mill., 1768",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "T. Lefort, 2023, Savoie",
+    "dateupload": "1687705071",
+    "views": 6,
+    "tags": [],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-06-25 14:57:51",
+    "width": 5184,
+    "height": 3888,
+    "url": "https://live.staticflickr.com/65535/53000719298_cbff9758f1_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Larix decidua",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53000719298_cbff9758f1_o_d",
+    "extension": "jpg"
+}

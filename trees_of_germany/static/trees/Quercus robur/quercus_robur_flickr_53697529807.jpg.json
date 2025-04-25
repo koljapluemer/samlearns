@@ -1,0 +1,47 @@
+{
+    "id": 53697529807,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "4195fe5764",
+    "server": "65535",
+    "farm": 66,
+    "title": "Under a canopy of oak leaves at Myrstigen",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Under a canopy of oak leaves (Quercus robur) in spring at Myrstigen hiking trail, Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1714852418",
+    "views": 33,
+    "tags": [
+        "brastad",
+        "lysekilmunicipality",
+        "myrstigen",
+        "quercusrobur",
+        "sweden",
+        "branches",
+        "canopy",
+        "hikingtrail",
+        "leaves",
+        "oak",
+        "sky",
+        "spring"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2024-05-04 19:53:38",
+    "width": 5184,
+    "height": 3456,
+    "url": "https://live.staticflickr.com/65535/53697529807_f950d9b4fc_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus robur",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53697529807_f950d9b4fc_o_d",
+    "extension": "jpg"
+}

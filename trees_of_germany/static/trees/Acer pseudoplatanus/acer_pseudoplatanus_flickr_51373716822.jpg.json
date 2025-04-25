@@ -1,0 +1,37 @@
+{
+    "id": 51373716822,
+    "owner": {
+        "nsid": "96064256@N04",
+        "username": "olive.titus",
+        "path_alias": null
+    },
+    "secret": "5e4c8875d9",
+    "server": "65535",
+    "farm": 66,
+    "title": "Erable sycomore, Acer pseudoplatanus, Sapindacées",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Hameau Le Serre",
+    "dateupload": "1628811821",
+    "views": 46,
+    "tags": [
+        "fleur",
+        "flower"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2021-08-12 23:43:41",
+    "width": 5184,
+    "height": 3888,
+    "url": "https://live.staticflickr.com/65535/51373716822_cb6ab32203_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer pseudoplatanus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "51373716822_cb6ab32203_o_d",
+    "extension": "jpg"
+}

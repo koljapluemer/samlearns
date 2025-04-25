@@ -1,0 +1,45 @@
+{
+    "id": 52892265019,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "a2c1f301b9",
+    "server": "65535",
+    "farm": 66,
+    "title": "East part of Myrstigen",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "East part of Myrstigen hiking track, Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1683909039",
+    "views": 22,
+    "tags": [
+        "brastad",
+        "lysekilmunicipality",
+        "myrstigen",
+        "quercusrobur",
+        "sweden",
+        "forest",
+        "hikingtrack",
+        "oak",
+        "path",
+        "trees"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-05-12 16:30:39",
+    "width": 3875,
+    "height": 5751,
+    "url": "https://live.staticflickr.com/65535/52892265019_7519bf6a3d_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus robur",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52892265019_7519bf6a3d_o_d",
+    "extension": "jpg"
+}

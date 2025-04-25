@@ -1,0 +1,10 @@
+scrase
+bokeh
+catkins
+raindrop
+specular
+highlight
+male
+female
+pollen
+stamen

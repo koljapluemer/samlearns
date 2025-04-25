@@ -1,0 +1,34 @@
+{
+    "id": 52190010658,
+    "owner": {
+        "nsid": "194071409@N05",
+        "username": "Thibault Lefort",
+        "path_alias": null
+    },
+    "secret": "48c9805b7f",
+    "server": "65535",
+    "farm": 66,
+    "title": "Fagus sylvatica L., 1753",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "T. Lefort, 2022, Ariège",
+    "dateupload": "1656833037",
+    "views": 17,
+    "tags": [],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-07-03 07:23:57",
+    "width": 4000,
+    "height": 3000,
+    "url": "https://live.staticflickr.com/65535/52190010658_3600cbf44f_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Fagus sylvatica",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52190010658_3600cbf44f_o_d",
+    "extension": "jpg"
+}

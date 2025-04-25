@@ -1,0 +1,46 @@
+{
+    "id": 52894527099,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "d3af7c4226",
+    "server": "65535",
+    "farm": 66,
+    "title": "Oak and stone wall by Myrstigen",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Oak (Quercus robur) by one of the dry stone walls by Myrstigen hiking trail in Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1683983415",
+    "views": 20,
+    "tags": [
+        "brastad",
+        "lysekilmunicipality",
+        "myrstigen",
+        "quercusrobur",
+        "sweden",
+        "drystonewalls",
+        "field",
+        "hikingtrail",
+        "houses",
+        "oak",
+        "tree"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-05-13 13:10:15",
+    "width": 5184,
+    "height": 3456,
+    "url": "https://live.staticflickr.com/65535/52894527099_255c279646_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus robur",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52894527099_255c279646_o_d",
+    "extension": "jpg"
+}

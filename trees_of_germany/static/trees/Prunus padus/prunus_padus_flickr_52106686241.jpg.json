@@ -1,0 +1,46 @@
+{
+    "id": 52106686241,
+    "owner": {
+        "nsid": "78304219@N06",
+        "username": "Øyvind Holmstad",
+        "path_alias": null
+    },
+    "secret": "78eee2786b",
+    "server": "65535",
+    "farm": 66,
+    "title": "Marsh Marigold by the Lenaelva RIver, Norway.",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Marsh Marigold by the Lenaelva RIver, Norway.",
+    "dateupload": "1653811404",
+    "views": 38,
+    "tags": [
+        "marshmarigold",
+        "hegg",
+        "prunuspadus",
+        "lenaelva",
+        "bekkeblom",
+        "blomster",
+        "heggeblomstring",
+        "calthapalustris",
+        "skreia",
+        "østretoten",
+        "norway"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-05-29 08:03:24",
+    "width": 3008,
+    "height": 4512,
+    "url": "https://live.staticflickr.com/65535/52106686241_306871d82c_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Prunus padus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52106686241_306871d82c_o_d",
+    "extension": "jpg"
+}

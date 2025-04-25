@@ -1,0 +1,42 @@
+{
+    "id": 50960491726,
+    "owner": {
+        "nsid": "61021753@N02",
+        "username": "BioDivLibrary",
+        "path_alias": "biodivlibrary"
+    },
+    "secret": "111264c434",
+    "server": "65535",
+    "farm": 66,
+    "title": "n92_w1150",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Österreichs allgemeine baumzucht, :\nWien :Ignaz Albertischen Buchdruck.,1792-1822.\n<a href=\"https://biodiversitylibrary.org/page/42928163\" rel=\"noreferrer nofollow\">biodiversitylibrary.org/page/42928163</a>",
+    "dateupload": "1613769925",
+    "views": 5659,
+    "tags": [
+        "austria",
+        "shrubs",
+        "trees",
+        "harvarduniversitybotanylibraries",
+        "bhl:page=42928163",
+        "dc:identifier=httpsbiodiversitylibraryorgpage42928163",
+        "taxonomy:binomial=acercampestre"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2021-02-19 21:25:25",
+    "width": 1405,
+    "height": 2097,
+    "url": "https://live.staticflickr.com/65535/50960491726_068322196c_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer campestre",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "50960491726_068322196c_o_d",
+    "extension": "jpg"
+}

@@ -1,0 +1,38 @@
+{
+    "id": 48949269457,
+    "owner": {
+        "nsid": "75001205@N02",
+        "username": "NATT-at-NKM",
+        "path_alias": null
+    },
+    "secret": "f89307be15",
+    "server": "65535",
+    "farm": 66,
+    "title": "Andricus legitimus  20121113150541",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "The asexual (agamic) generation of Andricus legitimus is found within stunted acorns on Quercus robur and Quercus petraea. It is not well known. I have never reared this species but have always only reared the inquiline gall wasp associated with it.",
+    "dateupload": "1571860813",
+    "views": 160,
+    "tags": [
+        "andricuslegitimus",
+        "lullingstone",
+        "gall"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2019-10-23 20:00:13",
+    "width": 4000,
+    "height": 3000,
+    "url": "https://live.staticflickr.com/65535/48949269457_da673fdf73_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus petraea",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "48949269457_da673fdf73_o_d",
+    "extension": "jpg"
+}

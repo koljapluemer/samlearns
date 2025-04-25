@@ -1,0 +1,25 @@
+Pinus sylvestris, Scots pine, Wald-Kiefer
+Picea abies, Norway spruce, Gemeine Fichte
+Fagus sylvatica, European beech, Rotbuche
+Quercus robur, English oak, Stieleiche
+Quercus petraea, Sessile oak, Traubeneiche
+Betula pendula, Silver birch, Hängebirke
+Acer pseudoplatanus, Sycamore maple, Berg-Ahorn
+Alnus glutinosa, Black alder, Schwarz-Erle
+Fraxinus excelsior, European ash, Gemeine Esche
+Larix decidua, European larch, Europäische Lärche
+Pseudotsuga menziesii, Douglas fir, Douglasie
+Abies alba, European silver fir, Weißtanne
+Acer platanoides, Norway maple, Spitz-Ahorn
+Acer campestre, Field maple, Feld-Ahorn
+Carpinus betulus, European hornbeam, Hainbuche
+Tilia cordata, Small-leaved lime, Winterlinde
+Tilia platyphyllos, Large-leaved lime, Sommerlinde
+Robinia pseudoacacia, Black locust, Robinie
+Ulmus minor, Field elm, Feld-Ulme
+Prunus padus, Bird cherry, Traubenkirsche
+Prunus avium, Sweet cherry, Süßkirsche
+Populus tremula, European aspen, Zitter-Pappel
+Salix alba, White willow, Silber-Weide
+Sorbus aucuparia, Rowan, Vogelbeere
+Castanea sativa, Sweet chestnut, Edelkastanie

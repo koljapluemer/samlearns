@@ -1,0 +1,38 @@
+{
+    "id": 42709802090,
+    "owner": {
+        "nsid": "32179778@N00",
+        "username": "Martín Vicente, M.",
+        "path_alias": "martius"
+    },
+    "secret": "b7e43523db",
+    "server": "1850",
+    "farm": 2,
+    "title": "Acer campestre",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Acer campestre",
+    "dateupload": "1536264081",
+    "views": 249,
+    "tags": [
+        "jardínbotánicoatlánticodegijón",
+        "acercampestre",
+        "pjv"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2018-09-06 20:01:21",
+    "width": 2502,
+    "height": 3708,
+    "url": "https://live.staticflickr.com/1850/42709802090_7acb2371d8_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer campestre",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "42709802090_7acb2371d8_o_d",
+    "extension": "jpg"
+}

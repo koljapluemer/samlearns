@@ -1,0 +1,39 @@
+{
+    "id": 52137759247,
+    "owner": {
+        "nsid": "47343585@N00",
+        "username": "jeremy_norbury",
+        "path_alias": "norbury"
+    },
+    "secret": "386e1b2865",
+    "server": "65535",
+    "farm": 66,
+    "title": "IMG_8395",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Tilia cordata - linden",
+    "dateupload": "1654973488",
+    "views": 38,
+    "tags": [
+        "bonsai",
+        "may",
+        "2022",
+        "spring"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-06-11 18:51:28",
+    "width": 4000,
+    "height": 2671,
+    "url": "https://live.staticflickr.com/65535/52137759247_0be9469067_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Tilia cordata",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52137759247_0be9469067_o_d",
+    "extension": "jpg"
+}

@@ -1,0 +1,52 @@
+{
+    "id": 6022050463,
+    "owner": {
+        "nsid": "61021753@N02",
+        "username": "BioDivLibrary",
+        "path_alias": "biodivlibrary"
+    },
+    "secret": "c206e553d5",
+    "server": "6062",
+    "farm": 7,
+    "title": "n312_w1150",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Atlas de poche des plantes des champs, des prairies et des bois\nParis :P. Klincksieck,[1894]\n<a href=\"http://biodiversitylibrary.org/page/11018531\" rel=\"nofollow\">biodiversitylibrary.org/page/11018531</a>",
+    "dateupload": "1312821196",
+    "views": 10074,
+    "tags": [
+        "plant",
+        "tree",
+        "fir",
+        "woodshole",
+        "botany",
+        "pinophyta",
+        "pinaceae",
+        "silverfir",
+        "abiesalba",
+        "pinales",
+        "pictorialworks",
+        "mblwhoilibrary",
+        "europeansilverfir",
+        "taxonomy:binomial=abiesalba",
+        "bhl:page=11018531",
+        "dc:identifier=httpbiodiversitylibraryorgpage11018531",
+        "europeplant"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2011-08-08 16:33:16",
+    "width": 1862,
+    "height": 2945,
+    "url": "https://live.staticflickr.com/6062/6022050463_1e22533e42_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Abies alba",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "6022050463_1e22533e42_o_d",
+    "extension": "jpg"
+}

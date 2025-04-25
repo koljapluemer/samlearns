@@ -1,0 +1,39 @@
+{
+    "id": 48962981587,
+    "owner": {
+        "nsid": "75001205@N02",
+        "username": "NATT-at-NKM",
+        "path_alias": null
+    },
+    "secret": "825b15d23d",
+    "server": "65535",
+    "farm": 66,
+    "title": "Andricus quercuscorticis 20151019153626",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "The asexual (agamic) generation gall of Andricus quercucorticis forms on the bark of Quercus robur and Quercus petraea. Old galls are relatively easy to find and persist for some time.",
+    "dateupload": "1572101511",
+    "views": 281,
+    "tags": [
+        "andricusquercuscorticis",
+        "shorne",
+        "gall",
+        "cobham"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2019-10-26 14:51:51",
+    "width": 4608,
+    "height": 3456,
+    "url": "https://live.staticflickr.com/65535/48962981587_dbd856f05c_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus petraea",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "48962981587_dbd856f05c_o_d",
+    "extension": "jpg"
+}

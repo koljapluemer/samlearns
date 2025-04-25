@@ -1,0 +1,45 @@
+{
+    "id": 52106723423,
+    "owner": {
+        "nsid": "78304219@N06",
+        "username": "Øyvind Holmstad",
+        "path_alias": null
+    },
+    "secret": "a1a9083093",
+    "server": "65535",
+    "farm": 66,
+    "title": "Blossoming prunus padus by a field in May.",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Blossoming prunus padus by a field in May.",
+    "dateupload": "1653811390",
+    "views": 31,
+    "tags": [
+        "heggeblomstring",
+        "prunuspadus",
+        "hegg",
+        "vestbygda",
+        "mai",
+        "jorde",
+        "blomstring",
+        "lena",
+        "østretoten",
+        "norway"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-05-29 08:03:10",
+    "width": 2832,
+    "height": 4240,
+    "url": "https://live.staticflickr.com/65535/52106723423_6b6c468f8d_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Prunus padus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52106723423_6b6c468f8d_o_d",
+    "extension": "jpg"
+}

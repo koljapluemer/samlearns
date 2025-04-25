@@ -1,0 +1,40 @@
+{
+    "id": 54019223368,
+    "owner": {
+        "nsid": "59959264@N08",
+        "username": "Digital Art & Expressions",
+        "path_alias": "joeyger"
+    },
+    "secret": "4aa6ce7d14",
+    "server": "65535",
+    "farm": 66,
+    "title": "Tree with a face",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "",
+    "dateupload": "1727202793",
+    "views": 357,
+    "tags": [
+        "tree",
+        "face",
+        "nature",
+        "europeanbeech",
+        "fagussylvatica"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2024-09-24 18:33:13",
+    "width": 2240,
+    "height": 4080,
+    "url": "https://live.staticflickr.com/65535/54019223368_42d42f6370_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Fagus sylvatica",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "54019223368_42d42f6370_o_d",
+    "extension": "jpg"
+}

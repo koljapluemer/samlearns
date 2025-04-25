@@ -1,0 +1,17 @@
+plant
+tree
+fir
+woodshole
+botany
+pinophyta
+pinaceae
+silverfir
+abiesalba
+pinales
+pictorialworks
+mblwhoilibrary
+europeansilverfir
+taxonomy:binomial=abiesalba
+bhl:page=11018531
+dc:identifier=httpbiodiversitylibraryorgpage11018531
+europeplant

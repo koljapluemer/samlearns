@@ -1,0 +1,47 @@
+{
+    "id": 49856245521,
+    "owner": {
+        "nsid": "61021753@N02",
+        "username": "BioDivLibrary",
+        "path_alias": "biodivlibrary"
+    },
+    "secret": "79372706a9",
+    "server": "65535",
+    "farm": 66,
+    "title": "n206_w1150",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "The Cambridge British flora /\nCambridge :University Press ;1914-\n<a href=\"https://biodiversitylibrary.org/page/54362136\" rel=\"noreferrer nofollow\">biodiversitylibrary.org/page/54362136</a>",
+    "dateupload": "1588622273",
+    "views": 1161,
+    "tags": [
+        "botany",
+        "greatbritain",
+        "universitylibraryuniversityofillinoisurbanachampaign",
+        "bhl:page=54362136",
+        "dc:identifier=httpsbiodiversitylibraryorgpage54362136",
+        "plants",
+        "flora",
+        "artist:name=ewhunnybun",
+        "cornishelm",
+        "taxonomy:common=cornishelm",
+        "taxonomy:binomial=ulmusstricta",
+        "taxonomy:binomial=ulmusminor"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2020-05-04 19:57:53",
+    "width": 1489,
+    "height": 2322,
+    "url": "https://live.staticflickr.com/65535/49856245521_e02a849d80_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Ulmus minor",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "49856245521_e02a849d80_o_d",
+    "extension": "jpg"
+}

@@ -1,0 +1,49 @@
+{
+    "id": 53788364824,
+    "owner": {
+        "nsid": "78304219@N06",
+        "username": "Øyvind Holmstad",
+        "path_alias": null
+    },
+    "secret": "2dd04e7cd2",
+    "server": "65535",
+    "farm": 66,
+    "title": "22-05-24_73A9327_PermaLiv",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Flowers of Prunus Padus by the Olterudelva River, Toten, Norway, in May.",
+    "dateupload": "1718263892",
+    "views": 31,
+    "tags": [
+        "prunuspadus",
+        "may",
+        "spring",
+        "nature",
+        "olterudelva",
+        "norway",
+        "branch",
+        "leaves",
+        "flower",
+        "flowers",
+        "bloom",
+        "blooming",
+        "flora",
+        "white"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2024-06-13 07:31:32",
+    "width": 5882,
+    "height": 3922,
+    "url": "https://live.staticflickr.com/65535/53788364824_c5c01720ac_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Prunus padus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53788364824_c5c01720ac_o_d",
+    "extension": "jpg"
+}

@@ -1,0 +1,39 @@
+{
+    "id": 54102541407,
+    "owner": {
+        "nsid": "47343585@N00",
+        "username": "jeremy_norbury",
+        "path_alias": "norbury"
+    },
+    "secret": "7b028c246b",
+    "server": "65535",
+    "farm": 66,
+    "title": "IMG_0880",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Tilia cordata - parking lot find",
+    "dateupload": "1730241039",
+    "views": 528,
+    "tags": [
+        "bonsai",
+        "summer",
+        "june",
+        "2024"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2024-10-29 22:30:39",
+    "width": 4658,
+    "height": 3126,
+    "url": "https://live.staticflickr.com/65535/54102541407_3092cb696e_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Tilia cordata",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "54102541407_3092cb696e_o_d",
+    "extension": "jpg"
+}

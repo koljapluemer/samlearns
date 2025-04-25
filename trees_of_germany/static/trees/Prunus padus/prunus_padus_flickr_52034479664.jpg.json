@@ -1,0 +1,39 @@
+{
+    "id": 52034479664,
+    "owner": {
+        "nsid": "145907835@N07",
+        "username": "gertjanvannoord",
+        "path_alias": "gertjanvannoord"
+    },
+    "secret": "b5c2627deb",
+    "server": "65535",
+    "farm": 66,
+    "title": "Vogelkers - Prunus padus",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Vogelkers - Prunus padus",
+    "dateupload": "1651085777",
+    "views": 39,
+    "tags": [
+        "202220220427dsc02078jpg",
+        "2022",
+        "20220427",
+        "vogelkersprunuspadus"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-04-27 18:56:17",
+    "width": 5472,
+    "height": 3648,
+    "url": "https://live.staticflickr.com/65535/52034479664_3eeb986180_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Prunus padus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52034479664_3eeb986180_o_d",
+    "extension": "jpg"
+}

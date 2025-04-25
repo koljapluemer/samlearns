@@ -1,0 +1,40 @@
+{
+    "id": 14421943324,
+    "owner": {
+        "nsid": "33037982@N04",
+        "username": "wallygrom",
+        "path_alias": null
+    },
+    "secret": "1663948418",
+    "server": "5234",
+    "farm": 6,
+    "title": "Tilia platyphyllos 'Vitifolia'",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "A June day at Kew Gardens ...",
+    "dateupload": "1402790263",
+    "views": 248,
+    "tags": [
+        "england",
+        "kewgardens",
+        "london",
+        "kew",
+        "richmond"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2014-06-14 23:57:43",
+    "width": 2592,
+    "height": 1944,
+    "url": "https://live.staticflickr.com/5234/14421943324_5c663476c7_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Tilia platyphyllos",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "14421943324_5c663476c7_o_d",
+    "extension": "jpg"
+}

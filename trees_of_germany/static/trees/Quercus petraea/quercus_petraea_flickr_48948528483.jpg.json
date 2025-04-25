@@ -1,0 +1,38 @@
+{
+    "id": 48948528483,
+    "owner": {
+        "nsid": "75001205@N02",
+        "username": "NATT-at-NKM",
+        "path_alias": null
+    },
+    "secret": "413aa31061",
+    "server": "65535",
+    "farm": 66,
+    "title": "Andricus legitimus  201612150940",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "The asexual (agamic) generation of Andricus legitimus is found within stunted acorns on Quercus robur and Quercus petraea. It is not well known. I have never reared this species but have always only reared the inquiline gall wasp associated with it.",
+    "dateupload": "1571860813",
+    "views": 215,
+    "tags": [
+        "andricuslegitimus",
+        "shorne",
+        "gall"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2019-10-23 20:00:13",
+    "width": 4000,
+    "height": 3000,
+    "url": "https://live.staticflickr.com/65535/48948528483_a45b7efba8_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus petraea",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "48948528483_a45b7efba8_o_d",
+    "extension": "jpg"
+}

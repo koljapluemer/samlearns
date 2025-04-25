@@ -1,0 +1,36 @@
+{
+    "id": 52642868186,
+    "owner": {
+        "nsid": "193316968@N06",
+        "username": "chris.rycroft",
+        "path_alias": null
+    },
+    "secret": "ccfddf5385",
+    "server": "65535",
+    "farm": 66,
+    "title": "Board about alder (Alnus glutinosa)",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "In St. Anne's Park, Dublin, Ireland",
+    "dateupload": "1674425459",
+    "views": 65,
+    "tags": [
+        "saint"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-01-22 22:10:59",
+    "width": 4160,
+    "height": 6240,
+    "url": "https://live.staticflickr.com/65535/52642868186_226d5775fb_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Alnus glutinosa",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52642868186_226d5775fb_o_d",
+    "extension": "jpg"
+}

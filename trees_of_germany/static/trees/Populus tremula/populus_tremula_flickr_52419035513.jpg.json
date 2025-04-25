@@ -1,0 +1,50 @@
+{
+    "id": 52419035513,
+    "owner": {
+        "nsid": "78304219@N06",
+        "username": "Øyvind Holmstad",
+        "path_alias": null
+    },
+    "secret": "1b3714b831",
+    "server": "65535",
+    "farm": 66,
+    "title": "PermaLiv__DSC4854_06-10-22",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "a grove of aspen trees by a field in the morning light at autumn",
+    "dateupload": "1665429431",
+    "views": 28,
+    "tags": [
+        "aspen",
+        "autumn",
+        "colors",
+        "toten",
+        "grythengen",
+        "grove",
+        "foliage",
+        "kronborgsetergrenda",
+        "leaves",
+        "orange",
+        "morning",
+        "light",
+        "populustremula",
+        "sky",
+        "trees"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-10-10 19:17:11",
+    "width": 6000,
+    "height": 4000,
+    "url": "https://live.staticflickr.com/65535/52419035513_79659360fc_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Populus tremula",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52419035513_79659360fc_o_d",
+    "extension": "jpg"
+}

@@ -1,0 +1,38 @@
+{
+    "id": 52308579435,
+    "owner": {
+        "nsid": "146321234@N04",
+        "username": "m.borden",
+        "path_alias": null
+    },
+    "secret": "f6a390ea80",
+    "server": "65535",
+    "farm": 66,
+    "title": "Carpinius betulus 'Emerald Avenue' previously infected with Melampsoridium cf. asiaticum",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Rust not developing on a treated Carpinus in late August, 2022",
+    "dateupload": "1661355559",
+    "views": 30,
+    "tags": [
+        "plantdisease",
+        "carpinus",
+        "phytopathology"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-08-24 15:39:19",
+    "width": 6240,
+    "height": 4160,
+    "url": "https://live.staticflickr.com/65535/52308579435_ddb4103886_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Carpinus betulus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52308579435_ddb4103886_o_d",
+    "extension": "jpg"
+}

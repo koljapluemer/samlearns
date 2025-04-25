@@ -1,0 +1,7 @@
+germany
+botany
+newyorkbotanicalgardenluesthertmertzlibrary
+bhl:page=6129448
+dc:identifier=httpsbiodiversitylibraryorgpage6129448
+plant
+taxonomy:binomial=alnusglutinosa

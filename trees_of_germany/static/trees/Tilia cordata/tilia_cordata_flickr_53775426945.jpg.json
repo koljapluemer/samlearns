@@ -1,0 +1,39 @@
+{
+    "id": 53775426945,
+    "owner": {
+        "nsid": "47343585@N00",
+        "username": "jeremy_norbury",
+        "path_alias": "norbury"
+    },
+    "secret": "578b309d05",
+    "server": "65535",
+    "farm": 66,
+    "title": "IMG_9003",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Linden - tilia cordata",
+    "dateupload": "1717752804",
+    "views": 30,
+    "tags": [
+        "april",
+        "spring",
+        "2024",
+        "bonsai"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2024-06-07 09:33:24",
+    "width": 6000,
+    "height": 4000,
+    "url": "https://live.staticflickr.com/65535/53775426945_f9634cd6e1_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Tilia cordata",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53775426945_f9634cd6e1_o_d",
+    "extension": "jpg"
+}

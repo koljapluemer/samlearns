@@ -1,0 +1,45 @@
+{
+    "id": 53590822112,
+    "owner": {
+        "nsid": "35478170@N08",
+        "username": "Matt Lavin",
+        "path_alias": "plant_diversity"
+    },
+    "secret": "21b2c4fb8c",
+    "server": "65535",
+    "farm": 66,
+    "title": "Robinia pseudoacacia - black locust",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Black locust growing along East Curtiss Street, Bozeman, Gallatin County, Montana. Black locust is not common in the Gallatin Valley area but appears to prosper wherever it is found growing in this area. Flowers have petals that are usually white but occasionally tinged pinkish.",
+    "dateupload": "1710623787",
+    "views": 105,
+    "tags": [
+        "robiniapseudoacacia",
+        "blacklocust",
+        "fabaceae",
+        "leguminosae",
+        "introduced",
+        "tree",
+        "cultivated",
+        "bozeman",
+        "gallatincounty",
+        "montana"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2024-03-16 21:16:27",
+    "width": 4000,
+    "height": 3000,
+    "url": "https://live.staticflickr.com/65535/53590822112_852a19c5b0_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Robinia pseudoacacia",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53590822112_852a19c5b0_o_d",
+    "extension": "jpg"
+}

@@ -1,0 +1,50 @@
+{
+    "id": 50739144558,
+    "owner": {
+        "nsid": "9082612@N05",
+        "username": "Gilles San Martin",
+        "path_alias": "sanmartin"
+    },
+    "secret": "49e3969782",
+    "server": "65535",
+    "farm": 66,
+    "title": "Hylesinini  galeries",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Fraxinus excelsior trunk completely covered with galleries of barkbeetles (Leperisinus sp or Hylesinus sp.)",
+    "dateupload": "1608471354",
+    "views": 696,
+    "tags": [
+        "forestry",
+        "scolytidae",
+        "ash",
+        "scolytinae",
+        "galeries",
+        "trunk",
+        "bark",
+        "damages",
+        "hylesinus",
+        "pest",
+        "tree",
+        "biramous",
+        "horizontal",
+        "transversal",
+        "olympus"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2020-12-20 13:35:54",
+    "width": 3911,
+    "height": 5239,
+    "url": "https://live.staticflickr.com/65535/50739144558_3e7f877097_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Fraxinus excelsior",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "50739144558_3e7f877097_o_d",
+    "extension": "jpg"
+}

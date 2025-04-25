@@ -1,0 +1,47 @@
+{
+    "id": 52892265164,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "4e19116a64",
+    "server": "65535",
+    "farm": 66,
+    "title": "Oaks by the south part of Myrstigen",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Oaks, (Quercus robur( by the path at the south part of Myrstigen hiking track, Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1683909037",
+    "views": 23,
+    "tags": [
+        "brastad",
+        "lysekilmunicipality",
+        "myrstigen",
+        "quercusrobur",
+        "sweden",
+        "ferns",
+        "forest",
+        "hikingtrack",
+        "oak",
+        "path",
+        "plants",
+        "trees"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-05-12 16:30:37",
+    "width": 4925,
+    "height": 3283,
+    "url": "https://live.staticflickr.com/65535/52892265164_e886a08925_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus robur",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52892265164_e886a08925_o_d",
+    "extension": "jpg"
+}

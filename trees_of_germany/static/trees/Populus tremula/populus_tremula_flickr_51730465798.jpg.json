@@ -1,0 +1,38 @@
+{
+    "id": 51730465798,
+    "owner": {
+        "nsid": "9082612@N05",
+        "username": "Gilles San Martin",
+        "path_alias": "sanmartin"
+    },
+    "secret": "2bc3cb1bea",
+    "server": "65535",
+    "farm": 66,
+    "title": "Agrilus suvorovi galleries",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Galleries of Agrilus suvorovi on populus tremula with dead adults within the galleries.\n\nMore pictures here : <a href=\"https://www.inaturalist.org/observations/102641663\" rel=\"noreferrer nofollow\">www.inaturalist.org/observations/102641663</a>",
+    "dateupload": "1638847436",
+    "views": 1071,
+    "tags": [
+        "agritrap",
+        "coleoptera",
+        "buprestidae"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2021-12-07 03:23:56",
+    "width": 5240,
+    "height": 3912,
+    "url": "https://live.staticflickr.com/65535/51730465798_c9b3178a24_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Populus tremula",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "51730465798_c9b3178a24_o_d",
+    "extension": "jpg"
+}

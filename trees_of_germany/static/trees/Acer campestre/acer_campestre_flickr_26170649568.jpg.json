@@ -1,0 +1,36 @@
+{
+    "id": 26170649568,
+    "owner": {
+        "nsid": "74738817@N07",
+        "username": "anro0002",
+        "path_alias": null
+    },
+    "secret": "9d74e4dc0e",
+    "server": "4665",
+    "farm": 5,
+    "title": "Acer campestre",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Feldahorn (Acer campestre) an der Böschung der A61 in Hockenheim-Talhaus",
+    "dateupload": "1517591266",
+    "views": 732,
+    "tags": [
+        "acercampestre"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2018-02-02 17:07:46",
+    "width": 2500,
+    "height": 1875,
+    "url": "https://live.staticflickr.com/4665/26170649568_daec1be164_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer campestre",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "26170649568_daec1be164_o_d",
+    "extension": "jpg"
+}

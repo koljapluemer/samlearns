@@ -1,0 +1,13 @@
+botanymedical
+herbals
+materiamedicavegetable
+pictorialworks
+plants
+smithsonianlibraries
+bhl:page=41877743
+dc:identifier=httpsbiodiversitylibraryorgpage41877743
+flowers
+stems
+leaves
+taxonomy:binomial=salixalba
+willow

@@ -1,0 +1,13 @@
+austria
+floras
+germany
+plants
+switzerland
+mertzlibrarythenewyorkbotanicalgarden
+bhl:page=12306480
+dc:identifier=httpbiodiversitylibraryorgpage12306480
+taxonomy:binomial=abiesalba
+taxonomy:common=europeansilverfir
+tree
+botany
+bhlig

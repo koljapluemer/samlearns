@@ -1,0 +1,37 @@
+{
+    "id": 49465339412,
+    "owner": {
+        "nsid": "32179778@N00",
+        "username": "Martín Vicente, M.",
+        "path_alias": "martius"
+    },
+    "secret": "a0e4c53e51",
+    "server": "65535",
+    "farm": 66,
+    "title": "Negrillo (Ulmus minor)",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "",
+    "dateupload": "1580408133",
+    "views": 365,
+    "tags": [
+        "negrilloulmusminor",
+        "bonsai"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2020-01-30 18:15:33",
+    "width": 5000,
+    "height": 5000,
+    "url": "https://live.staticflickr.com/65535/49465339412_2d20f218db_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Ulmus minor",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "49465339412_2d20f218db_o_d",
+    "extension": "jpg"
+}

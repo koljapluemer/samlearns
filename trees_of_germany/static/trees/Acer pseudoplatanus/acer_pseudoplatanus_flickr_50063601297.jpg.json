@@ -1,0 +1,38 @@
+{
+    "id": 50063601297,
+    "owner": {
+        "nsid": "9082612@N05",
+        "username": "Gilles San Martin",
+        "path_alias": "sanmartin"
+    },
+    "secret": "52c88a6366",
+    "server": "65535",
+    "farm": 66,
+    "title": "Stethorus pusillus",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Stethorus pusillus (= Stethorus punctillum) on a young mapple leaf (Acer pseudoplatanus)\n\nFocus stack of 191 pictures.",
+    "dateupload": "1593558236",
+    "views": 2894,
+    "tags": [
+        "ladybird",
+        "coccinellidae",
+        "focusstacking"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2020-06-30 23:03:56",
+    "width": 5038,
+    "height": 3359,
+    "url": "https://live.staticflickr.com/65535/50063601297_14ee94691d_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer pseudoplatanus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "50063601297_14ee94691d_o_d",
+    "extension": "jpg"
+}

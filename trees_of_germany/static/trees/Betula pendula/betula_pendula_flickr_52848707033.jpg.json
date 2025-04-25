@@ -1,0 +1,34 @@
+{
+    "id": 52848707033,
+    "owner": {
+        "nsid": "36074605@N05",
+        "username": "MaximilianParadiz",
+        "path_alias": "maxorz"
+    },
+    "secret": "ccd2c150a8",
+    "server": "65535",
+    "farm": 66,
+    "title": "Bark of a silver birch (Betula pendula)",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "The bark of a silver birch tree (Betula pendula) from Amsterdam\n\nPlanted: 1982\nAge at time of photograph: 41 years\nHeight: 12 to 15 m\nLocation: 52.324268868055896 N, 4.969894394299899 E",
+    "dateupload": "1682524621",
+    "views": 44,
+    "tags": [],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-04-26 15:57:01",
+    "width": 5568,
+    "height": 3712,
+    "url": "https://live.staticflickr.com/65535/52848707033_f03e72c720_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Betula pendula",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52848707033_f03e72c720_o_d",
+    "extension": "jpg"
+}

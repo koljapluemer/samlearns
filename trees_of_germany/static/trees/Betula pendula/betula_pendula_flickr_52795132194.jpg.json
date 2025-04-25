@@ -1,0 +1,42 @@
+{
+    "id": 52795132194,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "b7e1c5fcc5",
+    "server": "65535",
+    "farm": 66,
+    "title": "Birch trunks by Myrstigen",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Birch trunks by Myrstigen trail in Tuntorp, Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1680691389",
+    "views": 20,
+    "tags": [
+        "betulapendula",
+        "brastad",
+        "lysekilmunicipality",
+        "myrstigentrail",
+        "sweden",
+        "tuntorp",
+        "birchtrunks"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-04-05 10:43:09",
+    "width": 3283,
+    "height": 4925,
+    "url": "https://live.staticflickr.com/65535/52795132194_d9c9ec6d94_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Betula pendula",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52795132194_d9c9ec6d94_o_d",
+    "extension": "jpg"
+}

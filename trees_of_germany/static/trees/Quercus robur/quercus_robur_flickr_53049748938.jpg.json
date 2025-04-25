@@ -1,0 +1,46 @@
+{
+    "id": 53049748938,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "06a324d8ef",
+    "server": "65535",
+    "farm": 66,
+    "title": "New fresh leaves on an oak in Brastad",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "New fresh leaves on an oak (Quercus robur) in Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1689501740",
+    "views": 71,
+    "tags": [
+        "brastad",
+        "lysekilmunicipality",
+        "quercusrobur",
+        "sweden",
+        "fresh",
+        "green",
+        "leaves",
+        "new",
+        "oak",
+        "plant",
+        "tree"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-07-16 10:02:20",
+    "width": 5184,
+    "height": 3456,
+    "url": "https://live.staticflickr.com/65535/53049748938_a612a0986c_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus robur",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53049748938_a612a0986c_o_d",
+    "extension": "jpg"
+}

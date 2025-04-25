@@ -1,0 +1,38 @@
+{
+    "id": 48056174628,
+    "owner": {
+        "nsid": "26138378@N03",
+        "username": "Patrick Clement.",
+        "path_alias": null
+    },
+    "secret": "aa1283c634",
+    "server": "65535",
+    "farm": 66,
+    "title": "04.012  BF102 Stigmella aceris mine.jpg",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Grimley, Worcestershire.\nOn field maple, (Acer campestre).",
+    "dateupload": "1560442103",
+    "views": 326,
+    "tags": [
+        "stigmella",
+        "aceris",
+        "stigmellaaceris"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2019-06-13 16:08:23",
+    "width": 5472,
+    "height": 3648,
+    "url": "https://live.staticflickr.com/65535/48056174628_66a2343ac0_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer campestre",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "48056174628_66a2343ac0_o_d",
+    "extension": "jpg"
+}

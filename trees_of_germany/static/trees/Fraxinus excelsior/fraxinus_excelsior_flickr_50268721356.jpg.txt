@@ -1,0 +1,10 @@
+france
+materiamedica
+medicinalplants
+pictorialworks
+harvarduniversitybotanylibraries
+bhl:page=42994033
+dc:identifier=httpsbiodiversitylibraryorgpage42994033
+botany
+plant
+taxonomy:binomial=fraxinusexcelsior

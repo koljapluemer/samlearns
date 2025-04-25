@@ -1,0 +1,37 @@
+{
+    "id": 32262440073,
+    "owner": {
+        "nsid": "74738817@N07",
+        "username": "anro0002",
+        "path_alias": null
+    },
+    "secret": "66ea134444",
+    "server": "2927",
+    "farm": 3,
+    "title": "Ulmus minor",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Feldulme (Ulmus minor) an der Saar in Saarbrücken",
+    "dateupload": "1487887636",
+    "views": 334,
+    "tags": [
+        "ulmusminor",
+        "saarbrücken"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2017-02-23 22:07:16",
+    "width": 2250,
+    "height": 3000,
+    "url": "https://live.staticflickr.com/2927/32262440073_3ccd4640ab_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Ulmus minor",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "32262440073_3ccd4640ab_o_d",
+    "extension": "jpg"
+}

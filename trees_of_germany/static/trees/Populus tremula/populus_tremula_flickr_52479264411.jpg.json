@@ -1,0 +1,53 @@
+{
+    "id": 52479264411,
+    "owner": {
+        "nsid": "78304219@N06",
+        "username": "Øyvind Holmstad",
+        "path_alias": null
+    },
+    "secret": "878130261b",
+    "server": "65535",
+    "farm": 66,
+    "title": "a yellow aspen leaf on the forest ground",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "a yellow aspen leaf on the forest ground",
+    "dateupload": "1667676642",
+    "views": 32,
+    "tags": [
+        "populustremula",
+        "leaves",
+        "autumn",
+        "orange",
+        "aspen",
+        "yellow",
+        "olterudelva",
+        "grythengen",
+        "leaf",
+        "colors",
+        "green",
+        "one",
+        "fall",
+        "grýta",
+        "ground",
+        "skreia",
+        "østretoten",
+        "norway"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-11-05 19:30:42",
+    "width": 6000,
+    "height": 4000,
+    "url": "https://live.staticflickr.com/65535/52479264411_ac0cab594c_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Populus tremula",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52479264411_ac0cab594c_o_d",
+    "extension": "jpg"
+}

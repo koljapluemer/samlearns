@@ -1,0 +1,39 @@
+{
+    "id": 52826128992,
+    "owner": {
+        "nsid": "47343585@N00",
+        "username": "jeremy_norbury",
+        "path_alias": "norbury"
+    },
+    "secret": "d14de4e0f7",
+    "server": "65535",
+    "farm": 66,
+    "title": "IMG_7512",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Acer campestre mame",
+    "dateupload": "1681833417",
+    "views": 67,
+    "tags": [
+        "bonsai",
+        "april",
+        "2023",
+        "spring"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-04-18 15:56:57",
+    "width": 4000,
+    "height": 2671,
+    "url": "https://live.staticflickr.com/65535/52826128992_d57a04ed5a_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer campestre",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52826128992_d57a04ed5a_o_d",
+    "extension": "jpg"
+}

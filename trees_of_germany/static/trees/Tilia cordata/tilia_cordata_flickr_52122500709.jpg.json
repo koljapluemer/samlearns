@@ -1,0 +1,39 @@
+{
+    "id": 52122500709,
+    "owner": {
+        "nsid": "47343585@N00",
+        "username": "jeremy_norbury",
+        "path_alias": "norbury"
+    },
+    "secret": "67922b673d",
+    "server": "65535",
+    "farm": 66,
+    "title": "IMG_8117",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Tilia cordata - minor trim and soil replacement",
+    "dateupload": "1654380094",
+    "views": 70,
+    "tags": [
+        "bonsai",
+        "2022",
+        "spring",
+        "may"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-06-04 22:01:34",
+    "width": 6000,
+    "height": 4000,
+    "url": "https://live.staticflickr.com/65535/52122500709_6ab941f124_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Tilia cordata",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52122500709_6ab941f124_o_d",
+    "extension": "jpg"
+}

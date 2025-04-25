@@ -1,0 +1,48 @@
+{
+    "id": 52464358696,
+    "owner": {
+        "nsid": "78304219@N06",
+        "username": "Øyvind Holmstad",
+        "path_alias": null
+    },
+    "secret": "a3f8e06f4d",
+    "server": "65535",
+    "farm": 66,
+    "title": "PermaLiv__DSC6687_2_20-10-22",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "A foggy morning of rural Toten, Norway.",
+    "dateupload": "1667129784",
+    "views": 22,
+    "tags": [
+        "toten",
+        "autumn",
+        "trees",
+        "tree",
+        "fog",
+        "foggy",
+        "mist",
+        "misty",
+        "one",
+        "aspen",
+        "populustremula",
+        "field",
+        "norway"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-10-30 11:36:24",
+    "width": 6000,
+    "height": 4000,
+    "url": "https://live.staticflickr.com/65535/52464358696_24230c634d_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Populus tremula",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52464358696_24230c634d_o_d",
+    "extension": "jpg"
+}

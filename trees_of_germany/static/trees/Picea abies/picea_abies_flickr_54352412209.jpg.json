@@ -1,0 +1,43 @@
+{
+    "id": 54352412209,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "b2ec18e723",
+    "server": "65535",
+    "farm": 66,
+    "title": "Spruce forest at Holma",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "An old dense spruce forest (Picea abies) on the hill above Holma boat club, Lysekil Municipality, Sweden. The trees are so close together that only the top of them have branches with needles, blocking the light for the lower branches which becomes bare and wither as the trees grow. In spring the ground has patches of wood sorrel (Oxalis acetosella) and ostrich ferns (Matteuccia struthiopteris). This part of Holma is within the borders of Gullmarn fjord nature reserve.",
+    "dateupload": "1740581803",
+    "views": 14,
+    "tags": [
+        "holma",
+        "lysekilmunicipality",
+        "piceaabies",
+        "sweden",
+        "forest",
+        "plants",
+        "spruces",
+        "trees"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2025-02-26 14:56:43",
+    "width": 4864,
+    "height": 3648,
+    "url": "https://live.staticflickr.com/65535/54352412209_e17a7930f4_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Picea abies",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "54352412209_e17a7930f4_o_d",
+    "extension": "jpg"
+}

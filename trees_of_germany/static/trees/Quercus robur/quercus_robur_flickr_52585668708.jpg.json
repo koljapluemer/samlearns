@@ -1,0 +1,40 @@
+{
+    "id": 52585668708,
+    "owner": {
+        "nsid": "155939562@N05",
+        "username": "Cossus",
+        "path_alias": null
+    },
+    "secret": "66320bd705",
+    "server": "65535",
+    "farm": 66,
+    "title": "Adela reaumurella - Green Longhron - Длинноуска зеленоватая",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Exemplar found: Russia, Moscow Oblast, Serpukhovsky District, near Mirny settlement, 18.05.2022, on common oak (Quercus robur), days\nМО, Серпуховский р-н, окрестности посёлка Мирный, 18.05.2022, на дубе, днём",
+    "dateupload": "1671983846",
+    "views": 62,
+    "tags": [
+        "2022",
+        "adela",
+        "adelidae",
+        "adelinae",
+        "мирный"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-12-25 15:57:26",
+    "width": 1920,
+    "height": 1080,
+    "url": "https://live.staticflickr.com/65535/52585668708_3288dbdcb9_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus robur",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52585668708_3288dbdcb9_o_d",
+    "extension": "jpg"
+}

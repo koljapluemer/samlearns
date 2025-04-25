@@ -1,0 +1,36 @@
+{
+    "id": 30759465836,
+    "owner": {
+        "nsid": "74738817@N07",
+        "username": "anro0002",
+        "path_alias": null
+    },
+    "secret": "def3b03aa2",
+    "server": "5520",
+    "farm": 6,
+    "title": "Ulmus minor",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Feldulme (Ulmus minor) bei Reilingen",
+    "dateupload": "1478367292",
+    "views": 489,
+    "tags": [
+        "ulmusminor"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2016-11-05 17:34:52",
+    "width": 2250,
+    "height": 3000,
+    "url": "https://live.staticflickr.com/5520/30759465836_9baf03e8eb_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Ulmus minor",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "30759465836_9baf03e8eb_o_d",
+    "extension": "jpg"
+}

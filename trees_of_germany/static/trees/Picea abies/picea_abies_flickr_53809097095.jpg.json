@@ -1,0 +1,44 @@
+{
+    "id": 53809097095,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "234ba3a539",
+    "server": "65535",
+    "farm": 66,
+    "title": "Old spruce branches next to Myrstigen trail",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Old spruce branches (Picea abies) at Myrstigen track, Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1719084404",
+    "views": 33,
+    "tags": [
+        "brastad",
+        "lysekilmunicipality",
+        "myrstigen",
+        "piceaabies",
+        "sweden",
+        "hikingtrack",
+        "old",
+        "sprucebranches",
+        "trees"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2024-06-22 19:26:44",
+    "width": 3456,
+    "height": 5184,
+    "url": "https://live.staticflickr.com/65535/53809097095_59f62c079c_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Picea abies",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53809097095_59f62c079c_o_d",
+    "extension": "jpg"
+}

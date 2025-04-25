@@ -1,0 +1,47 @@
+{
+    "id": 53449476575,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "cf625fcfc8",
+    "server": "65535",
+    "farm": 66,
+    "title": "Top of frost-covered birch in Tuntorp",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Top of a frost-covered birch (Betula pendula) in winter in Tuntorp, Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1704652115",
+    "views": 34,
+    "tags": [
+        "betulapendula",
+        "brastad",
+        "lysekilmunicipality",
+        "sweden",
+        "tuntorp",
+        "birch",
+        "bluesky",
+        "frost",
+        "frostcovered",
+        "top",
+        "tree",
+        "winter"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2024-01-07 18:28:35",
+    "width": 5376,
+    "height": 4898,
+    "url": "https://live.staticflickr.com/65535/53449476575_5d489a1bdf_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Betula pendula",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53449476575_5d489a1bdf_o_d",
+    "extension": "jpg"
+}

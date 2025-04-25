@@ -1,0 +1,34 @@
+{
+    "id": 52847678062,
+    "owner": {
+        "nsid": "36074605@N05",
+        "username": "MaximilianParadiz",
+        "path_alias": "maxorz"
+    },
+    "secret": "5bae23790e",
+    "server": "65535",
+    "farm": 66,
+    "title": "Bark of chestnut tree (Castanea sativa)",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "The bark of a chestnut tree (Castanea sativa), from Amsterdam\n\nPlanted: 1982\nAge at time of photograph: 41 years\nHeight: 12 to 18 m\nLocation: 52.32329783519914 N, 4.969365125259956 E",
+    "dateupload": "1682524627",
+    "views": 40,
+    "tags": [],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-04-26 15:57:07",
+    "width": 5568,
+    "height": 3712,
+    "url": "https://live.staticflickr.com/65535/52847678062_774b477ff5_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Castanea sativa",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52847678062_774b477ff5_o_d",
+    "extension": "jpg"
+}

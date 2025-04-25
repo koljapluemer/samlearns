@@ -1,0 +1,9 @@
+floriculture
+periodicals
+trees
+smithsonianlibraries
+bhl:page=46994045
+dc:identifier=httpsbiodiversitylibraryorgpage46994045
+flowers
+fieldelm
+taxonomy:binomial=ulmusminor

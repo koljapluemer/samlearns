@@ -1,0 +1,8 @@
+beech
+europeanbeech
+commonbeech
+buk
+bukzwyczajny
+bukpospolity
+fagussylvatica
+bukiew

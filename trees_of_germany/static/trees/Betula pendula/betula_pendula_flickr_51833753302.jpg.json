@@ -1,0 +1,44 @@
+{
+    "id": 51833753302,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "ec3c5db8cd",
+    "server": "65535",
+    "farm": 66,
+    "title": "Birch leaves in autumn in Tuntorp",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Birch (Betula pendula) in autumn in Tuntorp, Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1642805037",
+    "views": 94,
+    "tags": [
+        "betulapendula",
+        "brastad",
+        "lysekilmunicipality",
+        "sweden",
+        "tuntorp",
+        "autumn",
+        "birch",
+        "leaves",
+        "tree"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-01-21 22:43:57",
+    "width": 4511,
+    "height": 3008,
+    "url": "https://live.staticflickr.com/65535/51833753302_f148d6f341_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Betula pendula",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "51833753302_f148d6f341_o_d",
+    "extension": "jpg"
+}

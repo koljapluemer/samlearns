@@ -1,0 +1,36 @@
+{
+    "id": 37750817261,
+    "owner": {
+        "nsid": "74738817@N07",
+        "username": "anro0002",
+        "path_alias": null
+    },
+    "secret": "5efb5b09cc",
+    "server": "4469",
+    "farm": 5,
+    "title": "Carpinus betulus",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Hainbuche (Carpinus betulus) in der Schwetzinger Hardt",
+    "dateupload": "1508232133",
+    "views": 419,
+    "tags": [
+        "carpinusbetulus"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2017-10-17 09:22:13",
+    "width": 3000,
+    "height": 2250,
+    "url": "https://live.staticflickr.com/4469/37750817261_271011aa64_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Carpinus betulus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "37750817261_271011aa64_o_d",
+    "extension": "jpg"
+}

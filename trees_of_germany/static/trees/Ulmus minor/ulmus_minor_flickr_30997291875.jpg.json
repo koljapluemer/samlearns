@@ -1,0 +1,36 @@
+{
+    "id": 30997291875,
+    "owner": {
+        "nsid": "74738817@N07",
+        "username": "anro0002",
+        "path_alias": null
+    },
+    "secret": "8eaf8e37bc",
+    "server": "5556",
+    "farm": 6,
+    "title": "Ulmus minor",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Feldulme (Ulmus minor) bei Walldorf (Baden)",
+    "dateupload": "1479203042",
+    "views": 375,
+    "tags": [
+        "ulmusminor"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2016-11-15 09:44:02",
+    "width": 2250,
+    "height": 3000,
+    "url": "https://live.staticflickr.com/5556/30997291875_f8199290d1_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Ulmus minor",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "30997291875_f8199290d1_o_d",
+    "extension": "jpg"
+}

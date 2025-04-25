@@ -1,0 +1,36 @@
+{
+    "id": 53422121327,
+    "owner": {
+        "nsid": "63479603@N00",
+        "username": "jeans_Photos",
+        "path_alias": "jean_hort"
+    },
+    "secret": "bcbc5dd1d3",
+    "server": "65535",
+    "farm": 66,
+    "title": "Oak Tree",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Quercus robur",
+    "dateupload": "1703632184",
+    "views": 329,
+    "tags": [
+        "mundaring"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-12-26 23:09:44",
+    "width": 4032,
+    "height": 3024,
+    "url": "https://live.staticflickr.com/65535/53422121327_d1f310e99e_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus robur",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53422121327_d1f310e99e_o_d",
+    "extension": "jpg"
+}

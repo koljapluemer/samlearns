@@ -1,0 +1,34 @@
+{
+    "id": 52373036127,
+    "owner": {
+        "nsid": "194951624@N02",
+        "username": "Joost J. Bakker IJmuiden",
+        "path_alias": "joostjbakkerijmuiden"
+    },
+    "secret": "2074b6bd6e",
+    "server": "65535",
+    "farm": 66,
+    "title": "Castanea sativa - Sweet Chestnut, European chestnut, Spanish chestnut",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "",
+    "dateupload": "1663766208",
+    "views": 43,
+    "tags": [],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-09-21 13:16:48",
+    "width": 6048,
+    "height": 4032,
+    "url": "https://live.staticflickr.com/65535/52373036127_37fd038253_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Castanea sativa",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52373036127_37fd038253_o_d",
+    "extension": "jpg"
+}

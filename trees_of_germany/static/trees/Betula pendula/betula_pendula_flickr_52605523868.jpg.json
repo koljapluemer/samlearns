@@ -1,0 +1,44 @@
+{
+    "id": 52605523868,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "62fa6e0730",
+    "server": "65535",
+    "farm": 66,
+    "title": "New snow on birch crowns in Tuntorp",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "New snow on crowns of birches (Betula pendula) in winter in Tuntorp, Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1672771397",
+    "views": 71,
+    "tags": [
+        "betulapendula",
+        "brastad",
+        "lysekilmunicipality",
+        "sweden",
+        "tuntorp",
+        "birches",
+        "crowns",
+        "snow",
+        "trees"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-01-03 18:43:17",
+    "width": 3590,
+    "height": 5234,
+    "url": "https://live.staticflickr.com/65535/52605523868_f37aae52f5_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Betula pendula",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52605523868_f37aae52f5_o_d",
+    "extension": "jpg"
+}

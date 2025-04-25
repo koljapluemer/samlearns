@@ -1,0 +1,34 @@
+{
+    "id": 52040149675,
+    "owner": {
+        "nsid": "96064256@N04",
+        "username": "olive.titus",
+        "path_alias": null
+    },
+    "secret": "67594fe6a5",
+    "server": "65535",
+    "farm": 66,
+    "title": "Erable sycomore, Acer pseudoplatanus, Sapindacées",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "",
+    "dateupload": "1651314106",
+    "views": 35,
+    "tags": [],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-04-30 10:21:46",
+    "width": 5184,
+    "height": 3888,
+    "url": "https://live.staticflickr.com/65535/52040149675_d1f6089595_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer pseudoplatanus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52040149675_d1f6089595_o_d",
+    "extension": "jpg"
+}

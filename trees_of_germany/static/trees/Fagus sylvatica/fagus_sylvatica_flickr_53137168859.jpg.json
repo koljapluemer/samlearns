@@ -1,0 +1,34 @@
+{
+    "id": 53137168859,
+    "owner": {
+        "nsid": "24495410@N03",
+        "username": "MeganEHansen",
+        "path_alias": "nestmaker"
+    },
+    "secret": "3454c27d70",
+    "server": "65535",
+    "farm": 66,
+    "title": "fagus sylvatica pendula 89",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "",
+    "dateupload": "1692815765",
+    "views": 11,
+    "tags": [],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-08-23 18:36:05",
+    "width": 2448,
+    "height": 3264,
+    "url": "https://live.staticflickr.com/65535/53137168859_a6df3c61dd_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Fagus sylvatica",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53137168859_a6df3c61dd_o_d",
+    "extension": "jpg"
+}

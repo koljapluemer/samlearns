@@ -1,0 +1,39 @@
+{
+    "id": 52654259130,
+    "owner": {
+        "nsid": "43272765@N04",
+        "username": "gailhampshire",
+        "path_alias": "gails_pictures"
+    },
+    "secret": "8464c44bd3",
+    "server": "65535",
+    "farm": 66,
+    "title": "Hornbeam (Carpinus betulus) rosebank",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Bosbury ,Herefordshire",
+    "dateupload": "1674905509",
+    "views": 81,
+    "tags": [
+        "hornbeam",
+        "carpinus",
+        "betulus",
+        "rosebank"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-01-28 11:31:49",
+    "width": 4608,
+    "height": 3072,
+    "url": "https://live.staticflickr.com/65535/52654259130_5bc3e303fd_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Carpinus betulus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52654259130_5bc3e303fd_o_d",
+    "extension": "jpg"
+}

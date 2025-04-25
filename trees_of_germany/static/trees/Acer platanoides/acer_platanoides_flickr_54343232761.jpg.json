@@ -1,0 +1,44 @@
+{
+    "id": 54343232761,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "09daa0ebb6",
+    "server": "65535",
+    "farm": 66,
+    "title": "Red maple leaves in Tuntorp",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Red autumn maple leaves (Acer platanoides) in Tuntorp, Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1740232341",
+    "views": 33,
+    "tags": [
+        "brastad",
+        "lysekilmunicipality",
+        "sweden",
+        "tuntorp",
+        "autumn",
+        "bluesky",
+        "leaves",
+        "maple",
+        "red"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2025-02-22 13:52:21",
+    "width": 3456,
+    "height": 5184,
+    "url": "https://live.staticflickr.com/65535/54343232761_06d4e5e2e8_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer platanoides",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "54343232761_06d4e5e2e8_o_d",
+    "extension": "jpg"
+}

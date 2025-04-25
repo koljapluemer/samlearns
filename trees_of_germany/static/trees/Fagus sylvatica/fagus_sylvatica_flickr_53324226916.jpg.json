@@ -1,0 +1,38 @@
+{
+    "id": 53324226916,
+    "owner": {
+        "nsid": "14829735@N00",
+        "username": "dullhunk",
+        "path_alias": "dullhunk"
+    },
+    "secret": "d79db7c5f1",
+    "server": "65535",
+    "farm": 66,
+    "title": "Prestwich Clough #Manchester",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "",
+    "dateupload": "1699704286",
+    "views": 79,
+    "tags": [
+        "beech",
+        "fagus",
+        "fagussylvatica"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-11-11 12:04:46",
+    "width": 4670,
+    "height": 1635,
+    "url": "https://live.staticflickr.com/65535/53324226916_198bbc0d0d_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Fagus sylvatica",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53324226916_198bbc0d0d_o_d",
+    "extension": "jpg"
+}

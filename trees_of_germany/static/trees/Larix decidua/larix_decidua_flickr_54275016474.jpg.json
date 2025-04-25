@@ -1,0 +1,40 @@
+{
+    "id": 54275016474,
+    "owner": {
+        "nsid": "125741467@N05",
+        "username": "hedera.baltica",
+        "path_alias": "hedera_baltica"
+    },
+    "secret": "2a480fd9e2",
+    "server": "65535",
+    "farm": 66,
+    "title": "European larch",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Immature cone of european larch (Larix decidua).\n\nNiedojrzała szyszka modrzewia europejskiego (Laris decidua).",
+    "dateupload": "1737288316",
+    "views": 1127,
+    "tags": [
+        "larch",
+        "europeanlarch",
+        "modrzew",
+        "modrzeweuropejski",
+        "larixdecidua"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2025-01-19 12:05:16",
+    "width": 2700,
+    "height": 2700,
+    "url": "https://live.staticflickr.com/65535/54275016474_2f53376bc1_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Larix decidua",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "54275016474_2f53376bc1_o_d",
+    "extension": "jpg"
+}

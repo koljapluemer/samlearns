@@ -1,0 +1,37 @@
+{
+    "id": 52123597717,
+    "owner": {
+        "nsid": "194071409@N05",
+        "username": "Thibault Lefort",
+        "path_alias": null
+    },
+    "secret": "7fb0094e5a",
+    "server": "65535",
+    "farm": 66,
+    "title": "Acer campestre L., 1753",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "T. Lefort, 2022, Charente-Maritime",
+    "dateupload": "1654457811",
+    "views": 117,
+    "tags": [
+        "acercampestrel",
+        "1753"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-06-05 19:36:51",
+    "width": 4000,
+    "height": 3000,
+    "url": "https://live.staticflickr.com/65535/52123597717_a7cdb260e3_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer campestre",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52123597717_a7cdb260e3_o_d",
+    "extension": "jpg"
+}

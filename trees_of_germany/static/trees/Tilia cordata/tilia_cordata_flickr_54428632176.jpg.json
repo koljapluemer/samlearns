@@ -1,0 +1,39 @@
+{
+    "id": 54428632176,
+    "owner": {
+        "nsid": "47343585@N00",
+        "username": "jeremy_norbury",
+        "path_alias": "norbury"
+    },
+    "secret": "8bf7db4a16",
+    "server": "65535",
+    "farm": 66,
+    "title": "IMG_6773",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Tilia cordata repot to bonsai pot.",
+    "dateupload": "1743707986",
+    "views": 9,
+    "tags": [
+        "spring",
+        "march",
+        "2025",
+        "bonsai"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2025-04-03 19:19:46",
+    "width": 6000,
+    "height": 4000,
+    "url": "https://live.staticflickr.com/65535/54428632176_408001564a_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Tilia cordata",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "54428632176_408001564a_o_d",
+    "extension": "jpg"
+}

@@ -1,0 +1,36 @@
+{
+    "id": 44818688085,
+    "owner": {
+        "nsid": "74738817@N07",
+        "username": "anro0002",
+        "path_alias": null
+    },
+    "secret": "31c370034e",
+    "server": "4860",
+    "farm": 5,
+    "title": "Salix alba",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Silberweide (Salix alba) an der Saar in Saarbrücken",
+    "dateupload": "1541427156",
+    "views": 1000,
+    "tags": [
+        "salixalba"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2018-11-05 14:12:36",
+    "width": 2500,
+    "height": 1875,
+    "url": "https://live.staticflickr.com/4860/44818688085_8d60f433b1_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Salix alba",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "44818688085_8d60f433b1_o_d",
+    "extension": "jpg"
+}

@@ -1,0 +1,34 @@
+{
+    "id": 53032392342,
+    "owner": {
+        "nsid": "194071409@N05",
+        "username": "Thibault Lefort",
+        "path_alias": null
+    },
+    "secret": "5fd03d1785",
+    "server": "65535",
+    "farm": 66,
+    "title": "Sorbus aucuparia L., 1753",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "T. Lefort, 2023",
+    "dateupload": "1688884066",
+    "views": 17,
+    "tags": [],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-07-09 06:27:46",
+    "width": 5184,
+    "height": 3888,
+    "url": "https://live.staticflickr.com/65535/53032392342_f1e89bdf4c_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Sorbus aucuparia",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53032392342_f1e89bdf4c_o_d",
+    "extension": "jpg"
+}

@@ -1,0 +1,36 @@
+{
+    "id": 27901356541,
+    "owner": {
+        "nsid": "74738817@N07",
+        "username": "anro0002",
+        "path_alias": null
+    },
+    "secret": "1d6d3f3621",
+    "server": "7433",
+    "farm": 8,
+    "title": "Ulmus minor",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Feld-Ulme (Ulmus minor) bei Hockenheim",
+    "dateupload": "1467204395",
+    "views": 295,
+    "tags": [
+        "ulmusminor"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2016-06-29 12:46:35",
+    "width": 3500,
+    "height": 2625,
+    "url": "https://live.staticflickr.com/7433/27901356541_359979282c_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Ulmus minor",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "27901356541_359979282c_o_d",
+    "extension": "jpg"
+}

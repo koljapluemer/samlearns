@@ -1,0 +1,48 @@
+{
+    "id": 54442501360,
+    "owner": {
+        "nsid": "35478170@N08",
+        "username": "Matt Lavin",
+        "path_alias": "plant_diversity"
+    },
+    "secret": "af183666d0",
+    "server": "65535",
+    "farm": 66,
+    "title": "Spiraea betulifolia - birchleaf spirea",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Spiraea betulifolia growing in the open to closed understory of Pseudotsuga menziesii and Picea engelmannii in Sypes Canyon, southwest Bridger Range, Gallatin County, Montana. This subshrub is mostly represented by clusters of unbranched flowering stems with alternative birch-like leaves (albeit more coarsely toothed).",
+    "dateupload": "1744252264",
+    "views": 37,
+    "tags": [
+        "spiraeabetulifolia",
+        "birchleafspirea",
+        "rosaceae",
+        "native",
+        "perennial",
+        "subshrub",
+        "understory",
+        "drysite",
+        "opensite",
+        "sypescanyon",
+        "bridgerrange",
+        "gallatincounty",
+        "montana"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2025-04-10 02:31:04",
+    "width": 5712,
+    "height": 4284,
+    "url": "https://live.staticflickr.com/65535/54442501360_2c4c5bb78c_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Pseudotsuga menziesii",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "54442501360_2c4c5bb78c_o_d",
+    "extension": "jpg"
+}

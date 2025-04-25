@@ -1,0 +1,51 @@
+{
+    "id": 52418968195,
+    "owner": {
+        "nsid": "78304219@N06",
+        "username": "Øyvind Holmstad",
+        "path_alias": null
+    },
+    "secret": "43aab9b30a",
+    "server": "65535",
+    "farm": 66,
+    "title": "PermaLiv__DSC4248_30-09-22",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Autumn images from Toten, Norway.",
+    "dateupload": "1665429421",
+    "views": 42,
+    "tags": [
+        "toten",
+        "autumn",
+        "trees",
+        "ash",
+        "fraxinusexcelsior",
+        "foliage",
+        "fall",
+        "yellow",
+        "tree",
+        "leaves",
+        "colors",
+        "colorful",
+        "color",
+        "clouds",
+        "sun",
+        "øverskreien"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-10-10 19:17:01",
+    "width": 5882,
+    "height": 3922,
+    "url": "https://live.staticflickr.com/65535/52418968195_e9ae80aaee_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Fraxinus excelsior",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52418968195_e9ae80aaee_o_d",
+    "extension": "jpg"
+}

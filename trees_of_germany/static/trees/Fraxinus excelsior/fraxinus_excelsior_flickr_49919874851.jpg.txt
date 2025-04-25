@@ -1,0 +1,15 @@
+germany
+gehölze
+woodyplants
+blattloserzustand
+universitylibraryuniversityofillinoisurbanachampaign
+bhl:page=35392037
+dc:identifier=httpsbiodiversitylibraryorgpage35392037
+woodplants
+tree
+lilac
+ash
+commonlilac
+taxonomy:binomial=fraxinusexcelsior
+taxonomy:binomial=syringavulgaris
+artist:name=sebastminsinger

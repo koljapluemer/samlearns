@@ -1,0 +1,40 @@
+{
+    "id": 7204873068,
+    "owner": {
+        "nsid": "60096611@N08",
+        "username": "sk.ape",
+        "path_alias": "skapeller"
+    },
+    "secret": "6996498ed2",
+    "server": "7091",
+    "farm": 8,
+    "title": "Sapling (Abies alba)",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "",
+    "dateupload": "1337109156",
+    "views": 1892,
+    "tags": [
+        "fir",
+        "seedling",
+        "conifer",
+        "sapling",
+        "abiesalba"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2012-05-15 19:12:36",
+    "width": 2848,
+    "height": 2848,
+    "url": "https://live.staticflickr.com/7091/7204873068_b519fba473_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Abies alba",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "7204873068_b519fba473_o_d",
+    "extension": "jpg"
+}

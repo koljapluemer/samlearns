@@ -1,0 +1,39 @@
+{
+    "id": 46501074141,
+    "owner": {
+        "nsid": "75001205@N02",
+        "username": "NATT-at-NKM",
+        "path_alias": null
+    },
+    "secret": "e2e5e68688",
+    "server": "7885",
+    "farm": 8,
+    "title": "BM001168619  Alnus glutinosa (L.) Gaertn.",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Alnus glutinosa (L.) Gaertn.\nAlder\nData Label;\nRiver side near Sutton at Hone Kent",
+    "dateupload": "1546013216",
+    "views": 180,
+    "tags": [
+        "robertpocock",
+        "herbarium",
+        "botany",
+        "naturalhistorymuseum"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2018-12-28 16:06:56",
+    "width": 7760,
+    "height": 10328,
+    "url": "https://live.staticflickr.com/7885/46501074141_2b8c9066a7_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Alnus glutinosa",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "46501074141_2b8c9066a7_o_d",
+    "extension": "jpg"
+}

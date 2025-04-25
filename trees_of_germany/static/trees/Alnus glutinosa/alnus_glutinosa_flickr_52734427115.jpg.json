@@ -1,0 +1,45 @@
+{
+    "id": 52734427115,
+    "owner": {
+        "nsid": "193778293@N03",
+        "username": "j.b.pilkington",
+        "path_alias": "johnpilkingtonphotos"
+    },
+    "secret": "deaa1b261d",
+    "server": "65535",
+    "farm": 66,
+    "title": "P3080056",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Alder (Alnus glutinosa) catkins, male and female.\n\nProcessing: for this image I didn't use DxO PureRAW because of the pink cast it introduces to specular highlights. As a general rule it seems best to avoid DxO in any image with rain drops catching the light. Apart from that, this is basically standard LAB (see About), with the addition of a live Denoise filter on the Background layer applied to the A and B opponents only. Parameters Luminance 20%, Luminance Detail 50% and Luminance Contribution 100%.\n\nIn the Curves layer the A and B opponents are separated (though still pinned at the origin); A opponent steepened in the lower left quadrant and B opponent steepened in the upper right quadrant to emphasize the red stamens and yellow pollen (respectively) in the male catkins. This adjustment also deepens the attractive chocolate brown of the buds.",
+    "dateupload": "1678283447",
+    "views": 522,
+    "tags": [
+        "scrase",
+        "bokeh",
+        "catkins",
+        "raindrop",
+        "specular",
+        "highlight",
+        "male",
+        "female",
+        "pollen",
+        "stamen"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-03-08 13:50:47",
+    "width": 3545,
+    "height": 4148,
+    "url": "https://live.staticflickr.com/65535/52734427115_d043af19b3_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Alnus glutinosa",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52734427115_d043af19b3_o_d",
+    "extension": "jpg"
+}

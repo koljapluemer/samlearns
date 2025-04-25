@@ -1,0 +1,45 @@
+{
+    "id": 51221120708,
+    "owner": {
+        "nsid": "61021753@N02",
+        "username": "BioDivLibrary",
+        "path_alias": "biodivlibrary"
+    },
+    "secret": "6d2ff81165",
+    "server": "65535",
+    "farm": 66,
+    "title": "n284_w1150",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Flora and sylva.\nLondon,1903-05.\n<a href=\"https://biodiversitylibrary.org/page/44172857\" rel=\"noreferrer nofollow\">biodiversitylibrary.org/page/44172857</a>",
+    "dateupload": "1622664561",
+    "views": 3684,
+    "tags": [
+        "floriculture",
+        "periodicals",
+        "trees",
+        "smithsonianlibraries",
+        "bhl:page=44172857",
+        "dc:identifier=httpsbiodiversitylibraryorgpage44172857",
+        "flowers",
+        "suffolk",
+        "whitewillow",
+        "taxonomy:binomial=salixalba"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2021-06-02 20:09:21",
+    "width": 1541,
+    "height": 2084,
+    "url": "https://live.staticflickr.com/65535/51221120708_51a99851f7_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Salix alba",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "51221120708_51a99851f7_o_d",
+    "extension": "jpg"
+}

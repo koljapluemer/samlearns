@@ -1,0 +1,47 @@
+{
+    "id": 17368396962,
+    "owner": {
+        "nsid": "43860468@N02",
+        "username": "DONOSTIA KULTURA",
+        "path_alias": "donostiakultura"
+    },
+    "secret": "2aacca6bc1",
+    "server": "8855",
+    "farm": 9,
+    "title": "Ezkia / Tilo común",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Izen zientifikoa / Nombre científico: Tilia platyphyllos Scop\nZuhaitzak Anoeta inguruan TxuriUrdinetik eginak, atzean Belodromoa / Arboles en los alrededores del Estadio de Anoeta desde el Txuri Urdin, al fondo el Velodromo. -- Colección AmaraUNA Bilduma.--  2013.--  Iturria / Fuente: Alicia Ardanaz.--  Informazio gehiago Amarako Ernest Lluch Kultur Etxeko Liburutegia / Más información: Biblioteca del Centro Cultural Ernest Lluch de Amara (Donostia / San Sebastián).-- R. 969.",
+    "dateupload": "1430763108",
+    "views": 737,
+    "tags": [
+        "arboles",
+        "amara",
+        "anoeta",
+        "gipuzkoa",
+        "fotografias",
+        "zuhaitzak",
+        "argazkiak",
+        "donostiasansebastian",
+        "amaraunabilduma",
+        "20112020",
+        "coleccionamarauna",
+        "aliciaardanaz"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2015-05-04 18:11:48",
+    "width": 3000,
+    "height": 2400,
+    "url": "https://live.staticflickr.com/8855/17368396962_13c9857245_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Tilia platyphyllos",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "17368396962_13c9857245_o_d",
+    "extension": "jpg"
+}

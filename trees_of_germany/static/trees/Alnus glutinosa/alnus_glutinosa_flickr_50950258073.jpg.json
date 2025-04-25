@@ -1,0 +1,42 @@
+{
+    "id": 50950258073,
+    "owner": {
+        "nsid": "61021753@N02",
+        "username": "BioDivLibrary",
+        "path_alias": "biodivlibrary"
+    },
+    "secret": "d1f09ccb48",
+    "server": "65535",
+    "farm": 66,
+    "title": "n346_w1150",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Deutschlands flora in abbildungen nach der natur\nNurnberg :Gedruckt auf kosten des verfassers,1798-[1862]\n<a href=\"https://biodiversitylibrary.org/page/6129448\" rel=\"noreferrer nofollow\">biodiversitylibrary.org/page/6129448</a>",
+    "dateupload": "1613508933",
+    "views": 3144,
+    "tags": [
+        "germany",
+        "botany",
+        "newyorkbotanicalgardenluesthertmertzlibrary",
+        "bhl:page=6129448",
+        "dc:identifier=httpsbiodiversitylibraryorgpage6129448",
+        "plant",
+        "taxonomy:binomial=alnusglutinosa"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2021-02-16 20:55:33",
+    "width": 1513,
+    "height": 2433,
+    "url": "https://live.staticflickr.com/65535/50950258073_69cd14e360_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Alnus glutinosa",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "50950258073_69cd14e360_o_d",
+    "extension": "jpg"
+}

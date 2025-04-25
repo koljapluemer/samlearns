@@ -1,0 +1,44 @@
+{
+    "id": 50237198153,
+    "owner": {
+        "nsid": "63796798@N00",
+        "username": "Safa Hovinen",
+        "path_alias": "safahovinen"
+    },
+    "secret": "4fd6ab9a2a",
+    "server": "65535",
+    "farm": 66,
+    "title": "Hopeapaju",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Salix alba with POL filter at the extreme",
+    "dateupload": "1597690039",
+    "views": 84,
+    "tags": [
+        "salixalba",
+        "tree",
+        "helsinki",
+        "finland",
+        "vanhankaupunginlahti",
+        "leaves",
+        "summer",
+        "sky",
+        "nature"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2020-08-17 18:47:19",
+    "width": 6000,
+    "height": 4000,
+    "url": "https://live.staticflickr.com/65535/50237198153_2aaa9da053_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Salix alba",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "50237198153_2aaa9da053_o_d",
+    "extension": "jpg"
+}

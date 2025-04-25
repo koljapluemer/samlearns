@@ -1,0 +1,41 @@
+{
+    "id": 52588213015,
+    "owner": {
+        "nsid": "155939562@N05",
+        "username": "Cossus",
+        "path_alias": null
+    },
+    "secret": "cdc10c4fb7",
+    "server": "65535",
+    "farm": 66,
+    "title": "Anacampsis timidella - Проворная моль дубовая",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Exemplar found: Russia, Moscow Oblast, Sergiyevo-Posadsky District, near village Zapolskoe, 08.07.2022, on commom oak (Quercus robur), days\nМО, Сергиево-Посадский р-н, окрестности деревни Запольское, 08.07.2022, на дубе, днём",
+    "dateupload": "1672088566",
+    "views": 25,
+    "tags": [
+        "anacampsinae",
+        "anacampsis",
+        "gelechiidae",
+        "gelechiinae",
+        "2022",
+        "запольское"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-12-26 21:02:46",
+    "width": 1920,
+    "height": 1920,
+    "url": "https://live.staticflickr.com/65535/52588213015_fa1b9c3baa_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus robur",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52588213015_fa1b9c3baa_o_d",
+    "extension": "jpg"
+}

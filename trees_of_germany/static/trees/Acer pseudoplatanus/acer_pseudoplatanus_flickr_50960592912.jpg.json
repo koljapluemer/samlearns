@@ -1,0 +1,42 @@
+{
+    "id": 50960592912,
+    "owner": {
+        "nsid": "61021753@N02",
+        "username": "BioDivLibrary",
+        "path_alias": "biodivlibrary"
+    },
+    "secret": "81087c026f",
+    "server": "65535",
+    "farm": 66,
+    "title": "n70_w1150",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Österreichs allgemeine baumzucht, :\nWien :Ignaz Albertischen Buchdruck.,1792-1822.\n<a href=\"https://biodiversitylibrary.org/page/42928141\" rel=\"noreferrer nofollow\">biodiversitylibrary.org/page/42928141</a>",
+    "dateupload": "1613769878",
+    "views": 6216,
+    "tags": [
+        "austria",
+        "shrubs",
+        "trees",
+        "harvarduniversitybotanylibraries",
+        "bhl:page=42928141",
+        "dc:identifier=httpsbiodiversitylibraryorgpage42928141",
+        "taxonomy:binomial=acerpseudoplatanus"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2021-02-19 21:24:38",
+    "width": 1345,
+    "height": 2097,
+    "url": "https://live.staticflickr.com/65535/50960592912_a1e0ffc95f_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer pseudoplatanus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "50960592912_a1e0ffc95f_o_d",
+    "extension": "jpg"
+}

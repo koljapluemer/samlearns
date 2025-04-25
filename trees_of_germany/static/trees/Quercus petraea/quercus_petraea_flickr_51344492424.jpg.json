@@ -1,0 +1,39 @@
+{
+    "id": 51344492424,
+    "owner": {
+        "nsid": "145907835@N07",
+        "username": "gertjanvannoord",
+        "path_alias": "gertjanvannoord"
+    },
+    "secret": "225e744048",
+    "server": "65535",
+    "farm": 66,
+    "title": "Wintereik - Quercus petraea",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Wintereik - Quercus petraea",
+    "dateupload": "1627592974",
+    "views": 69,
+    "tags": [
+        "202120210714dsc01899jpg",
+        "2021",
+        "20210714",
+        "wintereikquercuspetraea"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2021-07-29 21:09:34",
+    "width": 5472,
+    "height": 3648,
+    "url": "https://live.staticflickr.com/65535/51344492424_390ca19228_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus petraea",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "51344492424_390ca19228_o_d",
+    "extension": "jpg"
+}

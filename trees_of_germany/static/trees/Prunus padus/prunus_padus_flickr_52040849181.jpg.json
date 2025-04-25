@@ -1,0 +1,47 @@
+{
+    "id": 52040849181,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "06cef53ca1",
+    "server": "65535",
+    "farm": 66,
+    "title": "Houses in spring at Sågvägen",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Housesan a bird cherry tree (Prunus padus) in spring at Sågvägen, Tuntorp. Lysekil Municipality, Sweden.",
+    "dateupload": "1651356638",
+    "views": 70,
+    "tags": [
+        "swedentree",
+        "sågvägen",
+        "tuntorplysekilmunicipality",
+        "grey",
+        "houses",
+        "lawn",
+        "residentialbuildings",
+        "spring",
+        "sunlight",
+        "wooden",
+        "prunuspadus",
+        "birdcherry"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-04-30 22:10:38",
+    "width": 3456,
+    "height": 5184,
+    "url": "https://live.staticflickr.com/65535/52040849181_c1c46f957a_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Prunus padus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52040849181_c1c46f957a_o_d",
+    "extension": "jpg"
+}

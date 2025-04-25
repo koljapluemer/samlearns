@@ -1,0 +1,45 @@
+{
+    "id": 50283511987,
+    "owner": {
+        "nsid": "35478170@N08",
+        "username": "Matt Lavin",
+        "path_alias": "plant_diversity"
+    },
+    "secret": "a39d3a162b",
+    "server": "65535",
+    "farm": 66,
+    "title": "Sorbus aucuparia - European mountain ash",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "European mountain ash is sporadic along the Gallagator Trail system and then found mostly streamside. The tree growth habit and leaves often with 13 or more leaflets distinguish this introduced escaped ornamental from the native Sorbus in this area, Sorbus scopulina, western mountain ash. This 2020 site lies along the Gallagator trail by the bridge that crosses Spring Creek, just southwest of the Peets Hill area, Bozeman, Montana.",
+    "dateupload": "1598732078",
+    "views": 150,
+    "tags": [
+        "sorbusaucuparia",
+        "europeanmountainash",
+        "rosaceae",
+        "introduced",
+        "tree",
+        "riparian",
+        "bozeman",
+        "gallatincounty",
+        "montana",
+        "gallagatorlineartrail"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2020-08-29 20:14:38",
+    "width": 4608,
+    "height": 3456,
+    "url": "https://live.staticflickr.com/65535/50283511987_b670277c85_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Sorbus aucuparia",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "50283511987_b670277c85_o_d",
+    "extension": "jpg"
+}

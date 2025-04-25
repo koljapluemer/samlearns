@@ -1,0 +1,43 @@
+{
+    "id": 52430603135,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "2d02368296",
+    "server": "65535",
+    "farm": 66,
+    "title": "Quercus robur acorns in Tuntorp",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Acorns from Quercus robur, picked and photographed on an oak plank in Tuntorp, Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1665873162",
+    "views": 92,
+    "tags": [
+        "brastad",
+        "lysekilmunicipality",
+        "quercusrobur",
+        "sweden",
+        "tuntorp",
+        "acorns",
+        "oak",
+        "oakplank"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-10-15 22:32:42",
+    "width": 3436,
+    "height": 2292,
+    "url": "https://live.staticflickr.com/65535/52430603135_82157d8911_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus robur",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52430603135_82157d8911_o_d",
+    "extension": "jpg"
+}

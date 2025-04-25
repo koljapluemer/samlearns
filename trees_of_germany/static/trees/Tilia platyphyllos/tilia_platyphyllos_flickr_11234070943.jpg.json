@@ -1,0 +1,42 @@
+{
+    "id": 11234070943,
+    "owner": {
+        "nsid": "14583963@N00",
+        "username": "davidshort",
+        "path_alias": null
+    },
+    "secret": "d813ba050f",
+    "server": "3779",
+    "farm": 4,
+    "title": "Protected linden (Dlouhé)",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Broad-leaved lime - lípa velkolistá - Tilia platyphyllos.",
+    "dateupload": "1386322295",
+    "views": 821,
+    "tags": [
+        "trees",
+        "linden",
+        "lime",
+        "2013",
+        "tiliaplatyphyllos",
+        "broadleavedlime",
+        "lípavelkolistá"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2013-12-06 09:31:35",
+    "width": 1880,
+    "height": 2816,
+    "url": "https://live.staticflickr.com/3779/11234070943_7ca547e955_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Tilia platyphyllos",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "11234070943_7ca547e955_o_d",
+    "extension": "jpg"
+}

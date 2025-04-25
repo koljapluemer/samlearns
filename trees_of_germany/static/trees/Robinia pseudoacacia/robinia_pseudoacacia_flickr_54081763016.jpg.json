@@ -1,0 +1,47 @@
+{
+    "id": 54081763016,
+    "owner": {
+        "nsid": "35478170@N08",
+        "username": "Matt Lavin",
+        "path_alias": "plant_diversity"
+    },
+    "secret": "6ab2bfd031",
+    "server": "65535",
+    "farm": 66,
+    "title": "Robinia pseudoacacia - black locust",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Robinia pseudoacacia along the American River Parkway on the east side of the American River in Rancho Cordova, Sacramento County, California. Black locust likely escaped cultivation and established at this site where an even mix of native and introduced species co-occur. Fruits each with a winged placental margin are distinctive of Robinia pseudoacacia compared to other species of Robinia. Dying and dead terminal branches are common in black locust, which results in trunks that are rarely straight and the reason why hardwood of this species seldom has much economic value.",
+    "dateupload": "1729478635",
+    "views": 70,
+    "tags": [
+        "robiniapseudoacacia",
+        "blacklocust",
+        "fabaceae",
+        "leguminosae",
+        "introduced",
+        "tree",
+        "disturbedsite",
+        "drysite",
+        "americanriverparkway",
+        "ranchocordova",
+        "sacramentocounty",
+        "california"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2024-10-21 02:43:55",
+    "width": 5712,
+    "height": 4284,
+    "url": "https://live.staticflickr.com/65535/54081763016_61b98acd24_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Robinia pseudoacacia",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "54081763016_61b98acd24_o_d",
+    "extension": "jpg"
+}

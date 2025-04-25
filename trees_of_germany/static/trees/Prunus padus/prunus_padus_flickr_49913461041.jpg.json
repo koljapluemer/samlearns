@@ -1,0 +1,45 @@
+{
+    "id": 49913461041,
+    "owner": {
+        "nsid": "61021753@N02",
+        "username": "BioDivLibrary",
+        "path_alias": "biodivlibrary"
+    },
+    "secret": "e6df227461",
+    "server": "65535",
+    "farm": 66,
+    "title": "n252_w1150",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "J. Sturms Flora von Deutschland :\nStuttgart :K. G. Lutz,1900-1907.\n<a href=\"https://biodiversitylibrary.org/page/55462022\" rel=\"noreferrer nofollow\">biodiversitylibrary.org/page/55462022</a>",
+    "dateupload": "1589912826",
+    "views": 6867,
+    "tags": [
+        "germany",
+        "royalbotanicgardenskewlibraryartarchives",
+        "bhl:page=55462022",
+        "dc:identifier=httpsbiodiversitylibraryorgpage55462022",
+        "flowers",
+        "taxonomy:binomial=prunuspadus",
+        "taxonomy:common=birdcherry",
+        "mczearthday2020",
+        "prunuspadus",
+        "birdcherry"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2020-05-19 18:27:06",
+    "width": 1049,
+    "height": 1637,
+    "url": "https://live.staticflickr.com/65535/49913461041_97ac8f7635_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Prunus padus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "49913461041_97ac8f7635_o_d",
+    "extension": "jpg"
+}

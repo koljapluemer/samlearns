@@ -1,0 +1,39 @@
+{
+    "id": 52454797760,
+    "owner": {
+        "nsid": "9082612@N05",
+        "username": "Gilles San Martin",
+        "path_alias": "sanmartin"
+    },
+    "secret": "c6452fae59",
+    "server": "65535",
+    "farm": 66,
+    "title": "Trioza remota",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Trioza remota (Hemiptera, Psylloidea) nymph on Quercus petraea",
+    "dateupload": "1666737083",
+    "views": 1584,
+    "tags": [
+        "homoptera",
+        "psylloidea",
+        "triozaremota",
+        "hemiptera"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-10-25 22:31:23",
+    "width": 3775,
+    "height": 5034,
+    "url": "https://live.staticflickr.com/65535/52454797760_27c204dd18_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus petraea",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52454797760_27c204dd18_o_d",
+    "extension": "jpg"
+}

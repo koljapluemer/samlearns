@@ -1,0 +1,37 @@
+{
+    "id": 51308902024,
+    "owner": {
+        "nsid": "154756563@N07",
+        "username": "soenke.haas",
+        "path_alias": null
+    },
+    "secret": "d3fa8610a3",
+    "server": "65535",
+    "farm": 66,
+    "title": "Salix alba 1",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "OLYMPUS DIGITAL CAMERA",
+    "dateupload": "1626158294",
+    "views": 603,
+    "tags": [
+        "elbe",
+        "elbtalaue"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2021-07-13 06:38:14",
+    "width": 4608,
+    "height": 3456,
+    "url": "https://live.staticflickr.com/65535/51308902024_580d1d928f_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Salix alba",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "51308902024_580d1d928f_o_d",
+    "extension": "jpg"
+}

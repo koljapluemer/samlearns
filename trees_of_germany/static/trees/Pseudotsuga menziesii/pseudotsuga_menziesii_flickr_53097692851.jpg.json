@@ -1,0 +1,47 @@
+{
+    "id": 53097692851,
+    "owner": {
+        "nsid": "35478170@N08",
+        "username": "Matt Lavin",
+        "path_alias": "plant_diversity"
+    },
+    "secret": "eed8fd6cc9",
+    "server": "65535",
+    "farm": 66,
+    "title": "Stipa richardsonii - spreading needlegrass",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Stipa richardsonii growing in an open dry montane meadow or parkland surrounded by forests comprising mostly Douglas Fir (Pseudotsuga menziesii). Spreading needlegrass is a somewhat common bunchgrass in this area of open vegetation especially on gravelly substrates where the vegetation has a shorter stature. This site lies along the main gravel road just west of Burley Peak between Sapphire Village and Checkerboard, central eastern Little Belt Mountains, Judith Basin County, Montana.",
+    "dateupload": "1691342765",
+    "views": 58,
+    "tags": [
+        "stiparichardsonii",
+        "spreadingneedlegrass",
+        "native",
+        "perennial",
+        "bunchgrass",
+        "coolseason",
+        "poaceae",
+        "littlebeltmountains",
+        "judithbasincounty",
+        "montana",
+        "stipeae",
+        "achnatherumrichardsonii"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-08-06 17:26:05",
+    "width": 4000,
+    "height": 3000,
+    "url": "https://live.staticflickr.com/65535/53097692851_47fdaa00b4_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Pseudotsuga menziesii",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53097692851_47fdaa00b4_o_d",
+    "extension": "jpg"
+}

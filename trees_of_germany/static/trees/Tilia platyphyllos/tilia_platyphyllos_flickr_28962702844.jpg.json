@@ -1,0 +1,36 @@
+{
+    "id": 28962702844,
+    "owner": {
+        "nsid": "143453316@N06",
+        "username": "kimtilli",
+        "path_alias": null
+    },
+    "secret": "df16bff80c",
+    "server": "8821",
+    "farm": 9,
+    "title": "Tilia platyphyllos 2",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "",
+    "dateupload": "1473530903",
+    "views": 190,
+    "tags": [
+        "bykimtilli"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2016-09-10 18:08:23",
+    "width": 2448,
+    "height": 3264,
+    "url": "https://live.staticflickr.com/8821/28962702844_370abb6e69_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Tilia platyphyllos",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "28962702844_370abb6e69_o_d",
+    "extension": "jpg"
+}

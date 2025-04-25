@@ -1,0 +1,34 @@
+{
+    "id": 54393126495,
+    "owner": {
+        "nsid": "146321234@N04",
+        "username": "m.borden",
+        "path_alias": null
+    },
+    "secret": "2c6f852567",
+    "server": "65535",
+    "farm": 66,
+    "title": "BLD on Fagus sylvatica",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Beech leaf disease at various sites, 2023 and 2024",
+    "dateupload": "1742225724",
+    "views": 5,
+    "tags": [],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2025-03-17 15:35:24",
+    "width": 6240,
+    "height": 4160,
+    "url": "https://live.staticflickr.com/65535/54393126495_ec2f5b3e35_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Fagus sylvatica",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "54393126495_ec2f5b3e35_o_d",
+    "extension": "jpg"
+}

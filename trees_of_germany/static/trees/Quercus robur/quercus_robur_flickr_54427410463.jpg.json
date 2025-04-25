@@ -1,0 +1,45 @@
+{
+    "id": 54427410463,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "378f290049",
+    "server": "65535",
+    "farm": 66,
+    "title": "Oak leaves on a branch in Tuntorp",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Oak leaves (Quercus robur) on a branch in Tuntorp, Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1743638999",
+    "views": 9,
+    "tags": [
+        "brastad",
+        "lysekilmunicipality",
+        "quercusrobur",
+        "sweden",
+        "tuntorp",
+        "autumn",
+        "branch",
+        "contrejour",
+        "leaves",
+        "plants"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2025-04-03 00:09:59",
+    "width": 5472,
+    "height": 3648,
+    "url": "https://live.staticflickr.com/65535/54427410463_95ea936889_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus robur",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "54427410463_95ea936889_o_d",
+    "extension": "jpg"
+}

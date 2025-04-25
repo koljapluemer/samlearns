@@ -1,0 +1,45 @@
+{
+    "id": 52237391318,
+    "owner": {
+        "nsid": "125741467@N05",
+        "username": "hedera.baltica",
+        "path_alias": "hedera_baltica"
+    },
+    "secret": "afb0bb9d01",
+    "server": "65535",
+    "farm": 66,
+    "title": "Baby acorn",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Young unripe acorn of sessile oak (Quercus petraea) still on a branch.\n\nMłoda niedojrzała żołądź dębu bezszypułkowego (Quarcus petraea) jeszcze na gałązce.",
+    "dateupload": "1658655958",
+    "views": 1577,
+    "tags": [
+        "acorn",
+        "oak",
+        "sessileoak",
+        "cornishoak",
+        "irishoak",
+        "durmastoak",
+        "dąb",
+        "dąbbezszypułkowy",
+        "quercuspetraea",
+        "żołądź"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-07-24 09:45:58",
+    "width": 2700,
+    "height": 2270,
+    "url": "https://live.staticflickr.com/65535/52237391318_d855fcd180_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus petraea",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52237391318_d855fcd180_o_d",
+    "extension": "jpg"
+}

@@ -1,0 +1,47 @@
+{
+    "id": 52892097846,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "6db1460053",
+    "server": "65535",
+    "farm": 66,
+    "title": "Oak grove by east Myrstigen",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Oak grove (Quercus robur) in a field by east Myrstigen hiking track, Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1683909041",
+    "views": 26,
+    "tags": [
+        "brastad",
+        "lysekilmunicipality",
+        "myrstigen",
+        "quercusrobur",
+        "sweden",
+        "field",
+        "hikingtrack",
+        "landscape",
+        "oak",
+        "panorama",
+        "road",
+        "trees"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-05-12 16:30:41",
+    "width": 7602,
+    "height": 3116,
+    "url": "https://live.staticflickr.com/65535/52892097846_ece50daffe_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus robur",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52892097846_ece50daffe_o_d",
+    "extension": "jpg"
+}

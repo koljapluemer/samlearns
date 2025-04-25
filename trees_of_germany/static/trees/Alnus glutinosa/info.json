@@ -1,0 +1,42 @@
+{
+    "id": 54434630651,
+    "owner": {
+        "nsid": "87297882@N03",
+        "username": "Aaron Volkening",
+        "path_alias": null
+    },
+    "secret": "cbe5d7d6b2",
+    "server": "65535",
+    "farm": 66,
+    "title": "Black alder, Greenfield Park, Wisconsin",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "A black alder (Alnus glutinosa) tree on the shore of the pond in Greenfield Park in West Allis, Wisconsin. August 2023. Img_6307",
+    "dateupload": "1743971650",
+    "views": 16,
+    "tags": [
+        "greenfieldpark",
+        "westallis",
+        "wisconsin",
+        "alnus",
+        "alder",
+        "tree",
+        "alnusglutinosa",
+        "blackalder",
+        "img6307"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2025-04-06 20:34:10",
+    "width": 4032,
+    "height": 3024,
+    "url": "https://live.staticflickr.com/65535/54434630651_c29e398ec2_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Alnus glutinosa",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search"
+}

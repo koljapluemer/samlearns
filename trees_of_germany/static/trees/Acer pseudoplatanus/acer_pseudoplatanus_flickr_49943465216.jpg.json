@@ -1,0 +1,34 @@
+{
+    "id": 49943465216,
+    "owner": {
+        "nsid": "148604936@N05",
+        "username": "rcannon9921",
+        "path_alias": null
+    },
+    "secret": "42898146a3",
+    "server": "65535",
+    "farm": 66,
+    "title": "Sycamore tree (Acer pseudoplatanus) with flowers",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "",
+    "dateupload": "1590625224",
+    "views": 12,
+    "tags": [],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2020-05-28 00:20:24",
+    "width": 4748,
+    "height": 3184,
+    "url": "https://live.staticflickr.com/65535/49943465216_4d2d336c21_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer pseudoplatanus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "49943465216_4d2d336c21_o_d",
+    "extension": "jpg"
+}

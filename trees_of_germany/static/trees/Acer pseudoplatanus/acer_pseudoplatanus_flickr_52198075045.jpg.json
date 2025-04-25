@@ -1,0 +1,36 @@
+{
+    "id": 52198075045,
+    "owner": {
+        "nsid": "55705092@N02",
+        "username": "Radu Chibzii",
+        "path_alias": "radu_chibzii"
+    },
+    "secret": "b4c285267e",
+    "server": "65535",
+    "farm": 66,
+    "title": "Acer pseudoplatanus - 2 (2021).",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "",
+    "dateupload": "1657101089",
+    "views": 138,
+    "tags": [
+        "acerpseudoplatanus"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-07-06 09:51:29",
+    "width": 768,
+    "height": 1024,
+    "url": "https://live.staticflickr.com/65535/52198075045_9bf85748ee_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer pseudoplatanus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52198075045_9bf85748ee_o_d",
+    "extension": "jpg"
+}

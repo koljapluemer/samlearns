@@ -1,0 +1,6 @@
+germany
+royalbotanicgardenskewlibraryartarchives
+bhl:page=55367752
+dc:identifier=httpsbiodiversitylibraryorgpage55367752
+flowers
+taxonomy:binomial=acerpseudoplatanus

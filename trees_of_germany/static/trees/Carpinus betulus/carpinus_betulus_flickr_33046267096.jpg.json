@@ -1,0 +1,38 @@
+{
+    "id": 33046267096,
+    "owner": {
+        "nsid": "74738817@N07",
+        "username": "anro0002",
+        "path_alias": null
+    },
+    "secret": "bccd4496d5",
+    "server": "2697",
+    "farm": 3,
+    "title": "Carpinus betulus",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Hainbuche (Carpinus betulus) am Kaninchenberg in Saarbrücken",
+    "dateupload": "1487940794",
+    "views": 471,
+    "tags": [
+        "carpinusbetulus",
+        "kaninchenberg",
+        "saarbrücken"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2017-02-24 12:53:14",
+    "width": 2250,
+    "height": 3000,
+    "url": "https://live.staticflickr.com/2697/33046267096_5b3872da4e_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Carpinus betulus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "33046267096_5b3872da4e_o_d",
+    "extension": "jpg"
+}

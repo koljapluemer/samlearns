@@ -1,0 +1,41 @@
+{
+    "id": 52586502762,
+    "owner": {
+        "nsid": "155939562@N05",
+        "username": "Cossus",
+        "path_alias": null
+    },
+    "secret": "bc957dc403",
+    "server": "65535",
+    "farm": 66,
+    "title": "Agonopterix hypericella",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Exemplar found: Russia, Moscow Oblast, Odintsovsky District, near village Klopovo, 11.09.2022, on common oak (Quercus robur) bark, days\nМО, Одинцовский р-н, окрестности деревни Клопово, 11.09.2022, на коре дуба, днём",
+    "dateupload": "1672064193",
+    "views": 68,
+    "tags": [
+        "agonopterix",
+        "depressariidae",
+        "depressariinae",
+        "elachistidae",
+        "пестово",
+        "2022"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-12-26 14:16:33",
+    "width": 1920,
+    "height": 1920,
+    "url": "https://live.staticflickr.com/65535/52586502762_379e71fa86_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus robur",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52586502762_379e71fa86_o_d",
+    "extension": "jpg"
+}

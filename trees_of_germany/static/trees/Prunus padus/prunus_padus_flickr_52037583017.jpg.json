@@ -1,0 +1,37 @@
+{
+    "id": 52037583017,
+    "owner": {
+        "nsid": "104249543@N07",
+        "username": "Rolf Dietrich Brecher",
+        "path_alias": "rolfdietrichbrecher"
+    },
+    "secret": "1e456a79ec",
+    "server": "65535",
+    "farm": 66,
+    "title": "Gewöhnliche Trauben-Kirsche",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "",
+    "dateupload": "1651265422",
+    "views": 338,
+    "tags": [
+        "prunuspadus",
+        "zuiko20150mm"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-04-29 20:50:22",
+    "width": 5314,
+    "height": 4018,
+    "url": "https://live.staticflickr.com/65535/52037583017_ddaac6b51f_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Prunus padus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52037583017_ddaac6b51f_o_d",
+    "extension": "jpg"
+}

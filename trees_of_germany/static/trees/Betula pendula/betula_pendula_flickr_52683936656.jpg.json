@@ -1,0 +1,53 @@
+{
+    "id": 52683936656,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "e4ab108e20",
+    "server": "65535",
+    "farm": 66,
+    "title": "Frosty trees and cottage in Lyckan, Hunnebostrand",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Birches (Betula pendula) and a Falu red cottage covered with ice and frost by the road in Lyckan, Hunnebostrand, Smögen Municipality, Sweden.",
+    "dateupload": "1676202169",
+    "views": 56,
+    "tags": [
+        "betulapendula",
+        "hunnebostrand",
+        "lyckan",
+        "smögenmunicipality",
+        "sweden",
+        "birches",
+        "building",
+        "clouds",
+        "contrejour",
+        "cottage",
+        "falured",
+        "frost",
+        "ice",
+        "road",
+        "sky",
+        "snow",
+        "trees",
+        "winter"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-02-12 11:42:49",
+    "width": 5040,
+    "height": 3283,
+    "url": "https://live.staticflickr.com/65535/52683936656_bc8ecbfe47_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Betula pendula",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52683936656_bc8ecbfe47_o_d",
+    "extension": "jpg"
+}

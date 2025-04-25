@@ -1,0 +1,39 @@
+{
+    "id": 53359324183,
+    "owner": {
+        "nsid": "47343585@N00",
+        "username": "jeremy_norbury",
+        "path_alias": "norbury"
+    },
+    "secret": "9602f44c39",
+    "server": "65535",
+    "farm": 66,
+    "title": "IMG_1058",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Linden pruning - tilia cordata",
+    "dateupload": "1701091678",
+    "views": 32,
+    "tags": [
+        "bonsai",
+        "july",
+        "summer",
+        "2023"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-11-27 13:27:58",
+    "width": 3871,
+    "height": 2459,
+    "url": "https://live.staticflickr.com/65535/53359324183_bf485609b3_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Tilia cordata",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53359324183_bf485609b3_o_d",
+    "extension": "jpg"
+}

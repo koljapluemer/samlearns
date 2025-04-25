@@ -1,0 +1,36 @@
+{
+    "id": 50125750653,
+    "owner": {
+        "nsid": "154756563@N07",
+        "username": "soenke.haas",
+        "path_alias": null
+    },
+    "secret": "2a7e8cc1e4",
+    "server": "65535",
+    "farm": 66,
+    "title": "Quercus petraea",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "OLYMPUS DIGITAL CAMERA",
+    "dateupload": "1595093149",
+    "views": 334,
+    "tags": [
+        "harz"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2020-07-18 17:25:49",
+    "width": 4608,
+    "height": 3456,
+    "url": "https://live.staticflickr.com/65535/50125750653_4dc02eb2e3_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus petraea",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "50125750653_4dc02eb2e3_o_d",
+    "extension": "jpg"
+}

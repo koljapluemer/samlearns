@@ -1,0 +1,44 @@
+{
+    "id": 52911732210,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "ea29f2676a",
+    "server": "65535",
+    "farm": 66,
+    "title": "Tall lanky oaks in Tuntorp",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Tall lanky oaks (Quercus robur) in Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1684579253",
+    "views": 24,
+    "tags": [
+        "brastad",
+        "lysekilmunicipality",
+        "quercusrobur",
+        "sweden",
+        "tuntorp",
+        "leaves",
+        "oak",
+        "spring",
+        "trees"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-05-20 10:40:53",
+    "width": 3283,
+    "height": 4925,
+    "url": "https://live.staticflickr.com/65535/52911732210_62a2b63abf_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus robur",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52911732210_62a2b63abf_o_d",
+    "extension": "jpg"
+}

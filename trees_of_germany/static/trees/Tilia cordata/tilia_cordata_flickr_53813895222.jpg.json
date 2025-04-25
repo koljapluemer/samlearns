@@ -1,0 +1,39 @@
+{
+    "id": 53813895222,
+    "owner": {
+        "nsid": "47343585@N00",
+        "username": "jeremy_norbury",
+        "path_alias": "norbury"
+    },
+    "secret": "b064e235e4",
+    "server": "65535",
+    "farm": 66,
+    "title": "IMG_0237",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Tilia cordata minor wiring",
+    "dateupload": "1719316704",
+    "views": 49,
+    "tags": [
+        "bonsai",
+        "summer",
+        "2024",
+        "june"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2024-06-25 11:58:24",
+    "width": 6000,
+    "height": 4000,
+    "url": "https://live.staticflickr.com/65535/53813895222_89df5e0738_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Tilia cordata",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53813895222_89df5e0738_o_d",
+    "extension": "jpg"
+}

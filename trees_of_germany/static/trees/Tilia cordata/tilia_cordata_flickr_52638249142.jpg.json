@@ -1,0 +1,39 @@
+{
+    "id": 52638249142,
+    "owner": {
+        "nsid": "47343585@N00",
+        "username": "jeremy_norbury",
+        "path_alias": "norbury"
+    },
+    "secret": "c39e3fb577",
+    "server": "65535",
+    "farm": 66,
+    "title": "IMG_3884",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Tilia cordata - try the cut offs as cuttings",
+    "dateupload": "1674255630",
+    "views": 23,
+    "tags": [
+        "bonsai",
+        "december",
+        "2022",
+        "winter"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-01-20 23:00:30",
+    "width": 6000,
+    "height": 4000,
+    "url": "https://live.staticflickr.com/65535/52638249142_0223034084_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Tilia cordata",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52638249142_0223034084_o_d",
+    "extension": "jpg"
+}

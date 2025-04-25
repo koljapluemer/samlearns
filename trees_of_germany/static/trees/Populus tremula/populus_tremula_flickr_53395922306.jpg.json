@@ -1,0 +1,50 @@
+{
+    "id": 53395922306,
+    "owner": {
+        "nsid": "78304219@N06",
+        "username": "Øyvind Holmstad",
+        "path_alias": null
+    },
+    "secret": "ae01d98c18",
+    "server": "65535",
+    "farm": 66,
+    "title": "02-10-23_A730845_PermaLiv 1",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Aspen trees in fall of rural Toten, Norway.",
+    "dateupload": "1702499882",
+    "views": 15,
+    "tags": [
+        "grythengen",
+        "stabbursjordet",
+        "gardskorona",
+        "aspen",
+        "trees",
+        "populustremula",
+        "fall",
+        "autumn",
+        "colorful",
+        "yellow",
+        "orange",
+        "red",
+        "green",
+        "blue",
+        "sky"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-12-13 20:38:02",
+    "width": 6000,
+    "height": 4000,
+    "url": "https://live.staticflickr.com/65535/53395922306_bda9565b5c_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Populus tremula",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53395922306_bda9565b5c_o_d",
+    "extension": "jpg"
+}

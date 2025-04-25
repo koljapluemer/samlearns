@@ -1,0 +1,42 @@
+{
+    "id": 53788563983,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "81393624ae",
+    "server": "65535",
+    "farm": 66,
+    "title": "New leaves on a maple in Lysekil",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "New leaves of a Norway maple (Acer platanoides) in Lysekil, Sweden.",
+    "dateupload": "1718278240",
+    "views": 68,
+    "tags": [
+        "acerplatanoides",
+        "lysekil",
+        "norwaymaple",
+        "sweden",
+        "newleaves",
+        "spring",
+        "tree"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2024-06-13 11:30:40",
+    "width": 5184,
+    "height": 3456,
+    "url": "https://live.staticflickr.com/65535/53788563983_68928de17d_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer platanoides",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53788563983_68928de17d_o_d",
+    "extension": "jpg"
+}

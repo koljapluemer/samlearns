@@ -1,0 +1,45 @@
+{
+    "id": 52804436564,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "eea20ebb17",
+    "server": "65535",
+    "farm": 66,
+    "title": "Street lights illuminating a footpath in Tuntorp",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Street lights illuminating a footpath with birches (Betula pendula) at night in Tuntorp, Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1681049228",
+    "views": 42,
+    "tags": [
+        "betulapendula",
+        "brastad",
+        "lysekilmunicipality",
+        "sweden",
+        "tuntorptrees",
+        "birches",
+        "fottpath",
+        "night",
+        "sodiumlights",
+        "streetlights"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-04-09 14:07:08",
+    "width": 3444,
+    "height": 4573,
+    "url": "https://live.staticflickr.com/65535/52804436564_117731f038_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Betula pendula",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52804436564_117731f038_o_d",
+    "extension": "jpg"
+}

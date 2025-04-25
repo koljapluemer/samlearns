@@ -1,0 +1,40 @@
+{
+    "id": 53680890423,
+    "owner": {
+        "nsid": "81269484@N00",
+        "username": "JuliaC2006",
+        "path_alias": "juliac2006"
+    },
+    "secret": "5f0ec247f2",
+    "server": "65535",
+    "farm": 66,
+    "title": "Ash",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "The trees in Watts Meadow are all bursting into leaf - and looked lovely in the sunshine today.",
+    "dateupload": "1714160426",
+    "views": 90,
+    "tags": [
+        "tree",
+        "leaves",
+        "wattsmeadow",
+        "ash",
+        "fraxinusexcelsior"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2024-04-26 19:40:26",
+    "width": 1024,
+    "height": 768,
+    "url": "https://live.staticflickr.com/65535/53680890423_41a9fcbe2d_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Fraxinus excelsior",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53680890423_41a9fcbe2d_o_d",
+    "extension": "jpg"
+}

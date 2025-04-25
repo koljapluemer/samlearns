@@ -16,18 +16,7 @@
                 }
             }
         }">
-            <figure class="image is-4by3 mb-4" style="position: relative;">
-                <img src="{{ tree_image.get_usable_url }}" alt="Tree to identify">
-                {% if tree_image.credit_user_name and tree_image.credit_url %}
-                <div style="position: absolute; bottom: 0; right: 0; background: rgba(0,0,0,0.5); padding: 0.25rem 0.5rem; border-radius: 4px 0 0 0;">
-                    <a href="{{ tree_image.credit_url }}" target="_blank" rel="noopener noreferrer" class="has-text-white is-size-7">
-                        © {{ tree_image.credit_user_name }}
-                    </a>
-                </div>
-                {% endif %}
-            </figure>
-
-            <div class="buttons is-centered">
+            <div class="buttons is-centered mb-4">
                 {% for species in species_options %}
                 <button 
                     class="button is-large species-option"
@@ -45,6 +34,17 @@
                     </div>
                 </button>
                 {% endfor %}
+            </div>
+
+            <div class="image-container" style="position: relative; width: 524px; margin: 0 auto;">
+                <img src="{{ tree_image.get_usable_url }}" alt="Tree to identify" style="width: 100%; height: auto; display: block;">
+                {% if tree_image.credit_user_name and tree_image.credit_url %}
+                <div style="position: absolute; bottom: 0; right: 0; background: rgba(0,0,0,0.5); padding: 0.25rem 0.5rem; border-radius: 4px 0 0 0;">
+                    <a href="{{ tree_image.credit_url }}" target="_blank" rel="noopener noreferrer" class="has-text-white is-size-7">
+                        © {{ tree_image.credit_user_name }}
+                    </a>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>

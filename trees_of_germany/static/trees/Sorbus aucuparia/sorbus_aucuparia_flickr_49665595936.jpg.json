@@ -1,0 +1,40 @@
+{
+    "id": 49665595936,
+    "owner": {
+        "nsid": "32179778@N00",
+        "username": "Martín Vicente, M.",
+        "path_alias": "martius"
+    },
+    "secret": "123a4ec5ec",
+    "server": "65535",
+    "farm": 66,
+    "title": "sorbus aucuparia, serbal de cazadores,",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "sorbus aucuparia, serbal de cazadores,",
+    "dateupload": "1584359788",
+    "views": 161,
+    "tags": [
+        "sorbusaucuparia",
+        "serbaldecazadores",
+        "imágenesgratis",
+        "cromos",
+        "cromo"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2020-03-16 11:56:28",
+    "width": 3506,
+    "height": 4945,
+    "url": "https://live.staticflickr.com/65535/49665595936_16114a3e3f_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Sorbus aucuparia",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "49665595936_16114a3e3f_o_d",
+    "extension": "jpg"
+}

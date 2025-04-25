@@ -1,0 +1,42 @@
+{
+    "id": 39483704252,
+    "owner": {
+        "nsid": "137747691@N03",
+        "username": "timoscheurer",
+        "path_alias": null
+    },
+    "secret": "0e418295b4",
+    "server": "4634",
+    "farm": 5,
+    "title": "Chlostelinde Diessenhofen",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Chlosterlinde Diessenhofen, TG",
+    "dateupload": "1515145429",
+    "views": 104,
+    "tags": [
+        "baumkuriositäten",
+        "baumveteran",
+        "chlosterlindediessenhofen",
+        "klosterlindediessenhofen",
+        "sommerlinde",
+        "tiliaplatyphyllos",
+        "baum"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2018-01-05 09:43:49",
+    "width": 2048,
+    "height": 1365,
+    "url": "https://live.staticflickr.com/4634/39483704252_dbe3a47ace_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Tilia platyphyllos",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "39483704252_dbe3a47ace_o_d",
+    "extension": "jpg"
+}

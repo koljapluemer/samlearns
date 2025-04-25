@@ -1,0 +1,36 @@
+{
+    "id": 37868035912,
+    "owner": {
+        "nsid": "74738817@N07",
+        "username": "anro0002",
+        "path_alias": null
+    },
+    "secret": "8e00279ec7",
+    "server": "4453",
+    "farm": 5,
+    "title": "Acer campestre",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Feldahorn (Acer campestre) in Hockenheim",
+    "dateupload": "1508841747",
+    "views": 818,
+    "tags": [
+        "acercampestre"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2017-10-24 10:42:27",
+    "width": 3000,
+    "height": 2250,
+    "url": "https://live.staticflickr.com/4453/37868035912_9b55d3568a_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer campestre",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "37868035912_9b55d3568a_o_d",
+    "extension": "jpg"
+}

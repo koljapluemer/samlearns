@@ -1,0 +1,7 @@
+austria
+shrubs
+trees
+harvarduniversitybotanylibraries
+bhl:page=42928139
+dc:identifier=httpsbiodiversitylibraryorgpage42928139
+taxonomy:binomial=acerpseudoplatanus

@@ -1,0 +1,44 @@
+{
+    "id": 52831778831,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "5f08f95b17",
+    "server": "65535",
+    "farm": 66,
+    "title": "Maple flowers in Tuntorp",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Maple flowers (Acer platanoides) in spring in Tuntorp, Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1681990089",
+    "views": 38,
+    "tags": [
+        "acerplatanoides",
+        "brastad",
+        "lysekilmunicipality",
+        "sweden",
+        "tuntorp",
+        "flowers",
+        "maple",
+        "spring",
+        "tree"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-04-20 11:28:09",
+    "width": 4816,
+    "height": 3210,
+    "url": "https://live.staticflickr.com/65535/52831778831_b1f8cceccd_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer platanoides",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52831778831_b1f8cceccd_o_d",
+    "extension": "jpg"
+}

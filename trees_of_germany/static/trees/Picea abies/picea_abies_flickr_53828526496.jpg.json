@@ -1,0 +1,34 @@
+{
+    "id": 53828526496,
+    "owner": {
+        "nsid": "194071409@N05",
+        "username": "Thibault Lefort",
+        "path_alias": null
+    },
+    "secret": "73b862e9ac",
+    "server": "65535",
+    "farm": 66,
+    "title": "Picea abies (L.) H.Karst., 1881",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "T. Lefort, 2024, Hautes-Pyrénées",
+    "dateupload": "1719858919",
+    "views": 8,
+    "tags": [],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2024-07-01 18:35:19",
+    "width": 5184,
+    "height": 3888,
+    "url": "https://live.staticflickr.com/65535/53828526496_d29a76eda1_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Picea abies",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53828526496_d29a76eda1_o_d",
+    "extension": "jpg"
+}

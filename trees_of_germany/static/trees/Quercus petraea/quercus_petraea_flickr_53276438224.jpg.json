@@ -1,0 +1,45 @@
+{
+    "id": 53276438224,
+    "owner": {
+        "nsid": "125741467@N05",
+        "username": "hedera.baltica",
+        "path_alias": "hedera_baltica"
+    },
+    "secret": "99f3a9fefc",
+    "server": "65535",
+    "farm": 66,
+    "title": "Acorn",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Mature acorn of sessile oak (Quercus petraea).\n\nDojrzała żołądź dębu bezszypułkowego (Quercus petraea).",
+    "dateupload": "1697968281",
+    "views": 1249,
+    "tags": [
+        "acorn",
+        "oak",
+        "sessileoak",
+        "cornishoak",
+        "irishoak",
+        "durmastoak",
+        "dąb",
+        "dąbbezszypułkowy",
+        "quercuspetraea",
+        "żołądź"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-10-22 09:51:21",
+    "width": 3400,
+    "height": 2442,
+    "url": "https://live.staticflickr.com/65535/53276438224_7b3db92d77_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus petraea",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53276438224_7b3db92d77_o_d",
+    "extension": "jpg"
+}

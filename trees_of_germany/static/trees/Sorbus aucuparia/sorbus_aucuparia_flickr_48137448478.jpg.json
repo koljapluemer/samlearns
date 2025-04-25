@@ -1,0 +1,36 @@
+{
+    "id": 48137448478,
+    "owner": {
+        "nsid": "55635450@N04",
+        "username": "Ion Chibzii",
+        "path_alias": "ion_chibzii"
+    },
+    "secret": "f402124b97",
+    "server": "65535",
+    "farm": 66,
+    "title": "Sorbus aucuparia (1980).",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "",
+    "dateupload": "1561637031",
+    "views": 799,
+    "tags": [
+        "sorbusaucuparia"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2019-06-27 12:03:51",
+    "width": 800,
+    "height": 800,
+    "url": "https://live.staticflickr.com/65535/48137448478_a41406c014_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Sorbus aucuparia",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "48137448478_a41406c014_o_d",
+    "extension": "jpg"
+}

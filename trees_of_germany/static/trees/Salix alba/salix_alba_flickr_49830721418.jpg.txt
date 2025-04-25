@@ -1,0 +1,9 @@
+botany
+germanywest
+natureprints
+pictorialworks
+regensburg
+harvarduniversitybotanylibraries
+bhl:page=59790769
+dc:identifier=httpsbiodiversitylibraryorgpage59790769
+taxonomy:trinomial=salixalbafoemina

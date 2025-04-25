@@ -1,0 +1,42 @@
+{
+    "id": 52592100073,
+    "owner": {
+        "nsid": "155939562@N05",
+        "username": "Cossus",
+        "path_alias": null
+    },
+    "secret": "08eb12688b",
+    "server": "65535",
+    "farm": 66,
+    "title": "Phyllonorycter harrisella (mine)",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Exemplar found: Russia, Moscow, Mozhaysky District, Vereyskaya str., 06.08.2022, on common oak (Quercus robur), days\nМосква, р-н Можайский, ул. Верейская, 06.08.2022, на дубе, днём",
+    "dateupload": "1672242757",
+    "views": 40,
+    "tags": [
+        "gracillariidae",
+        "lithocolletinae",
+        "phyllonorycter",
+        "2022",
+        "mine",
+        "мина",
+        "можайский"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-12-28 15:52:37",
+    "width": 1920,
+    "height": 1080,
+    "url": "https://live.staticflickr.com/65535/52592100073_3a610f92b4_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus robur",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52592100073_3a610f92b4_o_d",
+    "extension": "jpg"
+}

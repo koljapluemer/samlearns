@@ -1,0 +1,38 @@
+{
+    "id": 33353383973,
+    "owner": {
+        "nsid": "148432282@N06",
+        "username": "Harvard University Herbaria",
+        "path_alias": "huh"
+    },
+    "secret": "0b9bd9cc7c",
+    "server": "2906",
+    "farm": 3,
+    "title": "0417",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Box 19\nPortfolio 4, Folder 5:\nSpecimen 19 3/8: Abies nigra White var. (?)  of Hill; of Kalmia Swamp, May 25 '57, not out one; Abies nigra black var.?; Maine; Abies alba, Caucomgomoc [GH00967038]",
+    "dateupload": "1492720208",
+    "views": 620,
+    "tags": [
+        "taxonomy:family=pinaceae",
+        "taxonomy:binomial=abiesnigra",
+        "taxonomy:binomial=piceaglauca"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2017-04-20 20:30:08",
+    "width": 5366,
+    "height": 8484,
+    "url": "https://live.staticflickr.com/2906/33353383973_5aa547ca91_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Abies alba",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "33353383973_5aa547ca91_o_d",
+    "extension": "jpg"
+}

@@ -1,0 +1,7 @@
+germany
+botany
+newyorkbotanicalgardenluesthertmertzlibrary
+bhl:page=6129126
+dc:identifier=httpsbiodiversitylibraryorgpage6129126
+plant
+taxonomy:binomial=salixalba

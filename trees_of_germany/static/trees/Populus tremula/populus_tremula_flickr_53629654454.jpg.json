@@ -1,0 +1,46 @@
+{
+    "id": 53629654454,
+    "owner": {
+        "nsid": "78304219@N06",
+        "username": "Øyvind Holmstad",
+        "path_alias": null
+    },
+    "secret": "890c924f3c",
+    "server": "65535",
+    "farm": 66,
+    "title": "aspen tree in winter",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "aspen tree in winter",
+    "dateupload": "1712153030",
+    "views": 12,
+    "tags": [
+        "populustremula",
+        "bare",
+        "sky",
+        "branches",
+        "winter",
+        "aspen",
+        "tree",
+        "branch",
+        "bøverbru",
+        "vestretoten",
+        "norway"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2024-04-03 14:03:50",
+    "width": 4000,
+    "height": 6000,
+    "url": "https://live.staticflickr.com/65535/53629654454_1b5106ea98_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Populus tremula",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53629654454_1b5106ea98_o_d",
+    "extension": "jpg"
+}

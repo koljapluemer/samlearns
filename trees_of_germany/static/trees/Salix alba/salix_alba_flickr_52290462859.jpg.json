@@ -1,0 +1,47 @@
+{
+    "id": 52290462859,
+    "owner": {
+        "nsid": "35478170@N08",
+        "username": "Matt Lavin",
+        "path_alias": "plant_diversity"
+    },
+    "secret": "970a8d066b",
+    "server": "65535",
+    "farm": 66,
+    "title": "Bryonia alba - white bryony",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "White bryony with maturing fruit during middle August 2022 and growing in the Indreland Audubon Wetland Preserve, Bozeman, Montana. At this site, white bryony is growing on Salix boothii and Salix lutea, two of the more common willows in this area.",
+    "dateupload": "1660671506",
+    "views": 175,
+    "tags": [
+        "cucurbitaceae",
+        "whitebryony",
+        "bryoniaalba",
+        "montana",
+        "bozeman",
+        "vine",
+        "perennial",
+        "riparian",
+        "introduced",
+        "understory",
+        "gallatincounty",
+        "indrelandaudubonwetlandpreserve"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-08-16 17:38:26",
+    "width": 4000,
+    "height": 3000,
+    "url": "https://live.staticflickr.com/65535/52290462859_b0ef0a6873_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Salix alba",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52290462859_b0ef0a6873_o_d",
+    "extension": "jpg"
+}

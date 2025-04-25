@@ -1,0 +1,46 @@
+{
+    "id": 49993387042,
+    "owner": {
+        "nsid": "35678856@N04",
+        "username": "skorzak.E.T.",
+        "path_alias": "skorzak"
+    },
+    "secret": "7f9bca9736",
+    "server": "65535",
+    "farm": 66,
+    "title": "Carpinus betulus",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Aufgenommen als Beispielfotos für kleine Fototipps in (m)einem Video.\nKamera: Samsung S8 ohne Hilfsmittel, Nachbearbeitet mit Snapseed.",
+    "dateupload": "1591829595",
+    "views": 296,
+    "tags": [
+        "samsung",
+        "s8",
+        "smartphone",
+        "handy",
+        "mobiltelefon",
+        "nature",
+        "natur",
+        "tirol",
+        "tyrol",
+        "tree",
+        "baum"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2020-06-10 22:53:15",
+    "width": 3334,
+    "height": 2501,
+    "url": "https://live.staticflickr.com/65535/49993387042_8eaba82582_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Carpinus betulus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "49993387042_8eaba82582_o_d",
+    "extension": "jpg"
+}

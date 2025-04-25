@@ -1,0 +1,41 @@
+{
+    "id": 53573348356,
+    "owner": {
+        "nsid": "154756563@N07",
+        "username": "soenke.haas",
+        "path_alias": null
+    },
+    "secret": "fca8857eb8",
+    "server": "65535",
+    "farm": 66,
+    "title": "Märznebel",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "OLYMPUS DIGITAL CAMERA",
+    "dateupload": "1709828446",
+    "views": 7402,
+    "tags": [
+        "fagus",
+        "sylvatica",
+        "buche",
+        "hallenwald",
+        "morgennebel",
+        "bochum"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2024-03-07 16:20:46",
+    "width": 3880,
+    "height": 2910,
+    "url": "https://live.staticflickr.com/65535/53573348356_0eec3cc5ff_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Fagus sylvatica",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53573348356_0eec3cc5ff_o_d",
+    "extension": "jpg"
+}

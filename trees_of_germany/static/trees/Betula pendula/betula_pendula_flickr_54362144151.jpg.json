@@ -1,0 +1,44 @@
+{
+    "id": 54362144151,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "1facc417c6",
+    "server": "65535",
+    "farm": 66,
+    "title": "In Alsbäck by the bus stop",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Road and houses next to the bus stop in Alsbäck, Lysekil Municipality, Sweden.",
+    "dateupload": "1740989898",
+    "views": 34,
+    "tags": [
+        "alsbäck",
+        "betulapendula",
+        "lysekilmunicipality",
+        "sweden",
+        "birches",
+        "busstop",
+        "field",
+        "house",
+        "road"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2025-03-03 08:18:18",
+    "width": 4925,
+    "height": 2825,
+    "url": "https://live.staticflickr.com/65535/54362144151_f06e0f01ec_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Betula pendula",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "54362144151_f06e0f01ec_o_d",
+    "extension": "jpg"
+}

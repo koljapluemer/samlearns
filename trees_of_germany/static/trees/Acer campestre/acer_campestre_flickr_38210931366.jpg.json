@@ -1,0 +1,36 @@
+{
+    "id": 38210931366,
+    "owner": {
+        "nsid": "74738817@N07",
+        "username": "anro0002",
+        "path_alias": null
+    },
+    "secret": "1d58ac5036",
+    "server": "4575",
+    "farm": 5,
+    "title": "Acer campestre",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Feldahorn (Acer campestre) in der ehem. Bismarckanlage in Sankt Arnual",
+    "dateupload": "1510154029",
+    "views": 511,
+    "tags": [
+        "acercampestre"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2017-11-08 15:13:49",
+    "width": 3000,
+    "height": 2250,
+    "url": "https://live.staticflickr.com/4575/38210931366_ceae391c8a_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer campestre",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "38210931366_ceae391c8a_o_d",
+    "extension": "jpg"
+}

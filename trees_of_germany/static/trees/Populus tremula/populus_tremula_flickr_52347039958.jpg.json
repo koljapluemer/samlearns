@@ -1,0 +1,49 @@
+{
+    "id": 52347039958,
+    "owner": {
+        "nsid": "78304219@N06",
+        "username": "Øyvind Holmstad",
+        "path_alias": null
+    },
+    "secret": "2e9f12d4b5",
+    "server": "65535",
+    "farm": 66,
+    "title": "PermaLiv__DSC9842_29-08-22",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Image from the cultural landscape of Toten, Norway, a summer evening in August.",
+    "dateupload": "1662791991",
+    "views": 32,
+    "tags": [
+        "toten",
+        "norway",
+        "cultural",
+        "landscape",
+        "summer",
+        "evening",
+        "august",
+        "rural",
+        "aspen",
+        "trees",
+        "groove",
+        "populustremula",
+        "populus",
+        "trunks"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-09-10 06:39:51",
+    "width": 3817,
+    "height": 5725,
+    "url": "https://live.staticflickr.com/65535/52347039958_7f064869ce_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Populus tremula",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52347039958_7f064869ce_o_d",
+    "extension": "jpg"
+}

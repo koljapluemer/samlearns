@@ -1,0 +1,36 @@
+{
+    "id": 28488698608,
+    "owner": {
+        "nsid": "74738817@N07",
+        "username": "anro0002",
+        "path_alias": null
+    },
+    "secret": "fab4efbcab",
+    "server": "1746",
+    "farm": 2,
+    "title": "Salix alba",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Silberweiden (Salix alba) am Ketscher Altrhein im Naturschutzgebiet „Ketscher Rheininsel“",
+    "dateupload": "1527331912",
+    "views": 606,
+    "tags": [
+        "salixalba"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2018-05-26 10:51:52",
+    "width": 2000,
+    "height": 1500,
+    "url": "https://live.staticflickr.com/1746/28488698608_d3b4cd773f_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Salix alba",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "28488698608_d3b4cd773f_o_d",
+    "extension": "jpg"
+}

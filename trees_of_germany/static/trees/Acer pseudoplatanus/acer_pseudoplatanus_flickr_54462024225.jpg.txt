@@ -1,0 +1,6 @@
+tree
+maple
+sycamore
+javor
+klen
+acerpseudoplatanus

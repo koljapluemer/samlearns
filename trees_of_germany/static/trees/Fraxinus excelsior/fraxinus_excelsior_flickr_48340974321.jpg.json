@@ -1,0 +1,36 @@
+{
+    "id": 48340974321,
+    "owner": {
+        "nsid": "32179778@N00",
+        "username": "Martín Vicente, M.",
+        "path_alias": "martius"
+    },
+    "secret": "d3623deb40",
+    "server": "65535",
+    "farm": 66,
+    "title": "Fraxinus excelsior",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Fraxinus excelsior",
+    "dateupload": "1563742593",
+    "views": 815,
+    "tags": [
+        "fraxinusexcelsior"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2019-07-21 20:56:33",
+    "width": 1834,
+    "height": 2809,
+    "url": "https://live.staticflickr.com/65535/48340974321_45e285a387_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Fraxinus excelsior",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "48340974321_45e285a387_o_d",
+    "extension": "jpg"
+}

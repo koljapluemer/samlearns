@@ -1,0 +1,42 @@
+{
+    "id": 52377040475,
+    "owner": {
+        "nsid": "194065639@N07",
+        "username": "Wobbly Monkey",
+        "path_alias": "wobblymonkey"
+    },
+    "secret": "0b36f4789f",
+    "server": "65535",
+    "farm": 66,
+    "title": "English oak (Quercus robur)",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "~90 years old.\n\nFrom Corin Tomlinson's collection at Greenwood's Bonsai, Nottingham. Many thanks for allowing people to visit.",
+    "dateupload": "1663862134",
+    "views": 727,
+    "tags": [
+        "corintomlinson",
+        "greenwoods",
+        "bonsai",
+        "plant",
+        "tree",
+        "quercusrobur",
+        "englishoak"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-09-22 15:55:34",
+    "width": 3780,
+    "height": 4794,
+    "url": "https://live.staticflickr.com/65535/52377040475_e48fcc2565_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus robur",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52377040475_e48fcc2565_o_d",
+    "extension": "jpg"
+}

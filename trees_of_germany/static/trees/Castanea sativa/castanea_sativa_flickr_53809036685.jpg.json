@@ -1,0 +1,43 @@
+{
+    "id": 53809036685,
+    "owner": {
+        "nsid": "160707757@N08",
+        "username": "MAMM Miguel Angel",
+        "path_alias": null
+    },
+    "secret": "50e32921cc",
+    "server": "65535",
+    "farm": 66,
+    "title": "Paseo por el Castañar del Tiemblo",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Castanea sativa",
+    "dateupload": "1719082316",
+    "views": 85,
+    "tags": [
+        "169",
+        "bosque",
+        "paisaje",
+        "tiemblo",
+        "wallpaper",
+        "castaños",
+        "árboles",
+        "trees"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2024-06-22 18:51:56",
+    "width": 2400,
+    "height": 1350,
+    "url": "https://live.staticflickr.com/65535/53809036685_209154b2db_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Castanea sativa",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53809036685_209154b2db_o_d",
+    "extension": "jpg"
+}

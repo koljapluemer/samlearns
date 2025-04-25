@@ -1,0 +1,36 @@
+{
+    "id": 42456058384,
+    "owner": {
+        "nsid": "74738817@N07",
+        "username": "anro0002",
+        "path_alias": null
+    },
+    "secret": "1714118b01",
+    "server": "1821",
+    "farm": 2,
+    "title": "Acer pseudoplatanus",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Zurückgeschnittenes Bergahorn (Acer pseudoplatanus) am Bahnhof Saarbrücken-Ost",
+    "dateupload": "1530626373",
+    "views": 371,
+    "tags": [
+        "acerpseudoplatanus"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2018-07-03 13:59:33",
+    "width": 2000,
+    "height": 1500,
+    "url": "https://live.staticflickr.com/1821/42456058384_a4d4034493_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer pseudoplatanus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "42456058384_a4d4034493_o_d",
+    "extension": "jpg"
+}

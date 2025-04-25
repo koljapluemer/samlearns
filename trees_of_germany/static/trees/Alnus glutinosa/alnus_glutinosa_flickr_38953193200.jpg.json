@@ -1,0 +1,36 @@
+{
+    "id": 38953193200,
+    "owner": {
+        "nsid": "74738817@N07",
+        "username": "anro0002",
+        "path_alias": null
+    },
+    "secret": "fd141dbe48",
+    "server": "4771",
+    "farm": 5,
+    "title": "Alnus glutinosa",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Schwarzerle (Alnus glutinosa) am Osthafen Saarbrücken",
+    "dateupload": "1520844349",
+    "views": 724,
+    "tags": [
+        "alnusglutinosa"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2018-03-12 08:45:49",
+    "width": 2000,
+    "height": 1500,
+    "url": "https://live.staticflickr.com/4771/38953193200_7f11863cdc_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Alnus glutinosa",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "38953193200_7f11863cdc_o_d",
+    "extension": "jpg"
+}

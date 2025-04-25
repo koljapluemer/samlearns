@@ -1,0 +1,44 @@
+{
+    "id": 52365072907,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "6407435e23",
+    "server": "65535",
+    "farm": 66,
+    "title": "Red aspen leaves by Myrstigen",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Red aspen leaves (Populus tremula) by Myrstigen track, Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1663499869",
+    "views": 90,
+    "tags": [
+        "brastad",
+        "lysekilmunicipality",
+        "myrstigentrack",
+        "populustremula",
+        "sweden",
+        "aspen",
+        "autumn",
+        "redleaves",
+        "contrejour"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-09-18 11:17:49",
+    "width": 4587,
+    "height": 3058,
+    "url": "https://live.staticflickr.com/65535/52365072907_3ec0162176_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Populus tremula",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52365072907_3ec0162176_o_d",
+    "extension": "jpg"
+}

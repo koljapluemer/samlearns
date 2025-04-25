@@ -1,0 +1,36 @@
+{
+    "id": 30428078627,
+    "owner": {
+        "nsid": "74738817@N07",
+        "username": "anro0002",
+        "path_alias": null
+    },
+    "secret": "12687e614f",
+    "server": "1970",
+    "farm": 2,
+    "title": "Ulmus minor",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Feld-Ulme (Ulmus minor) an der A61 bei Hockenheim",
+    "dateupload": "1539713287",
+    "views": 472,
+    "tags": [
+        "ulmusminor"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2018-10-16 18:08:07",
+    "width": 3000,
+    "height": 2250,
+    "url": "https://live.staticflickr.com/1970/30428078627_aaf903e1ac_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Ulmus minor",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "30428078627_aaf903e1ac_o_d",
+    "extension": "jpg"
+}

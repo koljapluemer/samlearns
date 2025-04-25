@@ -1,0 +1,48 @@
+{
+    "id": 33489443542,
+    "owner": {
+        "nsid": "33037982@N04",
+        "username": "wallygrom",
+        "path_alias": null
+    },
+    "secret": "59a079698e",
+    "server": "2848",
+    "farm": 3,
+    "title": "Carpinus betulus 'Fastigiata'",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "A gloriously sunny spring day at Wisley Gardens near Ripley in Surrey.",
+    "dateupload": "1490470121",
+    "views": 435,
+    "tags": [
+        "england",
+        "surrey",
+        "ripley",
+        "wisley",
+        "wisleygardens",
+        "rhs",
+        "royalhorticulturalsociety",
+        "march2017",
+        "betulaceae",
+        "carpinus",
+        "taxonomy:family=betulaceae",
+        "taxonomy:genus=carpinus",
+        "hornbeam"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2017-03-25 19:28:41",
+    "width": 5152,
+    "height": 3864,
+    "url": "https://live.staticflickr.com/2848/33489443542_8bfef2a596_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Carpinus betulus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "33489443542_8bfef2a596_o_d",
+    "extension": "jpg"
+}

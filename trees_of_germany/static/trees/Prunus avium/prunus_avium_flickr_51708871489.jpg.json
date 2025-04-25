@@ -1,0 +1,34 @@
+{
+    "id": 51708871489,
+    "owner": {
+        "nsid": "194071409@N05",
+        "username": "Thibault Lefort",
+        "path_alias": null
+    },
+    "secret": "6bbd488f9e",
+    "server": "65535",
+    "farm": 66,
+    "title": "Prunus avium (L.) L., 1755",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "T. Lefort, 2013, Vendée",
+    "dateupload": "1638025986",
+    "views": 30,
+    "tags": [],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2021-11-27 15:13:06",
+    "width": 4320,
+    "height": 3240,
+    "url": "https://live.staticflickr.com/65535/51708871489_da5656fafc_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Prunus avium",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "51708871489_da5656fafc_o_d",
+    "extension": "jpg"
+}

@@ -1,0 +1,39 @@
+{
+    "id": 52150172937,
+    "owner": {
+        "nsid": "47343585@N00",
+        "username": "jeremy_norbury",
+        "path_alias": "norbury"
+    },
+    "secret": "b07ca54db9",
+    "server": "65535",
+    "farm": 66,
+    "title": "IMG_8716",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Linden - tilia cordata",
+    "dateupload": "1655397178",
+    "views": 60,
+    "tags": [
+        "bonsai",
+        "summer",
+        "june",
+        "2022"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-06-16 16:32:58",
+    "width": 6000,
+    "height": 4000,
+    "url": "https://live.staticflickr.com/65535/52150172937_6cf8e2f282_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Tilia cordata",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52150172937_6cf8e2f282_o_d",
+    "extension": "jpg"
+}

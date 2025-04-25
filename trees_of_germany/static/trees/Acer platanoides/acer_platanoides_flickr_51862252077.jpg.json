@@ -1,0 +1,42 @@
+{
+    "id": 51862252077,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "2f925a4da8",
+    "server": "65535",
+    "farm": 66,
+    "title": "Autumn maple in Tuntorp, Lysekil",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Maple (Acer Platanoides) in autumn in Tuntorp, Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1644061517",
+    "views": 58,
+    "tags": [
+        "acerplatanoides",
+        "lysekilmunicipality",
+        "sweden",
+        "tuntorp",
+        "autimn",
+        "leaves",
+        "maple"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-02-05 11:45:17",
+    "width": 4925,
+    "height": 2972,
+    "url": "https://live.staticflickr.com/65535/51862252077_400478a7b0_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer platanoides",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "51862252077_400478a7b0_o_d",
+    "extension": "jpg"
+}

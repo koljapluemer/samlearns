@@ -1,0 +1,45 @@
+{
+    "id": 52368589473,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "6ce89c24c2",
+    "server": "65535",
+    "farm": 66,
+    "title": "Red and green leaves on a rowan by Myrstigen",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Red and green leaves on a rowan (Sorbus aucuparia) tree in autumn by Myrstigen track, Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1663572335",
+    "views": 135,
+    "tags": [
+        "brastad",
+        "lysekilmunicipality",
+        "myrstigentrack",
+        "sorbusaucuparia",
+        "sweden",
+        "autumn",
+        "green",
+        "leaves",
+        "red",
+        "rowan"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-09-19 07:25:35",
+    "width": 4925,
+    "height": 3283,
+    "url": "https://live.staticflickr.com/65535/52368589473_b9a696c200_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Sorbus aucuparia",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52368589473_b9a696c200_o_d",
+    "extension": "jpg"
+}

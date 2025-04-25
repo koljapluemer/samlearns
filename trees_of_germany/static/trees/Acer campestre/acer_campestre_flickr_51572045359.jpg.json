@@ -1,0 +1,39 @@
+{
+    "id": 51572045359,
+    "owner": {
+        "nsid": "194071409@N05",
+        "username": "Thibault Lefort",
+        "path_alias": null
+    },
+    "secret": "e74c4b65ed",
+    "server": "65535",
+    "farm": 66,
+    "title": "Acer campestre L., 1753",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "T. Lefort, 2015, Charente-Maritime",
+    "dateupload": "1633848910",
+    "views": 66,
+    "tags": [
+        "érablechampêtre",
+        "acéraille",
+        "acercampestrel",
+        "1753"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2021-10-10 06:55:10",
+    "width": 2736,
+    "height": 3648,
+    "url": "https://live.staticflickr.com/65535/51572045359_353cfd1b48_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer campestre",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "51572045359_353cfd1b48_o_d",
+    "extension": "jpg"
+}

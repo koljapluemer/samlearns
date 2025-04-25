@@ -1,0 +1,34 @@
+{
+    "id": 50572782538,
+    "owner": {
+        "nsid": "38505606@N05",
+        "username": "MrFizzy",
+        "path_alias": "mrfizzy"
+    },
+    "secret": "a12874e284",
+    "server": "65535",
+    "farm": 66,
+    "title": "Oct Nov 2020 Salix alba, white willow",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "",
+    "dateupload": "1604686304",
+    "views": 22,
+    "tags": [],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2020-11-06 18:11:44",
+    "width": 4032,
+    "height": 3024,
+    "url": "https://live.staticflickr.com/65535/50572782538_323e73ffcf_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Salix alba",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "50572782538_323e73ffcf_o_d",
+    "extension": "jpg"
+}

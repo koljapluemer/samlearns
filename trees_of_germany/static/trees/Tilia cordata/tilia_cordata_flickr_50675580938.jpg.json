@@ -1,0 +1,40 @@
+{
+    "id": 50675580938,
+    "owner": {
+        "nsid": "47343585@N00",
+        "username": "jeremy_norbury",
+        "path_alias": "norbury"
+    },
+    "secret": "f36729898a",
+    "server": "65535",
+    "farm": 66,
+    "title": "IMG_9824",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Tilia cordata from the car park",
+    "dateupload": "1607017160",
+    "views": 248,
+    "tags": [
+        "bonsai",
+        "yamadori",
+        "december",
+        "winter",
+        "2020"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2020-12-03 17:39:20",
+    "width": 6000,
+    "height": 4000,
+    "url": "https://live.staticflickr.com/65535/50675580938_7ed986d616_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Tilia cordata",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "50675580938_7ed986d616_o_d",
+    "extension": "jpg"
+}

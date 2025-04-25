@@ -1,0 +1,45 @@
+{
+    "id": 52106723328,
+    "owner": {
+        "nsid": "78304219@N06",
+        "username": "Øyvind Holmstad",
+        "path_alias": null
+    },
+    "secret": "c16303c1ac",
+    "server": "65535",
+    "farm": 66,
+    "title": "Flowering of prunus padus, Toten, Norway.",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Flowering of prunus padus, Toten, Norway.",
+    "dateupload": "1653811391",
+    "views": 40,
+    "tags": [
+        "heggeblomstring",
+        "lena",
+        "prunuspadus",
+        "hegg",
+        "vestbygda",
+        "mai",
+        "stabu",
+        "låve",
+        "østretoten",
+        "norway"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-05-29 08:03:11",
+    "width": 4240,
+    "height": 2832,
+    "url": "https://live.staticflickr.com/65535/52106723328_c045aeb3f2_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Prunus padus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52106723328_c045aeb3f2_o_d",
+    "extension": "jpg"
+}

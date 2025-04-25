@@ -1,0 +1,39 @@
+{
+    "id": 51276704568,
+    "owner": {
+        "nsid": "47343585@N00",
+        "username": "jeremy_norbury",
+        "path_alias": "norbury"
+    },
+    "secret": "d373e01a57",
+    "server": "65535",
+    "farm": 66,
+    "title": "IMG_7674",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Field maple - Acer campestre",
+    "dateupload": "1624895112",
+    "views": 508,
+    "tags": [
+        "bonsai",
+        "summer",
+        "2021",
+        "june"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2021-06-28 15:45:12",
+    "width": 3906,
+    "height": 2520,
+    "url": "https://live.staticflickr.com/65535/51276704568_216e241535_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer campestre",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "51276704568_216e241535_o_d",
+    "extension": "jpg"
+}

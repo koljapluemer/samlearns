@@ -1,0 +1,36 @@
+{
+    "id": 43708473942,
+    "owner": {
+        "nsid": "74738817@N07",
+        "username": "anro0002",
+        "path_alias": null
+    },
+    "secret": "3b1eea575c",
+    "server": "1795",
+    "farm": 2,
+    "title": "Salix alba",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Silberweide (Salix alba) im Almet in Sankt Arnual (Naturdenkmal)",
+    "dateupload": "1533020232",
+    "views": 649,
+    "tags": [
+        "salixalba"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2018-07-31 06:57:12",
+    "width": 2000,
+    "height": 1500,
+    "url": "https://live.staticflickr.com/1795/43708473942_88b295e0b5_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Salix alba",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "43708473942_88b295e0b5_o_d",
+    "extension": "jpg"
+}

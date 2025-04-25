@@ -1,0 +1,36 @@
+{
+    "id": 53044648216,
+    "owner": {
+        "nsid": "55705092@N02",
+        "username": "Radu Chibzii",
+        "path_alias": "radu_chibzii"
+    },
+    "secret": "07387ca83f",
+    "server": "65535",
+    "farm": 66,
+    "title": "Robinia pseudoacacia (2022).",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "",
+    "dateupload": "1689323607",
+    "views": 68,
+    "tags": [
+        "robiniapseudoacacia"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-07-14 08:33:27",
+    "width": 768,
+    "height": 1024,
+    "url": "https://live.staticflickr.com/65535/53044648216_3ca1047bc4_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Robinia pseudoacacia",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53044648216_3ca1047bc4_o_d",
+    "extension": "jpg"
+}

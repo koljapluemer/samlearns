@@ -1,0 +1,36 @@
+{
+    "id": 38934660490,
+    "owner": {
+        "nsid": "74738817@N07",
+        "username": "anro0002",
+        "path_alias": null
+    },
+    "secret": "deb972f379",
+    "server": "4800",
+    "farm": 5,
+    "title": "Alnus glutinosa",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Schwarzerle (Alnus glutinosa) im Naturschutzgebiet „St. Arnualer Wiesen“",
+    "dateupload": "1520770213",
+    "views": 840,
+    "tags": [
+        "alnusglutinosa"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2018-03-11 12:10:13",
+    "width": 1875,
+    "height": 2500,
+    "url": "https://live.staticflickr.com/4800/38934660490_2170fc93ee_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Alnus glutinosa",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "38934660490_2170fc93ee_o_d",
+    "extension": "jpg"
+}

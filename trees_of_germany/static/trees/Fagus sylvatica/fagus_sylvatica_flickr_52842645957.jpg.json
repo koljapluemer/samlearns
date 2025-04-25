@@ -1,0 +1,39 @@
+{
+    "id": 52842645957,
+    "owner": {
+        "nsid": "145907835@N07",
+        "username": "gertjanvannoord",
+        "path_alias": "gertjanvannoord"
+    },
+    "secret": "c1dd1e4ba2",
+    "server": "65535",
+    "farm": 66,
+    "title": "Beuk - Fagus sylvatica",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Beuk - Fagus sylvatica",
+    "dateupload": "1682361767",
+    "views": 33,
+    "tags": [
+        "2023202304245s7a6188jpg",
+        "2023",
+        "20230424",
+        "beukfagussylvatica"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-04-24 18:42:47",
+    "width": 3408,
+    "height": 2272,
+    "url": "https://live.staticflickr.com/65535/52842645957_830bf41d88_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Fagus sylvatica",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52842645957_830bf41d88_o_d",
+    "extension": "jpg"
+}

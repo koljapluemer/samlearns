@@ -7,30 +7,45 @@ from django.conf import settings
 class Command(BaseCommand):
     help = 'Import tree species and images from the static directory'
 
-    def get_species_from_folders(self):
-        """Get all tree species from the folder names."""
-        static_path = os.path.join(settings.BASE_DIR, 'trees_of_germany', 'static', 'trees')
-        return [name for name in os.listdir(static_path) 
-                if os.path.isdir(os.path.join(static_path, name))]
+    def get_species_from_trees_txt(self):
+        """Get all tree species from trees.txt file."""
+        trees_file_path = os.path.join(settings.BASE_DIR, 'trees_of_germany', 'static', 'trees', 'trees.txt')
+        species_info = {}
+        
+        try:
+            with open(trees_file_path, 'r') as f:
+                for line in f:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    latin_name, english_name, german_name = [name.strip() for name in line.split(',')]
+                    species_info[latin_name] = {
+                        'latin_name': latin_name,
+                        'english_name': english_name,
+                        'german_name': german_name
+                    }
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f'Error reading trees.txt: {str(e)}'))
+            raise
+        
+        return species_info
 
     def create_tree_species(self):
-        """Create TreeSpecies objects for each folder."""
-        species_folders = self.get_species_from_folders()
+        """Create TreeSpecies objects for each species in trees.txt."""
+        species_info = self.get_species_from_trees_txt()
         species_objects = {}
         
-        for species_name in species_folders:
-            # For now, we'll use the latin name for all fields
-            # In a real application, you might want to add proper translations
+        for latin_name, info in species_info.items():
             species, created = TreeSpecies.objects.get_or_create(
-                latin_name=species_name,
+                latin_name=latin_name,
                 defaults={
-                    'german_name': species_name,
-                    'english_name': species_name,
+                    'german_name': info['german_name'],
+                    'english_name': info['english_name'],
                 }
             )
-            species_objects[species_name] = species
+            species_objects[latin_name] = species
             if created:
-                self.stdout.write(f'Created species: {species_name}')
+                self.stdout.write(f'Created species: {latin_name} ({info["english_name"]})')
         
         return species_objects
 
@@ -73,11 +88,17 @@ class Command(BaseCommand):
                     continue
 
                 json_path = os.path.join(species_path, filename)
-                base_image_name = filename[:-5]  # Remove .json extension
+                
+                # Handle both cases: regular .json and .jpg.json
+                if filename.endswith('.jpg.json'):
+                    base_image_name = filename[:-9]  # Remove .jpg.json extension
+                else:
+                    base_image_name = filename[:-5]  # Remove .json extension
                 
                 # Check if corresponding image file exists (try common image extensions)
                 image_exists = False
-                for ext in ['.jpg', '.jpeg', '.png', '.webp']:
+                # Prioritize webp since that's the new format
+                for ext in ['.webp', '.jpg', '.jpeg', '.png']:
                     if base_image_name + ext in files:
                         image_exists = True
                         image_path = base_image_name + ext

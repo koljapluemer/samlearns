@@ -1,0 +1,3 @@
+taxonomy:family=pinaceae
+taxonomy:binomial=abiesnigra
+taxonomy:binomial=piceaglauca

@@ -1,0 +1,8 @@
+macro
+sycamore
+acerpseudoplatanus
+samara
+helicopter
+seed
+ivy
+log

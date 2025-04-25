@@ -1,0 +1,36 @@
+{
+    "id": 44858491611,
+    "owner": {
+        "nsid": "74738817@N07",
+        "username": "anro0002",
+        "path_alias": null
+    },
+    "secret": "d82983e0c0",
+    "server": "1866",
+    "farm": 2,
+    "title": "Acer campestre",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Feldahorn (Acer campestre) an der Carl-Theodor-Straße in Schwetzingen",
+    "dateupload": "1537692498",
+    "views": 730,
+    "tags": [
+        "acercampestre"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2018-09-23 08:48:18",
+    "width": 1500,
+    "height": 1125,
+    "url": "https://live.staticflickr.com/1866/44858491611_25ec95029b_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer campestre",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "44858491611_25ec95029b_o_d",
+    "extension": "jpg"
+}

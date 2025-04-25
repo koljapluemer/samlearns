@@ -1,0 +1,43 @@
+{
+    "id": 52090721519,
+    "owner": {
+        "nsid": "125741467@N05",
+        "username": "hedera.baltica",
+        "path_alias": "hedera_baltica"
+    },
+    "secret": "bbd847b542",
+    "server": "65535",
+    "farm": 66,
+    "title": "Pine",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Young shoot with immature male cones of baltic pine (Pinus sylvestris).\n\nMłody pęd sosny zwyczajnej (Pinus sylvestris) z niedojrzałymi szyszkami męskimi.",
+    "dateupload": "1653207700",
+    "views": 1647,
+    "tags": [
+        "pine",
+        "scotspine",
+        "scotchpine",
+        "balticpine",
+        "sosna",
+        "sosnazwyczajna",
+        "sosnapospolita",
+        "pinussylvestris"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-05-22 08:21:40",
+    "width": 2600,
+    "height": 2962,
+    "url": "https://live.staticflickr.com/65535/52090721519_599af47842_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Pinus sylvestris",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52090721519_599af47842_o_d",
+    "extension": "jpg"
+}

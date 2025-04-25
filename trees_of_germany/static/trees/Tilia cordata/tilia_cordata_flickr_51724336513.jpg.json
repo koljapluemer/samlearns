@@ -1,0 +1,34 @@
+{
+    "id": 51724336513,
+    "owner": {
+        "nsid": "194071409@N05",
+        "username": "Thibault Lefort",
+        "path_alias": null
+    },
+    "secret": "507d882215",
+    "server": "65535",
+    "farm": 66,
+    "title": "Tilia cordata Mill., 1768",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "T. Lefort, 2013, Vendée",
+    "dateupload": "1638640693",
+    "views": 22,
+    "tags": [],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2021-12-04 17:58:13",
+    "width": 4320,
+    "height": 3240,
+    "url": "https://live.staticflickr.com/65535/51724336513_41cb0c15e1_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Tilia cordata",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "51724336513_41cb0c15e1_o_d",
+    "extension": "jpg"
+}

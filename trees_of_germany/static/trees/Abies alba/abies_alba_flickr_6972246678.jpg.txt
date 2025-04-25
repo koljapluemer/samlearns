@@ -1,0 +1,9 @@
+medicinalplants
+botanicalillustration
+pictorialworks
+taxonomy:binomial=abiesalba
+missouribotanicalgardenpeterhravenlibrary
+botanymedical
+materiamedicavegetable
+bhl:page=303670
+dc:identifier=httpbiodiversitylibraryorgpage303670

@@ -1,0 +1,11 @@
+taxonomy:binomial=sorbusaucuparia
+berlin
+botany
+germany
+natureprints
+pictorialworks
+plants
+specimens
+harvarduniversitybotanylibraries
+bhl:page=59792154
+dc:identifier=httpsbiodiversitylibraryorgpage59792154

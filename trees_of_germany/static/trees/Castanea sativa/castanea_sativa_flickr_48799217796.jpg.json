@@ -1,0 +1,39 @@
+{
+    "id": 48799217796,
+    "owner": {
+        "nsid": "75001205@N02",
+        "username": "NATT-at-NKM",
+        "path_alias": null
+    },
+    "secret": "9e13f62015",
+    "server": "65535",
+    "farm": 66,
+    "title": "Dryocosmus kuriphilus 20190520141259",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Galls are formed in buds and leaves of Castanea sativa - Sweet Chestnut. A new arrival to the UK and a pest species.",
+    "dateupload": "1569513611",
+    "views": 73,
+    "tags": [
+        "dryocosmuskuriphilus",
+        "shornecountrypark",
+        "shorne",
+        "gall"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2019-09-26 16:00:11",
+    "width": 4000,
+    "height": 3000,
+    "url": "https://live.staticflickr.com/65535/48799217796_9cb35766ce_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Castanea sativa",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "48799217796_9cb35766ce_o_d",
+    "extension": "jpg"
+}

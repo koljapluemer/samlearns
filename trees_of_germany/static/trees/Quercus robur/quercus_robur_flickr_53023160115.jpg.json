@@ -1,0 +1,45 @@
+{
+    "id": 53023160115,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "16aae5bfbc",
+    "server": "65535",
+    "farm": 66,
+    "title": "Large oak at Bagarvägen, Brastad",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Large oak (Quercus robur) at Bagarvägen, Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1688497706",
+    "views": 68,
+    "tags": [
+        "bagarvägen",
+        "brastad",
+        "lysekilmunicipality",
+        "quercusrobur",
+        "sweden",
+        "fence",
+        "oak",
+        "road",
+        "summer",
+        "tree"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-07-04 19:08:26",
+    "width": 3456,
+    "height": 4680,
+    "url": "https://live.staticflickr.com/65535/53023160115_4792290cb5_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus robur",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53023160115_4792290cb5_o_d",
+    "extension": "jpg"
+}

@@ -1,0 +1,37 @@
+{
+    "id": 53129367152,
+    "owner": {
+        "nsid": "9082612@N05",
+        "username": "Gilles San Martin",
+        "path_alias": "sanmartin"
+    },
+    "secret": "a5b7a59ef5",
+    "server": "65535",
+    "farm": 66,
+    "title": "Andricus malpighii",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Andricus malpighii ? on Quercus robur",
+    "dateupload": "1692557105",
+    "views": 154,
+    "tags": [
+        "gall",
+        "cynipidae"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-08-20 18:45:05",
+    "width": 2677,
+    "height": 3679,
+    "url": "https://live.staticflickr.com/65535/53129367152_25294ed7c8_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus robur",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53129367152_25294ed7c8_o_d",
+    "extension": "jpg"
+}

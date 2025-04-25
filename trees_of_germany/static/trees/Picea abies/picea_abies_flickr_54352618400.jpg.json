@@ -1,0 +1,44 @@
+{
+    "id": 54352618400,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "5939c30b8f",
+    "server": "65535",
+    "farm": 66,
+    "title": "Young beech in spruce forest",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "A young beech (Fagus sylvatica) in a misty clearing in the spruce (Picea abies) forest above Holma Boat Club, Lyseklil Municipality, Sweden.",
+    "dateupload": "1740581935",
+    "views": 6,
+    "tags": [
+        "fagussylvatica",
+        "holmamarina",
+        "lysekilmunicipality",
+        "piceaabies",
+        "sweden",
+        "beech",
+        "forest",
+        "plants",
+        "spruces"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2025-02-26 14:58:55",
+    "width": 3648,
+    "height": 4864,
+    "url": "https://live.staticflickr.com/65535/54352618400_2af943dfb5_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Picea abies",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "54352618400_2af943dfb5_o_d",
+    "extension": "jpg"
+}

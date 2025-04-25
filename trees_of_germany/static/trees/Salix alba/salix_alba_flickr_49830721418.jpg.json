@@ -1,0 +1,44 @@
+{
+    "id": 49830721418,
+    "owner": {
+        "nsid": "61021753@N02",
+        "username": "BioDivLibrary",
+        "path_alias": "biodivlibrary"
+    },
+    "secret": "12ed190bd7",
+    "server": "65535",
+    "farm": 66,
+    "title": "n86_w1150",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Ectypa plantarum ratisbonensium :\nRegensburg :Verfertiget und verlegt von Johann Mayr ... und gedruckt mit Zeitlerischen Schriften,1787-1793.\n<a href=\"https://biodiversitylibrary.org/page/59790769\" rel=\"noreferrer nofollow\">biodiversitylibrary.org/page/59790769</a>",
+    "dateupload": "1588107710",
+    "views": 1201,
+    "tags": [
+        "botany",
+        "germanywest",
+        "natureprints",
+        "pictorialworks",
+        "regensburg",
+        "harvarduniversitybotanylibraries",
+        "bhl:page=59790769",
+        "dc:identifier=httpsbiodiversitylibraryorgpage59790769",
+        "taxonomy:trinomial=salixalbafoemina"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2020-04-28 21:01:50",
+    "width": 1307,
+    "height": 2114,
+    "url": "https://live.staticflickr.com/65535/49830721418_7a9486d1d3_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Salix alba",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "49830721418_7a9486d1d3_o_d",
+    "extension": "jpg"
+}

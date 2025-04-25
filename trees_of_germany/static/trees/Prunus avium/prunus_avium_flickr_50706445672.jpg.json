@@ -1,0 +1,51 @@
+{
+    "id": 50706445672,
+    "owner": {
+        "nsid": "61021753@N02",
+        "username": "BioDivLibrary",
+        "path_alias": "biodivlibrary"
+    },
+    "secret": "1a8492e8c1",
+    "server": "65535",
+    "farm": 66,
+    "title": "n228_w1150",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "American journal of botany\nLancaster, Pa. :Published in cooperation with the Botanical Society of America by the Brooklyn Botanic Gardens,1914-\n<a href=\"https://biodiversitylibrary.org/page/47189296\" rel=\"noreferrer nofollow\">biodiversitylibrary.org/page/47189296</a>",
+    "dateupload": "1607700567",
+    "views": 2059,
+    "tags": [
+        "4240botanygeneral",
+        "botanique",
+        "botany",
+        "electronicjournals",
+        "internetresource",
+        "pâeriodiqueâelectroniquedescripteurdeforme",
+        "periodical",
+        "periodicals",
+        "périodiqueélectroniquedescripteurdeforme",
+        "plantkunde",
+        "ressourceinternetdescripteurdeforme",
+        "smithsonianlibraries",
+        "bhl:page=47189296",
+        "dc:identifier=httpsbiodiversitylibraryorgpage47189296",
+        "cylindrosporium",
+        "taxonomy:binomial=prunusavium"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2020-12-11 15:29:27",
+    "width": 1424,
+    "height": 2371,
+    "url": "https://live.staticflickr.com/65535/50706445672_791b6e0e5b_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Prunus avium",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "50706445672_791b6e0e5b_o_d",
+    "extension": "jpg"
+}

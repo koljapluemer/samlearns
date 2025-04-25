@@ -1,0 +1,39 @@
+{
+    "id": 48948856931,
+    "owner": {
+        "nsid": "75001205@N02",
+        "username": "NATT-at-NKM",
+        "path_alias": null
+    },
+    "secret": "b7b4c74412",
+    "server": "65535",
+    "farm": 66,
+    "title": "Andricus quercuscalicis 20180725112054",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "The sexual generation gall of Andricus quercuscalicis is a very small gall found on the male catkins of Quercus cerris. The asexual (agamic) gall is the well known &quot;Knopper Gall&quot;. This forms on the acorns of Quercus robur and Quercus petraea.",
+    "dateupload": "1571858128",
+    "views": 175,
+    "tags": [
+        "andricusquercuscalicis",
+        "grain",
+        "gall",
+        "knoppergall"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2019-10-23 19:15:28",
+    "width": 4000,
+    "height": 3000,
+    "url": "https://live.staticflickr.com/65535/48948856931_a9b339d01d_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus petraea",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "48948856931_a9b339d01d_o_d",
+    "extension": "jpg"
+}

@@ -1,0 +1,37 @@
+{
+    "id": 33324545716,
+    "owner": {
+        "nsid": "74738817@N07",
+        "username": "anro0002",
+        "path_alias": null
+    },
+    "secret": "c70e08bd94",
+    "server": "2857",
+    "farm": 3,
+    "title": "Ulmus minor",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Blütenknospen der Feldulme (Ulmus minor) an der Saar in Saarbrücken",
+    "dateupload": "1489181512",
+    "views": 312,
+    "tags": [
+        "ulmusminor",
+        "feldulme"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2017-03-10 21:31:52",
+    "width": 2500,
+    "height": 1875,
+    "url": "https://live.staticflickr.com/2857/33324545716_36a7815c93_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Ulmus minor",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "33324545716_36a7815c93_o_d",
+    "extension": "jpg"
+}

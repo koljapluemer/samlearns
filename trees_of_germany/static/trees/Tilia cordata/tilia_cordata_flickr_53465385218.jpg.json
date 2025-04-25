@@ -1,0 +1,39 @@
+{
+    "id": 53465385218,
+    "owner": {
+        "nsid": "47343585@N00",
+        "username": "jeremy_norbury",
+        "path_alias": "norbury"
+    },
+    "secret": "7c0fc0afa3",
+    "server": "65535",
+    "farm": 66,
+    "title": "IMG_4796",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Tilia cordata repot",
+    "dateupload": "1705326386",
+    "views": 36,
+    "tags": [
+        "bonsai",
+        "november",
+        "2023",
+        "autumn"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2024-01-15 13:46:26",
+    "width": 6000,
+    "height": 4000,
+    "url": "https://live.staticflickr.com/65535/53465385218_62cdbe6ca2_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Tilia cordata",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53465385218_62cdbe6ca2_o_d",
+    "extension": "jpg"
+}

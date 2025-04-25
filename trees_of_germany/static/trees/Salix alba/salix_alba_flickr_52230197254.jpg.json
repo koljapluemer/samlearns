@@ -1,0 +1,47 @@
+{
+    "id": 52230197254,
+    "owner": {
+        "nsid": "35478170@N08",
+        "username": "Matt Lavin",
+        "path_alias": "plant_diversity"
+    },
+    "secret": "b514739fe3",
+    "server": "65535",
+    "farm": 66,
+    "title": "Bryonia alba - white bryony",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "White bryony growing on two willow species, Salix boothii (Booth willow) and Salix lutea (yellow willow) in the Indreland Audubon Wetland Preserve, Bozeman, Montana.",
+    "dateupload": "1658351989",
+    "views": 55,
+    "tags": [
+        "cucurbitaceae",
+        "vine",
+        "bozeman",
+        "gallatincounty",
+        "montana",
+        "riparian",
+        "understory",
+        "indrelandaudubonwetlandpreserve",
+        "bryoniaalba",
+        "whitebryony",
+        "introduced",
+        "perennial"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2022-07-20 21:19:49",
+    "width": 4000,
+    "height": 3000,
+    "url": "https://live.staticflickr.com/65535/52230197254_394d76a166_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Salix alba",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "52230197254_394d76a166_o_d",
+    "extension": "jpg"
+}

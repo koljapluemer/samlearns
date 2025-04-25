@@ -1,0 +1,43 @@
+{
+    "id": 53109621030,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "08f702484a",
+    "server": "65535",
+    "farm": 66,
+    "title": "Acorn ripening on an oak in Tuntorp",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Growing acorns on an oak (Quercus robur)  in Tuntorp, Brastad, Lysekil Municipality, Sweden.",
+    "dateupload": "1691775484",
+    "views": 58,
+    "tags": [
+        "brastad",
+        "lysekilmunicipality",
+        "quercusrobur",
+        "sweden",
+        "tuntorp",
+        "acorns",
+        "leaves",
+        "oak"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-08-11 17:38:04",
+    "width": 4690,
+    "height": 2638,
+    "url": "https://live.staticflickr.com/65535/53109621030_90849cbc1a_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Quercus robur",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53109621030_90849cbc1a_o_d",
+    "extension": "jpg"
+}

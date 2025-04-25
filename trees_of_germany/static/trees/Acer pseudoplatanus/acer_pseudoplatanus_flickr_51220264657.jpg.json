@@ -1,0 +1,46 @@
+{
+    "id": 51220264657,
+    "owner": {
+        "nsid": "61021753@N02",
+        "username": "BioDivLibrary",
+        "path_alias": "biodivlibrary"
+    },
+    "secret": "6c54e35237",
+    "server": "65535",
+    "farm": 66,
+    "title": "n216_w1150",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Flora and sylva.\nLondon,1903-05.\n<a href=\"https://biodiversitylibrary.org/page/46994192\" rel=\"noreferrer nofollow\">biodiversitylibrary.org/page/46994192</a>",
+    "dateupload": "1622666548",
+    "views": 5277,
+    "tags": [
+        "floriculture",
+        "periodicals",
+        "trees",
+        "smithsonianlibraries",
+        "bhl:page=46994192",
+        "dc:identifier=httpsbiodiversitylibraryorgpage46994192",
+        "flowers",
+        "taxonomy:binomial=acerpseudoplatanus",
+        "sycamore",
+        "sycamoremaple",
+        "penshurstkent"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2021-06-02 20:42:28",
+    "width": 1522,
+    "height": 2076,
+    "url": "https://live.staticflickr.com/65535/51220264657_c3c4e88f1b_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer pseudoplatanus",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "51220264657_c3c4e88f1b_o_d",
+    "extension": "jpg"
+}

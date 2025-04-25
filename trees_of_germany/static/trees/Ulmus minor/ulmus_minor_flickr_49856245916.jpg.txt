@@ -1,0 +1,12 @@
+botany
+greatbritain
+universitylibraryuniversityofillinoisurbanachampaign
+bhl:page=54362138
+dc:identifier=httpsbiodiversitylibraryorgpage54362138
+plants
+flora
+artist:name=ewhunnybun
+cornishelm
+taxonomy:common=cornishelm
+taxonomy:binomial=ulmusstricta
+taxonomy:binomial=ulmusminor

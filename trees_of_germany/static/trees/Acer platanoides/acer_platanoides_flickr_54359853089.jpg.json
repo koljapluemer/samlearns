@@ -1,0 +1,36 @@
+{
+    "id": 54359853089,
+    "owner": {
+        "nsid": "55705092@N02",
+        "username": "Radu Chibzii",
+        "path_alias": "radu_chibzii"
+    },
+    "secret": "f735f0ec57",
+    "server": "65535",
+    "farm": 66,
+    "title": "Acer platanoides (2023).",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "",
+    "dateupload": "1740904443",
+    "views": 120,
+    "tags": [
+        "acerplatanoides"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2025-03-02 08:34:03",
+    "width": 1024,
+    "height": 768,
+    "url": "https://live.staticflickr.com/65535/54359853089_2980d8eca0_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Acer platanoides",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "54359853089_2980d8eca0_o_d",
+    "extension": "jpg"
+}

@@ -1,0 +1,43 @@
+{
+    "id": 54349936559,
+    "owner": {
+        "nsid": "141281588@N05",
+        "username": "AnnSophieQ",
+        "path_alias": null
+    },
+    "secret": "e4ed2a246a",
+    "server": "65535",
+    "farm": 66,
+    "title": "Two large birches by a house in Barkedal",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Two large birches (Betula pendula) by a house in Barkedal, Lysekil Municipality, Sweden.",
+    "dateupload": "1740478916",
+    "views": 3,
+    "tags": [
+        "barkedal",
+        "betulapendula",
+        "lysekilmunicipality",
+        "sweden",
+        "birches",
+        "building",
+        "lawn",
+        "trees"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2025-02-25 10:21:56",
+    "width": 3283,
+    "height": 4164,
+    "url": "https://live.staticflickr.com/65535/54349936559_7d747661e2_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Betula pendula",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "54349936559_7d747661e2_o_d",
+    "extension": "jpg"
+}

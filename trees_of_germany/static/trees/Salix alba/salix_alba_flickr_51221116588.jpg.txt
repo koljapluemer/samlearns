@@ -1,0 +1,14 @@
+floriculture
+periodicals
+trees
+smithsonianlibraries
+bhl:page=44172606
+dc:identifier=httpsbiodiversitylibraryorgpage44172606
+flowers
+whitewillow
+whitepollardwillow
+pollardwillow
+taxonomy:binomial=salixalba
+cricketbatwillow
+europeanwillow
+goldenwillow

@@ -1,0 +1,52 @@
+{
+    "id": 53394993812,
+    "owner": {
+        "nsid": "78304219@N06",
+        "username": "Øyvind Holmstad",
+        "path_alias": null
+    },
+    "secret": "14ab02cffb",
+    "server": "65535",
+    "farm": 66,
+    "title": "01-10-23_A730762_PermaLiv",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "aspen trees of a groove in fall",
+    "dateupload": "1702499881",
+    "views": 16,
+    "tags": [
+        "aspen",
+        "trees",
+        "groove",
+        "populustremula",
+        "fall",
+        "yellow",
+        "green",
+        "colorful",
+        "colors",
+        "woods",
+        "trunks",
+        "foliage",
+        "leaves",
+        "bilitt",
+        "norway",
+        "light",
+        "autumn"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2023-12-13 20:38:01",
+    "width": 5748,
+    "height": 3832,
+    "url": "https://live.staticflickr.com/65535/53394993812_c23a56d35d_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Populus tremula",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "53394993812_c23a56d35d_o_d",
+    "extension": "jpg"
+}

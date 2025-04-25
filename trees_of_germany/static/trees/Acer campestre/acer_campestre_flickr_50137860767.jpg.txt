@@ -1,0 +1,10 @@
+botany
+germanywest
+natureprints
+pictorialworks
+regensburg
+harvarduniversitybotanylibraries
+bhl:page=59792796
+dc:identifier=httpsbiodiversitylibraryorgpage59792796
+plant
+taxonomy:binomial=acercampestre

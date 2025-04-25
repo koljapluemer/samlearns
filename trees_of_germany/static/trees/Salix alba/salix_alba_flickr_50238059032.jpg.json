@@ -1,0 +1,45 @@
+{
+    "id": 50238059032,
+    "owner": {
+        "nsid": "63796798@N00",
+        "username": "Safa Hovinen",
+        "path_alias": "safahovinen"
+    },
+    "secret": "8a8a6c94b0",
+    "server": "65535",
+    "farm": 66,
+    "title": "Hopeapaju",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "Salix alba",
+    "dateupload": "1597690047",
+    "views": 104,
+    "tags": [
+        "salixalba",
+        "tree",
+        "helsinki",
+        "finland",
+        "vanhankaupunginlahti",
+        "leaves",
+        "summer",
+        "bw",
+        "blackandwhite",
+        "nature"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2020-08-17 18:47:27",
+    "width": 6000,
+    "height": 4000,
+    "url": "https://live.staticflickr.com/65535/50238059032_937e194451_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Salix alba",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "50238059032_937e194451_o_d",
+    "extension": "jpg"
+}

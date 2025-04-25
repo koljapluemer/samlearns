@@ -1,0 +1,47 @@
+{
+    "id": 26192508239,
+    "owner": {
+        "nsid": "139791896@N06",
+        "username": "Mary Gillham Archive Project",
+        "path_alias": "marygillhamarchiveproject"
+    },
+    "secret": "77068bec38",
+    "server": "4494",
+    "farm": 5,
+    "title": "Sprouted alder pole, Tobermory. 1968",
+    "ispublic": 1,
+    "isfriend": 0,
+    "isfamily": 0,
+    "description": "",
+    "dateupload": "1509118267",
+    "views": 213,
+    "tags": [
+        "1968",
+        "42175",
+        "alder",
+        "alnusglutinosa",
+        "island",
+        "mull",
+        "nm5055",
+        "planttree",
+        "scotland",
+        "tobermory",
+        "unitedkingdom",
+        "gb"
+    ],
+    "media": "photo",
+    "media_status": "ready",
+    "date": "2017-10-27 15:31:07",
+    "width": 952,
+    "height": 1500,
+    "url": "https://live.staticflickr.com/4494/26192508239_603851fdb7_o.jpg",
+    "label": "Original",
+    "search": {
+        "text": "Alnus glutinosa",
+        "license": "4,5,6,9,10"
+    },
+    "category": "flickr",
+    "subcategory": "search",
+    "filename": "26192508239_603851fdb7_o_d",
+    "extension": "jpg"
+}
