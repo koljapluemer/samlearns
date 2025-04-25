@@ -1,6 +1,7 @@
 from django.views.generic import ListView
 from withvideos.models import Video, VideoStatus, Language
 from django.shortcuts import redirect
+from django.http import HttpResponse
 
 class LiveVideoListView(ListView):
     model = Video
@@ -31,3 +32,9 @@ class LiveVideoListView(ListView):
             if default_lang:
                 return redirect('withvideos:video_list', lang_code=default_lang.code)
         return super().get(request, *args, **kwargs)
+
+    def render_to_response(self, context, **response_kwargs):
+        response = super().render_to_response(context, **response_kwargs)
+        # Set the language preference cookie
+        response.set_cookie('preferred_lang', self.kwargs.get('lang_code'), max_age=365*24*60*60)  # 1 year
+        return response

@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'withvideos.middleware.LanguagePreferenceMiddleware',
 ]
 
 ROOT_URLCONF = 'samlearns.urls'
