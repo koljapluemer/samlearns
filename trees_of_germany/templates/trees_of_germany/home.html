@@ -1,23 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@latest/css/bulma.min.css">
-</head>
-<body>
-    <section class="hero is-primary is-fullheight">
+{% extends "trees_of_germany/base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <div class="hero is-primary mt-3">
         <div class="hero-body">
-            <div class="container has-text-centered">
-                <h1 class="title is-1">
+            <div class="container">
+                <h1 class="title is-1 has-text-centered">
                     {{ title }}
                 </h1>
-                <h2 class="subtitle">
+                <h2 class="subtitle has-text-centered mt-5">
                     Discover the beautiful flora of Germany
                 </h2>
             </div>
         </div>
-    </section>
-</body>
-</html> 
+    </div>
+    <div class="section mt-5">
+        <div class="container">
+            <div class="content">
+                <p class="has-text-centered">Welcome to our tree learning platform. Start exploring the diverse flora of Germany.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
