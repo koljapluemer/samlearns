@@ -8,7 +8,7 @@
 {{ correct_species.id|json_script:"correct-species-id" }}
 
 <div class="columns is-centered">
-    <div class="column is-half">
+    <div class="column is-half-desktop is-full-mobile is-full-tablet">
         <div class="box" x-data="{ 
             selectedButtons: new Set(),
             correctSpeciesId: JSON.parse(document.getElementById('correct-species-id').textContent),
@@ -18,6 +18,7 @@
             speciesOptions: JSON.parse(document.getElementById('species-options').textContent),
             treeImageId: JSON.parse(document.getElementById('tree-image-id').textContent),
             foundCorrectAnswer: false,
+            isTouch: false,
 
             initDB() {
                 const request = indexedDB.open('TreeLearningDB', 1);
@@ -36,6 +37,11 @@
                 request.onsuccess = (event) => {
                     this.db = event.target.result;
                 };
+            },
+
+            checkTouchSupport() {
+                // Check for touch capability
+                this.isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
             },
 
             logLearningEvent(speciesId) {
@@ -79,13 +85,14 @@
         }" 
         x-init="
             initDB();
+            checkTouchSupport();
             window.addEventListener('keydown', (e) => handleKeyPress(e));
             $cleanup = () => window.removeEventListener('keydown', handleKeyPress);
         ">
             <div class="buttons is-centered mb-4">
                 {% for species in species_options %}
                 <button 
-                    class="button is-large species-option"
+                    class="button species-option is-large is-normal-mobile"
                     :class="{ 
                         'is-light': selectedButtons.has({{ species.id }}) && {{ species.id }} !== correctSpeciesId,
                         'is-success': selectedButtons.has({{ species.id }}) && {{ species.id }} === correctSpeciesId 
@@ -95,10 +102,10 @@
                     data-species-id="{{ species.id }}"
                 >
                     <div class="has-text-centered">
-                        <div class="is-size-4">{{ species.german_name }}</div>
-                        <div class="is-size-6 has-text-grey">{{ species.latin_name }}</div>
-                        <div class="is-size-6 has-text-grey">{{ species.english_name }}</div>
-                        <div class="is-size-7 has-text-grey mt-2">
+                        <div class="is-size-4 is-size-5-mobile">{{ species.german_name }}</div>
+                        <div class="is-size-6 is-size-7-mobile has-text-grey">{{ species.latin_name }}</div>
+                        <div class="is-size-6 is-size-7-mobile has-text-grey">{{ species.english_name }}</div>
+                        <div class="is-size-7 has-text-grey mt-2" x-show="!isTouch">
                             {% if forloop.first %}
                             {% lucide "arrow-left" size=16 %}
                             {% else %}
@@ -110,7 +117,7 @@
                 {% endfor %}
             </div>
 
-            <div class="image-container" style="position: relative; width: 524px; margin: 0 auto;">
+            <div class="image-container" style="position: relative; width: min(524px, 100%); margin: 0 auto;">
                 <img src="{{ tree_image.get_usable_url }}" alt="Tree to identify" style="width: 100%; height: auto; display: block;">
                 {% if tree_image.credit_user_name and tree_image.credit_url %}
                 <div style="position: absolute; bottom: 0; right: 0; background: rgba(0,0,0,0.5); padding: 0.25rem 0.5rem; border-radius: 4px 0 0 0;">

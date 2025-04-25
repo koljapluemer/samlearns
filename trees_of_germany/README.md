@@ -1,5 +1,7 @@
 # Trees of Germany
 
+![screenshot mockup](/trees_of_germany/doc/img/screen1.png)
+
 A Django application for managing and displaying tree species found in Germany.
 
 ## Management Commands
