@@ -16,6 +16,7 @@
             db: null,
             speciesOptions: JSON.parse(document.getElementById('species-options').textContent),
             treeImageId: JSON.parse(document.getElementById('tree-image-id').textContent),
+            foundCorrectAnswer: false,
 
             initDB() {
                 const request = indexedDB.open('TreeLearningDB', 1);
@@ -56,13 +57,30 @@
             },
 
             handleClick(speciesId) {
+                if (this.foundCorrectAnswer) return; // Only prevent if correct answer was found
                 this.logLearningEvent(speciesId);
                 this.selected = speciesId;
                 if (speciesId === this.correctSpeciesId) {
+                    this.foundCorrectAnswer = true;
                     setTimeout(() => window.location.reload(), 1000);
                 }
+            },
+
+            handleKeyPress(event) {
+                if (this.foundCorrectAnswer) return; // Only prevent if correct answer was found
+                const buttons = Array.from(document.querySelectorAll('.species-option'));
+                if (event.key === 'ArrowLeft' && buttons[0]) {
+                    this.handleClick(parseInt(buttons[0].getAttribute('data-species-id')));
+                } else if (event.key === 'ArrowRight' && buttons[1]) {
+                    this.handleClick(parseInt(buttons[1].getAttribute('data-species-id')));
+                }
             }
-        }" x-init="initDB()">
+        }" 
+        x-init="
+            initDB();
+            window.addEventListener('keydown', (e) => handleKeyPress(e));
+            $cleanup = () => window.removeEventListener('keydown', handleKeyPress);
+        ">
             <div class="buttons is-centered mb-4">
                 {% for species in species_options %}
                 <button 
@@ -73,6 +91,7 @@
                     }"
                     :disabled="selected === {{ species.id }} && selected !== correctSpeciesId"
                     @click="handleClick({{ species.id }})"
+                    data-species-id="{{ species.id }}"
                 >
                     <div class="has-text-centered">
                         <div class="is-size-4">{{ species.german_name }}</div>
