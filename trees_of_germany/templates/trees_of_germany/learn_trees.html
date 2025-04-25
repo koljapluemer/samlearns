@@ -1,0 +1,42 @@
+{% extends "trees_of_germany/base.html" %}
+
+{% block content %}
+<div class="columns is-centered">
+    <div class="column is-half">
+        <div class="box" x-data="{ 
+            selected: null,
+            correctSpeciesId: {{ correct_species.id }},
+            shuffledOptions: $el.querySelectorAll('.species-option'),
+            shuffleOptions() {
+                const options = Array.from(this.shuffledOptions);
+                for (let i = options.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [options[i], options[j]] = [options[j], options[i]];
+                }
+                options.forEach(option => option.parentNode.appendChild(option));
+            }
+        }" x-init="shuffleOptions()">
+            <figure class="image is-4by3 mb-4">
+                <img src="{{ tree_image.get_usable_url }}" alt="Tree to identify">
+            </figure>
+
+            <div class="buttons is-centered">
+                {% for species in species_options %}
+                <button 
+                    class="button is-large species-option"
+                    :class="{ 'is-light': selected && selected !== {{ species.id }}, 'is-success': selected === {{ species.id }} && selected === correctSpeciesId }"
+                    :disabled="selected !== null"
+                    @click="selected = {{ species.id }}; if(selected === correctSpeciesId) { setTimeout(() => window.location.reload(), 1000) }"
+                >
+                    <div class="has-text-centered">
+                        <div class="is-size-4">{{ species.german_name }}</div>
+                        <div class="is-size-6 has-text-grey">{{ species.latin_name }}</div>
+                        <div class="is-size-6 has-text-grey">{{ species.english_name }}</div>
+                    </div>
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

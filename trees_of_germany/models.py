@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.templatetags.static import static
 # Create your models here.
 class TreeSpecies(models.Model):
     latin_name = models.CharField(max_length=255)
@@ -23,4 +24,5 @@ class TreeImage(models.Model):
     def get_usable_url(self):
         if self.is_blacklisted:
             return None
-        return f"{settings.MEDIA_URL}{self.path}"
+        # The path is already relative to the app's static directory
+        return static(self.path)
