@@ -10,12 +10,18 @@ Key Principles
 
 Django/Python
 
-- Use Django’s class-based views (CBVs) for more complex views; prefer function-based views (FBVs) for simpler logic.
 - Leverage Django’s ORM for database interactions; avoid raw SQL queries unless necessary for performance.
 - Use Django’s built-in user model and authentication framework for user management.
-- Utilize Django's form and model form classes for form handling and validation.
 - Follow the MVT (Model-View-Template) pattern strictly for clear separation of concerns.
+- Always use a `views/` folder and appropriate sub-files. Avoid 1000 line files.
 - Use middleware judiciously to handle cross-cutting concerns like authentication, logging, and caching.
+
+
+- Use custom templates in plain HTML, avoid pre-made Form and FormFactories
+- Style with Bulma CSS
+- Honor the template structure: there is a project-wide `base.html`, as well as a `base.html` per app
+
+
 
 Error Handling and Validation
 
@@ -38,9 +44,6 @@ Django-Specific Guidelines
 Performance Optimization
 
 - Optimize query performance using Django ORM's select_related and prefetch_related for related object fetching.
-- Use Django’s cache framework with backend support (e.g., Redis or Memcached) to reduce database load.
-- Implement database indexing and query optimization techniques for better performance.
-- Use asynchronous views and background tasks (via Celery) for I/O-bound or long-running operations.
 - Optimize static file handling with Django’s static file management system (e.g., WhiteNoise or CDN integration).
 
 Key Conventions
