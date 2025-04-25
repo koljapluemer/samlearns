@@ -26,5 +26,10 @@ class SnippetDetailView(DetailView):
         
         # Add to context as JSON
         context['words_json'] = json.dumps(words_data)
+        context['snippet_data'] = json.dumps({
+            'youtube_id': self.object.video.youtube_id,
+            'start_time': self.object.start_time,
+            'end_time': self.object.end_time
+        })
         
         return context 

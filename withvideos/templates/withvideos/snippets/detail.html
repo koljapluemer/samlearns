@@ -7,7 +7,7 @@
             <div class="column is-two-thirds">
                 <div class="box"
                      x-data="flashcards"
-                     x-init="init({{ words_json }})">
+                     x-init="init({{ words_json }}, {{ snippet_data }})">
                     
                     <template x-if="currentWord">
                         <div class="has-text-centered">
@@ -51,9 +51,22 @@
                     
                     <template x-if="!currentWord">
                         <div class="has-text-centered">
-                            <h2 class="title is-4">Practice Complete!</h2>
+                            <h2 class="title is-4 mb-6">Practice Complete!</h2>
+                            
+                            <!-- Video Player -->
+                            <div class="box">
+                                <figure class="image is-16by9">
+                                    <iframe 
+                                        :src="'https://www.youtube.com/embed/' + snippetData.youtube_id + '?autoplay=1&start=' + snippetData.start_time + '&end=' + snippetData.end_time"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen>
+                                    </iframe>
+                                </figure>
+                            </div>
+                            
                             <a href="{% url 'withvideos:video_detail' snippet.video.youtube_id %}" 
-                               class="button is-primary">
+                               class="button is-primary mt-6">
                                 <span class="icon">
                                     {% lucide "arrow-left" size=24 %}
                                 </span>
@@ -72,9 +85,11 @@
                 words: [],
                 currentIndex: 0,
                 showMeanings: false,
+                snippetData: null,
                 
-                init(wordsData) {
+                init(wordsData, snippetData) {
                     this.words = wordsData;
+                    this.snippetData = snippetData;
                 },
                 
                 get currentWord() {
