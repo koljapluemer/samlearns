@@ -19,10 +19,6 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
-class Frontend(models.TextChoices):
-    GERMAN = 'de', '🇩🇪'
-    ARABIC = 'ar', '🇪🇬'
-
 class VideoStatus(models.TextChoices):
     NEEDS_REVIEW = 'needs_review', 'Needs Review'
     SHORTLISTED = 'shortlisted', 'Shortlisted'
@@ -33,9 +29,13 @@ class VideoStatus(models.TextChoices):
     LIVE = 'live', 'Live'
     BLACKLISTED = 'blacklisted', 'Blacklisted'
 
+class Language(models.Model):
+    name = models.CharField(max_length=100)
+    code = models.CharField(max_length=100)
+
 
 class Video(models.Model):
-    frontend = models.CharField(max_length=10, choices=Frontend.choices, default=Frontend.ARABIC)
+    language = models.ForeignKey(Language, on_delete=models.CASCADE, related_name="videos", blank=True, null=True)
     title = models.CharField(max_length=500, blank=True, null=True)
     available_subtitle_languages = models.JSONField(default=list, blank=True, null=True)
     checked_for_relevant_subtitles = models.BooleanField(default=False)
