@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'trees_of_germany.apps.TreesOfGermanyConfig',
     'lucide',
+    'withvideos.apps.WithvideosConfig',
 ]
 
 MIDDLEWARE = [
