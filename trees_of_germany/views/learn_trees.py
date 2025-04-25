@@ -18,10 +18,24 @@ def learn_trees(request):
     # Get a random image from the correct species
     correct_image = choice(list(correct_species.treeimage_set.filter(is_blacklisted=False)))
     
+    # Serialize species data for JSON
+    species_data = [
+        {
+            'id': species.id,
+            'latin_name': species.latin_name,
+            'german_name': species.german_name,
+            'english_name': species.english_name,
+        }
+        for species in selected_species
+    ]
+    
+    # Create a dict for JSON serialization but keep the full image object for template
+    image_data = {'id': correct_image.id}
+    
     context = {
-        'correct_species': correct_species,
-        'species_options': selected_species,
-        'tree_image': correct_image,
+        'correct_species': {'id': correct_species.id},  # Only need the ID for comparison
+        'species_options': species_data,
+        'tree_image': correct_image,  # Keep the full object for template rendering
     }
     
     return render(request, 'trees_of_germany/learn_trees.html', context) 

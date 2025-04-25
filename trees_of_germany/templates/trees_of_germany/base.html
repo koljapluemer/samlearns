@@ -18,6 +18,16 @@
                     <span>Learn Trees</span>
                 </a>
             </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <button class="button is-light" onclick="downloadLearningData()">
+                        <span class="icon">
+                            <i class="fas fa-download"></i>
+                        </span>
+                        <span>Download Learning Data</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </nav>
     {% endblock %}
@@ -25,4 +35,45 @@
     <div class="container">
         {% block content %}{% endblock %}
     </div>
+
+    <script>
+    async function downloadLearningData() {
+        // Open the database
+        const dbRequest = indexedDB.open('TreeLearningDB', 1);
+        
+        dbRequest.onerror = (event) => {
+            console.error('Error opening database:', event.target.error);
+            alert('Could not access learning data.');
+        };
+
+        dbRequest.onsuccess = async (event) => {
+            const db = event.target.result;
+            const transaction = db.transaction(['learningEvents'], 'readonly');
+            const store = transaction.objectStore('learningEvents');
+            
+            // Get all records
+            const request = store.getAll();
+            
+            request.onerror = (event) => {
+                console.error('Error fetching data:', event.target.error);
+                alert('Could not fetch learning data.');
+            };
+            
+            request.onsuccess = (event) => {
+                const data = event.target.result;
+                
+                // Create and download the JSON file
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `tree-learning-data-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            };
+        };
+    }
+    </script>
 {% endblock %} 
