@@ -1,4 +1,5 @@
 {% extends "trees_of_germany/base.html" %}
+{% load lucide %}
 
 {% block content %}
 {# Pass data safely to JavaScript #}
@@ -9,7 +10,7 @@
 <div class="columns is-centered">
     <div class="column is-half">
         <div class="box" x-data="{ 
-            selected: null,
+            selectedButtons: new Set(),
             correctSpeciesId: JSON.parse(document.getElementById('correct-species-id').textContent),
             pageLoadTime: Date.now(),
             clickCount: 0,
@@ -58,8 +59,8 @@
 
             handleClick(speciesId) {
                 if (this.foundCorrectAnswer) return; // Only prevent if correct answer was found
+                this.selectedButtons.add(speciesId);
                 this.logLearningEvent(speciesId);
-                this.selected = speciesId;
                 if (speciesId === this.correctSpeciesId) {
                     this.foundCorrectAnswer = true;
                     setTimeout(() => window.location.reload(), 1000);
@@ -86,10 +87,10 @@
                 <button 
                     class="button is-large species-option"
                     :class="{ 
-                        'is-light': selected === {{ species.id }} && selected !== correctSpeciesId,
-                        'is-success': selected === {{ species.id }} && selected === correctSpeciesId 
+                        'is-light': selectedButtons.has({{ species.id }}) && {{ species.id }} !== correctSpeciesId,
+                        'is-success': selectedButtons.has({{ species.id }}) && {{ species.id }} === correctSpeciesId 
                     }"
-                    :disabled="selected === {{ species.id }} && selected !== correctSpeciesId"
+                    :disabled="selectedButtons.has({{ species.id }}) && {{ species.id }} !== correctSpeciesId"
                     @click="handleClick({{ species.id }})"
                     data-species-id="{{ species.id }}"
                 >
@@ -97,6 +98,13 @@
                         <div class="is-size-4">{{ species.german_name }}</div>
                         <div class="is-size-6 has-text-grey">{{ species.latin_name }}</div>
                         <div class="is-size-6 has-text-grey">{{ species.english_name }}</div>
+                        <div class="is-size-7 has-text-grey mt-2">
+                            {% if forloop.first %}
+                            {% lucide "arrow-left" size=16 %}
+                            {% else %}
+                            {% lucide "arrow-right" size=16 %}
+                            {% endif %}
+                        </div>
                     </div>
                 </button>
                 {% endfor %}
