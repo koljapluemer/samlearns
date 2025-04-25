@@ -2,33 +2,35 @@
 {% load lucide %}
 
 {% block withvideos_content %}
-    <div class="container">
+    <div class="container is-max-widescreen">
         <div class="columns is-centered">
-            <div class="column is-two-thirds">
-                <div class="box"
-                     x-data="flashcards"
+            <div class="column">
+                <div x-data="flashcards"
                      x-init="init({{ words_json }}, {{ snippet_data }})">
                     
                     <template x-if="currentWord">
-                        <div class="has-text-centered">
-                            <!-- Word Display -->
-                            <h2 class="title is-2 mb-6" x-text="currentWord.original_word"></h2>
-                            
-                            <!-- Meanings (Hidden by default) -->
-                            <div x-show="showMeanings" class="mb-6">
-                                <div class="content">
-                                    <div class="box">
-                                        <div class="is-size-5">
-                                            <template x-for="meaning in currentWord.meanings">
-                                                <p class="mb-3" x-text="meaning"></p>
-                                            </template>
-                                        </div>
+                        <div>
+                            <!-- Flashcard -->
+                            <div class="box has-text-centered py-6">
+                                <!-- Word Display -->
+                                <h2 class="title is-1 mb-6" x-text="currentWord.original_word"></h2>
+                                
+                                <!-- Meanings (Hidden by default) -->
+                                <div x-show="showMeanings" 
+                                     x-transition:enter="transition ease-out duration-300"
+                                     x-transition:enter-start="opacity-0 transform -translate-y-4"
+                                     x-transition:enter-end="opacity-100 transform translate-y-0"
+                                     class="mb-6">
+                                    <div class="content is-size-4">
+                                        <template x-for="meaning in currentWord.meanings">
+                                            <p class="mb-4" x-text="meaning"></p>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Buttons -->
-                            <div class="buttons is-centered">
+                            <div class="buttons is-centered mt-5">
                                 <template x-if="!showMeanings">
                                     <button @click="showMeanings = true" 
                                             class="button is-primary is-large">
@@ -54,16 +56,15 @@
                             <h2 class="title is-4 mb-6">Practice Complete!</h2>
                             
                             <!-- Video Player -->
-                            <div class="box">
-                                <figure class="image is-16by9">
-                                    <iframe 
-                                        :src="'https://www.youtube.com/embed/' + snippetData.youtube_id + '?autoplay=1&start=' + snippetData.start_time + '&end=' + snippetData.end_time"
-                                        frameborder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowfullscreen>
-                                    </iframe>
-                                </figure>
-                            </div>
+                            <figure class="image is-16by9">
+                                <iframe 
+                                    :src="'https://www.youtube.com/embed/' + snippetData.youtube_id + '?autoplay=1&start=' + snippetData.start_time + '&end=' + snippetData.end_time"
+                                    frameborder="0"
+                                    class="has-ratio"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen>
+                                </iframe>
+                            </figure>
                             
                             <div class="buttons is-centered mt-6">
                                 <template x-if="snippetData.next_snippet_url">
