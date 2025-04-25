@@ -60,13 +60,32 @@ class Command(BaseCommand):
         for species_name, species_obj in species_objects.items():
             species_path = os.path.join(static_path, species_name)
             
-            # Get all JSON files in the species directory
-            for filename in os.listdir(species_path):
+            # Get all files in the species directory
+            try:
+                files = set(os.listdir(species_path))
+            except Exception as e:
+                print(f"Error accessing directory {species_path}: {str(e)}")
+                continue
+
+            # Process JSON files and verify matching image files exist
+            for filename in files:
                 if not filename.endswith('.json'):
                     continue
 
                 json_path = os.path.join(species_path, filename)
-                image_path = filename[:-5]  # Remove .json extension
+                base_image_name = filename[:-5]  # Remove .json extension
+                
+                # Check if corresponding image file exists (try common image extensions)
+                image_exists = False
+                for ext in ['.jpg', '.jpeg', '.png', '.webp']:
+                    if base_image_name + ext in files:
+                        image_exists = True
+                        image_path = base_image_name + ext
+                        break
+
+                if not image_exists:
+                    print(f"Error: No matching image file found for {json_path}")
+                    continue
 
                 try:
                     with open(json_path, 'r') as f:
@@ -96,6 +115,7 @@ class Command(BaseCommand):
                     self.stdout.write(f'{status} image: {relative_path}')
 
                 except Exception as e:
-                    self.stderr.write(f'Error processing {json_path}: {str(e)}')
+                    print(f"Error processing {json_path}: {str(e)}")
+                    continue
 
         self.stdout.write(self.style.SUCCESS('Successfully imported tree species and images')) 
