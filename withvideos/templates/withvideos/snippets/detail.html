@@ -1,0 +1,29 @@
+{% extends "withvideos/base.html" %}
+{% load lucide %}
+
+{% block withvideos_content %}
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-two-thirds">
+                <div class="box">
+                    <h2 class="title is-4 mb-4">Words in this snippet</h2>
+                    
+                    <div class="content">
+                        {% for word in snippet.words.all %}
+                            <div class="box mb-4">
+                                <h3 class="title is-5">{{ word.original_word }}</h3>
+                                <div class="content">
+                                    <ul>
+                                        {% for meaning in word.meanings.all %}
+                                            <li>{{ meaning.en }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 

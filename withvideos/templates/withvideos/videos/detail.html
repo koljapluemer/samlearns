@@ -10,10 +10,14 @@
         />
       </figure>
 
-      <a href="#" class="button is-primary is-large">
-        <span class="icon"> {% lucide "play" size=24 %} </span>
-        <span>Start Practice</span>
-      </a>
+      {% if first_snippet_practice_url %}
+        <a href="{{ first_snippet_practice_url }}" class="button is-primary is-large">
+          <span class="icon"> {% lucide "play" size=24 %} </span>
+          <span>Start Practice</span>
+        </a>
+      {% else %}
+        <p class="has-text-danger">No snippets available for this video</p>
+      {% endif %}
     </div>
   </div>
 </div>
