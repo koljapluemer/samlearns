@@ -24,12 +24,16 @@ class SnippetDetailView(DetailView):
         # Randomize the order
         shuffle(words_data)
         
+        # Get next snippet
+        next_snippet = self.object.video.snippets.filter(index__gt=self.object.index).first()
+        
         # Add to context as JSON
         context['words_json'] = json.dumps(words_data)
         context['snippet_data'] = json.dumps({
             'youtube_id': self.object.video.youtube_id,
             'start_time': self.object.start_time,
-            'end_time': self.object.end_time
+            'end_time': self.object.end_time,
+            'next_snippet_url': next_snippet.get_absolute_url(mode='practice') if next_snippet else None
         })
         
         return context 
