@@ -19,6 +19,14 @@
     <hr>
     <h2 class="subtitle">Tab Grid</h2>
     <div id="tab-grid-container" class="mb-4"></div>
+    <div class="field">
+      <button type="button" class="button is-info" onclick="appendBeat()">
+        <i data-lucide="plus"></i>&nbsp;Add Beat
+      </button>
+      <button type="button" class="button is-danger" onclick="deleteLastBeat()" id="delete-last-beat">
+        <i data-lucide="minus"></i>&nbsp;Delete Last Beat
+      </button>
+    </div>
     <div class="field mt-4">
       <button type="submit" class="button is-success">
         <i data-lucide="save"></i>&nbsp;Save
@@ -82,6 +90,14 @@ function renderTabGrid() {
   }
   table.appendChild(tbody);
   container.appendChild(table);
+
+  // Check if content is scrollable and add visual indicator
+  setTimeout(() => {
+    container.classList.toggle('scrollable', container.scrollWidth > container.clientWidth);
+  }, 0);
+  
+  // Update delete button state
+  updateDeleteButton();
 }
 
 function handleCellInput(e) {
@@ -89,20 +105,23 @@ function handleCellInput(e) {
   const beatIdx = parseInt(input.dataset.beat);
   const stringKey = input.dataset.string;
   beats[beatIdx][stringKey] = input.value.slice(0, 1);
-  // Auto-jump to next cell
+  
+  // Check if this is the right-most column and a value was entered
+  if (beatIdx === beats.length - 1 && input.value.length === 1) {
+    // Add new beat column
+    beats.push({'a': '', 'e': '', 'c': '', 'g': ''});
+    renderTabGrid();
+    setTimeout(() => {
+      // Focus the new cell in the same string
+      const newInput = document.querySelector(`input[name='beat_${beats.length - 1}_${stringKey}']`);
+      if (newInput) newInput.focus();
+    }, 10);
+    return;
+  }
+
+  // Auto-jump to next column if input is complete
   if (input.value.length === 1) {
-    let nextInput = findNextInput(input);
-    if (!nextInput && beatIdx === beats.length - 1 && stringKey === 'g') {
-      // Add new beat column if last cell
-      beats.push({'a': '', 'e': '', 'c': '', 'g': ''});
-      renderTabGrid();
-      setTimeout(() => {
-        // Focus the new cell
-        const newInput = document.querySelector(`input[name='beat_${beats.length - 1}_a']`);
-        if (newInput) newInput.focus();
-      }, 10);
-      return;
-    }
+    const nextInput = document.querySelector(`input[name='beat_${beatIdx + 1}_${stringKey}']`);
     if (nextInput) nextInput.focus();
   }
 }
@@ -123,66 +142,85 @@ function findNextInput(currentInput) {
 }
 
 function handleCellKeydown(e) {
-  // Optional: handle arrow keys for navigation
   const input = e.target;
   const beatIdx = parseInt(input.dataset.beat);
   const stringKey = input.dataset.string;
   let sIdx = stringOrder.indexOf(stringKey);
   let bIdx = beatIdx;
-  if (e.key === 'ArrowRight') {
-    if (sIdx < stringOrder.length - 1) {
-      sIdx++;
-    } else {
-      sIdx = 0;
-      bIdx++;
-    }
-    const next = document.querySelector(`input[name='beat_${bIdx}_${stringOrder[sIdx]}']`);
+
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const down = document.querySelector(`input[name='beat_${beatIdx}_${stringOrder[(sIdx + 1) % stringOrder.length]}']`);
+    if (down) down.focus();
+  } else if (e.key === 'ArrowRight') {
+    const next = document.querySelector(`input[name='beat_${beatIdx + 1}_${stringKey}']`);
     if (next) { e.preventDefault(); next.focus(); }
   } else if (e.key === 'ArrowLeft') {
-    if (sIdx > 0) {
-      sIdx--;
-    } else if (bIdx > 0) {
-      sIdx = stringOrder.length - 1;
-      bIdx--;
+    if (beatIdx > 0) {
+      const prev = document.querySelector(`input[name='beat_${beatIdx - 1}_${stringKey}']`);
+      if (prev) { e.preventDefault(); prev.focus(); }
     }
-    const prev = document.querySelector(`input[name='beat_${bIdx}_${stringOrder[sIdx]}']`);
-    if (prev) { e.preventDefault(); prev.focus(); }
   } else if (e.key === 'ArrowDown') {
-    const down = document.querySelector(`input[name='beat_${beatIdx + 1}_${stringKey}']`);
-    if (down) { e.preventDefault(); down.focus(); }
+    if (sIdx < stringOrder.length - 1) {
+      const down = document.querySelector(`input[name='beat_${beatIdx}_${stringOrder[sIdx + 1]}']`);
+      if (down) { e.preventDefault(); down.focus(); }
+    }
   } else if (e.key === 'ArrowUp') {
-    const up = document.querySelector(`input[name='beat_${beatIdx - 1}_${stringKey}']`);
-    if (up) { e.preventDefault(); up.focus(); }
+    if (sIdx > 0) {
+      const up = document.querySelector(`input[name='beat_${beatIdx}_${stringOrder[sIdx - 1]}']`);
+      if (up) { e.preventDefault(); up.focus(); }
+    }
   }
 }
 
-// On submit, trim trailing empty columns and fill empty cells with '-'
+// On submit, fill empty cells with '-'
 document.getElementById('tab-sheet-form').addEventListener('submit', function(e) {
-  // Remove trailing empty beats
-  let lastNonEmpty = -1;
-  for (let i = 0; i < beats.length; i++) {
-    const b = beats[i];
-    if (Object.values(b).some(v => v && v !== '-')) {
-      lastNonEmpty = i;
-    }
-  }
-  beats = beats.slice(0, lastNonEmpty + 1);
-  // Fill empty cells with '-'
+  // Fill empty cells with '-' and ensure all columns are in the form
   for (let i = 0; i < beats.length; i++) {
     for (const s of stringOrder) {
       if (!beats[i][s] || beats[i][s] === '') beats[i][s] = '-';
-    }
-  }
-  // Write values back to inputs
-  for (let b = 0; b < beats.length; b++) {
-    for (const s of stringOrder) {
-      const input = document.querySelector(`input[name='beat_${b}_${s}']`);
-      if (input) input.value = beats[b][s];
+      // Create or update hidden input
+      let input = document.querySelector(`input[name='beat_${i}_${s}']`);
+      if (!input) {
+        input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = `beat_${i}_${s}`;
+        this.appendChild(input);
+      }
+      input.value = beats[i][s];
     }
   }
 });
 
+function deleteLastBeat() {
+  if (beats.length > 1) {
+    beats.pop();
+    renderTabGrid();
+  }
+}
+
+function appendBeat() {
+  beats.push({'a': '', 'e': '', 'c': '', 'g': ''});
+  renderTabGrid();
+  // Focus the first cell of the new beat
+  setTimeout(() => {
+    const newInput = document.querySelector(`input[name='beat_${beats.length - 1}_a']`);
+    if (newInput) newInput.focus();
+  }, 10);
+}
+
+function updateDeleteButton() {
+  const deleteButton = document.getElementById('delete-last-beat');
+  deleteButton.disabled = beats.length <= 1;
+}
+
 renderTabGrid();
+
+// Update scroll indicator on window resize
+window.addEventListener('resize', () => {
+  const container = document.getElementById('tab-grid-container');
+  container.classList.toggle('scrollable', container.scrollWidth > container.clientWidth);
+});
 </script>
 <style>
 .tab-grid-table th, .tab-grid-table td {
@@ -192,6 +230,56 @@ renderTabGrid();
 .tab-grid-table input.tab-cell-input {
   padding: 0;
   text-align: center;
+}
+
+#tab-grid-container {
+  max-width: 100%;
+  overflow-x: auto;
+  position: relative;
+  margin: 0 -1rem;
+  padding: 0 1rem;
+  scrollbar-width: thin;
+}
+
+#tab-grid-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+#tab-grid-container::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+#tab-grid-container::-webkit-scrollbar-thumb {
+  background: #dbdbdb;
+  border-radius: 4px;
+}
+
+#tab-grid-container::-webkit-scrollbar-thumb:hover {
+  background: #b5b5b5;
+}
+
+.tab-grid-table {
+  margin-bottom: 0;
+  min-width: 100%;
+}
+
+/* Add a subtle shadow to indicate scrollable content */
+#tab-grid-container:after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  background: linear-gradient(to right, transparent, rgba(0,0,0,0.05));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+#tab-grid-container.scrollable:after {
+  opacity: 1;
 }
 </style>
 {% endblock %} 

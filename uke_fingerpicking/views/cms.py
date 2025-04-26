@@ -19,10 +19,8 @@ class TabSheetCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # 10 empty beats for new tab
-        beats = [
-            {'a': '', 'e': '', 'c': '', 'g': ''} for _ in range(10)
-        ]
+        # Start with just one empty beat for new tab
+        beats = [{'a': '', 'e': '', 'c': '', 'g': ''}]
         context['beats_json'] = mark_safe(json.dumps(beats))
         return context
 
@@ -48,14 +46,23 @@ class TabSheetCreateView(CreateView):
     def _parse_beats_from_post(self, request):
         beats = []
         idx = 0
+        # Keep going until we find a beat that doesn't exist in the form
         while True:
-            a = request.POST.get(f'beat_{idx}_a', '').strip() or '-'
-            e = request.POST.get(f'beat_{idx}_e', '').strip() or '-'
-            c = request.POST.get(f'beat_{idx}_c', '').strip() or '-'
-            g = request.POST.get(f'beat_{idx}_g', '').strip() or '-'
-            if all(x == '-' for x in (a, e, c, g)):
-                break  # stop at first all-empty beat (trailing empty columns)
-            beats.append({'a': a, 'e': e, 'c': c, 'g': g})
+            a = request.POST.get(f'beat_{idx}_a')
+            e = request.POST.get(f'beat_{idx}_e')
+            c = request.POST.get(f'beat_{idx}_c')
+            g = request.POST.get(f'beat_{idx}_g')
+            
+            # If any of the fields don't exist, we've reached the end
+            if None in (a, e, c, g):
+                break
+                
+            beats.append({
+                'a': a.strip() or '-',
+                'e': e.strip() or '-',
+                'c': c.strip() or '-',
+                'g': g.strip() or '-'
+            })
             idx += 1
         return beats
 
@@ -67,11 +74,13 @@ class TabSheetUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Load all existing beats
         beats = list(
             Beat.objects.filter(tab_sheet=self.object).order_by('index').values('a', 'e', 'c', 'g')
         )
+        # If no beats exist, start with one empty beat
         if not beats:
-            beats = [{'a': '', 'e': '', 'c': '', 'g': ''} for _ in range(10)]
+            beats = [{'a': '', 'e': '', 'c': '', 'g': ''}]
         context['beats_json'] = mark_safe(json.dumps(beats))
         return context
 
@@ -96,13 +105,22 @@ class TabSheetUpdateView(UpdateView):
     def _parse_beats_from_post(self, request):
         beats = []
         idx = 0
+        # Keep going until we find a beat that doesn't exist in the form
         while True:
-            a = request.POST.get(f'beat_{idx}_a', '').strip() or '-'
-            e = request.POST.get(f'beat_{idx}_e', '').strip() or '-'
-            c = request.POST.get(f'beat_{idx}_c', '').strip() or '-'
-            g = request.POST.get(f'beat_{idx}_g', '').strip() or '-'
-            if all(x == '-' for x in (a, e, c, g)):
+            a = request.POST.get(f'beat_{idx}_a')
+            e = request.POST.get(f'beat_{idx}_e')
+            c = request.POST.get(f'beat_{idx}_c')
+            g = request.POST.get(f'beat_{idx}_g')
+            
+            # If any of the fields don't exist, we've reached the end
+            if None in (a, e, c, g):
                 break
-            beats.append({'a': a, 'e': e, 'c': c, 'g': g})
+                
+            beats.append({
+                'a': a.strip() or '-',
+                'e': e.strip() or '-',
+                'c': c.strip() or '-',
+                'g': g.strip() or '-'
+            })
             idx += 1
         return beats
