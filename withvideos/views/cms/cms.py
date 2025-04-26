@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
 from googleapiclient.discovery import build
-from withvideos.models import Video, VideoStatus, Snippet, Word, Meaning, Tag, TagType
+from withvideos.models import Video, VideoStatus, Snippet, Word, Meaning, Language, Tag, TagType
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_http_methods
 from django.core.paginator import Paginator
@@ -27,9 +27,9 @@ class WordEntry(BaseModel):
 class WordEntryResponse(BaseModel):
     words: list[WordEntry]
 
-def get_words_with_translations(text: str, frontend: str) -> list:
-    """Get words and translations for a given text based on the frontend language"""
-    if frontend == Frontend.ARABIC:
+def get_words_with_translations(text: str, language: Language) -> list:
+    """Get words and translations for a given text based on the language"""
+    if language.subtitle_prefix and language.subtitle_prefix.startswith('ar'):
         prompt = (
             "You are an expert in Spoken, Egyptian Arabic. "
             "Extract language learning vocabulary from the following natural language transcript, ignoring proper nouns like restaurant names, "
@@ -62,58 +62,56 @@ def get_words_with_translations(text: str, frontend: str) -> list:
 @staff_member_required
 @require_http_methods(["POST"])
 def set_frontend(request):
-    """Set the frontend in the session"""
-    frontend = request.POST.get('frontend')
-    if frontend in [f[0] for f in Frontend.choices]:
-        request.session['frontend'] = frontend
-    return redirect(request.POST.get('next', 'cms_home'))
+    """Set the language in the session"""
+    language_code = request.POST.get('frontend')
+    if language_code in [lang.code for lang in Language.objects.all()]:
+        request.session['language_code'] = language_code
+    return redirect(request.POST.get('next', 'withvideos:cms:cms_home'))
 
-def get_current_frontend(request):
-    """Get the current frontend from session or default to Arabic"""
-    return request.session.get('frontend', Frontend.ARABIC)
+def get_current_language(request):
+    """Get the current language from session or default to German"""
+    return request.session.get('language_code', 'de')
 
 @staff_member_required
 @never_cache
 def cms_home(request):
     """Home view for the CMS"""
-    frontend = get_current_frontend(request)
-    # Get video statistics
-    total_videos = Video.objects.filter(frontend=frontend).count()
-    needs_review = Video.objects.filter(frontend=frontend, status=VideoStatus.NEEDS_REVIEW).count()
-    shortlisted = Video.objects.filter(frontend=frontend, status=VideoStatus.SHORTLISTED).count()
-    longlisted = Video.objects.filter(frontend=frontend, status=VideoStatus.LONGLISTED).count()
-    not_relevant = Video.objects.filter(frontend=frontend, status=VideoStatus.NOT_RELEVANT).count()
-    snippets_generated = Video.objects.filter(frontend=frontend, status=VideoStatus.SNIPPETS_GENERATED).count()
-    snippets_and_translations_generated = Video.objects.filter(frontend=frontend, status=VideoStatus.SNIPPETS_AND_TRANSLATIONS_GENERATED).count()
-    live = Video.objects.filter(frontend=frontend, status=VideoStatus.LIVE).count()
-    blacklisted = Video.objects.filter(frontend=frontend, status=VideoStatus.BLACKLISTED).count()
+    # Get video statistics for each language
+    languages = Language.objects.all()
+    stats = {}
+    
+    for language in languages:
+        stats[language.code] = {
+            'total_videos': Video.objects.filter(language=language).count(),
+            'needs_review': Video.objects.filter(language=language, status=VideoStatus.NEEDS_REVIEW).count(),
+            'shortlisted': Video.objects.filter(language=language, status=VideoStatus.SHORTLISTED).count(),
+            'longlisted': Video.objects.filter(language=language, status=VideoStatus.LONGLISTED).count(),
+            'not_relevant': Video.objects.filter(language=language, status=VideoStatus.NOT_RELEVANT).count(),
+            'snippets_generated': Video.objects.filter(language=language, status=VideoStatus.SNIPPETS_GENERATED).count(),
+            'snippets_and_translations_generated': Video.objects.filter(language=language, status=VideoStatus.SNIPPETS_AND_TRANSLATIONS_GENERATED).count(),
+            'live': Video.objects.filter(language=language, status=VideoStatus.LIVE).count(),
+            'blacklisted': Video.objects.filter(language=language, status=VideoStatus.BLACKLISTED).count(),
+        }
     
     context = {
-        'total_videos': total_videos,
-        'needs_review': needs_review,
-        'shortlisted': shortlisted,
-        'longlisted': longlisted,
-        'not_relevant': not_relevant,
-        'snippets_generated': snippets_generated,
-        'snippets_and_translations_generated': snippets_and_translations_generated,
-        'live': live,
-        'blacklisted': blacklisted,
-        'frontend': frontend
+        'stats': stats,
+        'languages': languages
     }
     
-    return render(request, 'cms_home.html', context)
+    return render(request, 'withvideos/cms/cms_home.html', context)
 
 @staff_member_required
 def import_channel_videos(request):
     """View to import videos from a YouTube channel"""
-    frontend = get_current_frontend(request)
     if request.method == 'POST':
         username = request.POST.get('channel_id')
+        language_code = request.POST.get('language_code')
         import_all = request.POST.get('import_all') == 'true'
         context = {'channel_id': username}
         
-        if username:
+        if username and language_code:
             try:
+                language = Language.objects.get(code=language_code)
                 youtube = build('youtube', 'v3', developerKey=settings.YOUTUBE_API_KEY)
                 
                 # Remove @ if present
@@ -130,7 +128,7 @@ def import_channel_videos(request):
                 
                 if not channel_response.get('items'):
                     context['error'] = f"Channel '@{username}' not found. Please check the username and try again."
-                    return render(request, 'import_channel_videos.html', context)
+                    return render(request, 'withvideos/cms/import_channel_videos.html', context)
                     
                 channel_id = channel_response['items'][0]['id']['channelId']
                 
@@ -142,7 +140,7 @@ def import_channel_videos(request):
                 
                 if not channel_response.get('items'):
                     context['error'] = f"Channel '@{username}' not found. Please check the username and try again."
-                    return render(request, 'import_channel_videos.html', context)
+                    return render(request, 'withvideos/cms/import_channel_videos.html', context)
                     
                 uploads_playlist_id = channel_response['items'][0]['contentDetails']['relatedPlaylists']['uploads']
                 
@@ -156,11 +154,11 @@ def import_channel_videos(request):
                 total_videos = playlist_response['items'][0]['contentDetails']['itemCount']
                 
                 # Get existing video IDs from our database
-                existing_video_ids = set(Video.objects.filter(frontend=frontend).values_list('youtube_id', flat=True))
+                existing_video_ids = set(Video.objects.filter(language=language).values_list('youtube_id', flat=True))
                 
                 # Get the most recent video ID we've processed for this channel
                 last_processed_video = Video.objects.filter(
-                    frontend=frontend,
+                    language=language,
                     comment__startswith=f'Imported from channel {username}'
                 ).order_by('-youtube_id').first()
                 
@@ -195,7 +193,7 @@ def import_channel_videos(request):
                         if video_id not in existing_video_ids:
                             Video.objects.get_or_create(
                                 youtube_id=video_id,
-                                frontend=frontend,
+                                language=language,
                                 defaults={
                                     'status': VideoStatus.NEEDS_REVIEW,
                                     'comment': f'Imported from channel {username}',
@@ -236,17 +234,26 @@ def import_channel_videos(request):
                 
                 context['error'] = f"An error occurred while importing videos. Details: {error_details}"
         
-        return render(request, 'import_channel_videos.html', context)
+        return render(request, 'withvideos/cms/import_channel_videos.html', context)
     
-    return render(request, 'import_channel_videos.html')
+    context = {
+        'languages': Language.objects.all()
+    }
+    return render(request, 'withvideos/cms/import_channel_videos.html', context)
 
 @staff_member_required
 @never_cache
 def review_videos(request):
     """View to review videos that need review"""
-    frontend = get_current_frontend(request)
+    language_code = request.GET.get('language', 'de')  # Default to German
+    try:
+        language = Language.objects.get(code=language_code)
+    except Language.DoesNotExist:
+        messages.error(request, f"Language with code {language_code} not found.")
+        return redirect('withvideos:cms:cms_home')
+    
     # Get first 50 videos that need review, ordered by priority (descending) and youtube_id
-    videos = Video.objects.filter(frontend=frontend, status=VideoStatus.NEEDS_REVIEW).order_by('-priority', 'youtube_id')[:50]
+    videos = Video.objects.filter(language=language, status=VideoStatus.NEEDS_REVIEW).order_by('-priority', 'youtube_id')[:50]
     
     # Process each video to get available languages
     for video in videos:
@@ -268,10 +275,11 @@ def review_videos(request):
     
     context = {
         'videos': videos,
-        'frontend': frontend
+        'language': language,
+        'languages': Language.objects.all()
     }
     
-    return render(request, 'review_videos.html', context)
+    return render(request, 'withvideos/cms/review_videos.html', context)
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -290,7 +298,7 @@ def update_video_statuses(request):
                 video.status = bulk_status
                 video.save()
             messages.success(request, f"Successfully updated status for all videos to {bulk_status}.")
-            return redirect('review_videos')
+            return redirect('withvideos:cms:review_videos')
         
         # Process individual video statuses
         for key, value in post_data.items():
@@ -310,7 +318,7 @@ def update_video_statuses(request):
                 except Video.DoesNotExist:
                     continue
         
-        return redirect('review_videos')
+        return redirect('withvideos:cms:review_videos')
         
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
@@ -319,14 +327,14 @@ def update_video_statuses(request):
 @never_cache
 def list_all_videos(request):
     """View to list all videos with their status"""
-    frontend = get_current_frontend(request)
+    language_code = get_current_language(request)
     # Get page number and status filter from request
     page_number = request.GET.get('page', 1)
     status_filter = request.GET.get('status', '')
     comment_filter = request.GET.get('comment', '')
     
     # Get all videos ordered by status and youtube_id
-    videos = Video.objects.filter(frontend=frontend)
+    videos = Video.objects.filter(language__code=language_code)
     
     # Apply status filter if provided
     if status_filter:
@@ -348,24 +356,23 @@ def list_all_videos(request):
         'status_filter': status_filter,
         'comment_filter': comment_filter,
         'status_choices': VideoStatus.choices,
-        'frontend': frontend
+        'language_code': language_code
     }
     
-    return render(request, 'list_all_videos.html', context)
+    return render(request, 'withvideos/cms/list_all_videos.html', context)
 
 @staff_member_required
 @cache_page(60 * 15)  # Cache for 15 minutes
 def video_details(request, youtube_id):
     """View to show details of a specific video"""
-    frontend = get_current_frontend(request)
     try:
-        video = Video.objects.select_related().prefetch_related(
+        video = Video.objects.select_related('language').prefetch_related(
             'tags',
             'snippets',
             'words',
             'words__meanings',
             'words__occurs_in_snippets'
-        ).get(youtube_id=youtube_id, frontend=frontend)
+        ).get(youtube_id=youtube_id)
         
         # Get available languages if not already set
         if not video.available_subtitle_languages:
@@ -387,13 +394,12 @@ def video_details(request, youtube_id):
             'video': video,
             'snippet_count': snippet_count,
             'words': words,
-            'frontend': frontend,
             'video_status_choices': VideoStatus.choices
         }
         
-        return render(request, 'video_details.html', context)
+        return render(request, 'withvideos/cms/video_details.html', context)
     except Video.DoesNotExist:
-        return render(request, '404.html', {'message': 'Video not found'}, status=404)
+        return render(request, 'withvideos/cms/404.html', {'message': 'Video not found'}, status=404)
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -401,7 +407,6 @@ def generate_snippets(request, youtube_id):
     """View to generate snippets for a video using YouTube transcript API"""
     try:
         video = Video.objects.get(youtube_id=youtube_id)
-        frontend = video.frontend
         print(f"Processing video: {youtube_id}")
         
         # Get available languages if not already set
@@ -417,7 +422,7 @@ def generate_snippets(request, youtube_id):
                 video.available_subtitle_languages = []
                 video.save()
                 messages.error(request, f"Error fetching available languages: {str(e)}")
-                return redirect('video_details', youtube_id=youtube_id)
+                return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
         
         # Try to get the transcript in the target language (prefer manual over auto-generated)
         target_transcripts = []
@@ -428,17 +433,14 @@ def generate_snippets(request, youtube_id):
                 print(f"Found transcripts in languages: {[t.language_code for t in transcript_list]}")
                 
                 for transcript in transcript_list:
-                    if frontend == Frontend.ARABIC and transcript.language_code.startswith('ar'):
+                    if video.language.subtitle_prefix and transcript.language_code.startswith(video.language.subtitle_prefix):
                         target_transcripts.append(transcript)
-                        print(f"Found Arabic transcript: {transcript.language_code} (manual: {not transcript.is_generated})")
-                    elif frontend == Frontend.GERMAN and transcript.language_code.startswith('de'):
-                        target_transcripts.append(transcript)
-                        print(f"Found German transcript: {transcript.language_code} (manual: {not transcript.is_generated})")
+                        print(f"Found matching transcript: {transcript.language_code} (manual: {not transcript.is_generated})")
                 
                 if not target_transcripts:
-                    print(f"No {frontend} transcripts found")
-                    messages.error(request, f"No {frontend} subtitles available for this video.")
-                    return redirect('video_details', youtube_id=youtube_id)
+                    print(f"No matching transcripts found for language {video.language.code}")
+                    messages.error(request, f"No matching subtitles available for this video.")
+                    return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
                 
                 # Prefer manual transcripts over auto-generated ones
                 manual_transcript = next((t for t in target_transcripts if not t.is_generated), None)
@@ -484,7 +486,7 @@ def generate_snippets(request, youtube_id):
         print(f"Unexpected error: {str(e)}")
         messages.error(request, f"An unexpected error occurred: {str(e)}")
     
-    return redirect('video_details', youtube_id=youtube_id)
+    return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -495,7 +497,7 @@ def generate_translations(request, youtube_id):
         
         if not video.snippets.exists():
             messages.error(request, "No snippets available. Please generate snippets first.")
-            return redirect('video_details', youtube_id=youtube_id)
+            return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
         
         # Delete existing words and meanings
         Word.objects.filter(videos=video).delete()
@@ -503,7 +505,7 @@ def generate_translations(request, youtube_id):
         # Process each snippet
         for snippet in video.snippets.all():
             # Get words and translations for this snippet
-            words_with_translations = get_words_with_translations(snippet.content, video.frontend)
+            words_with_translations = get_words_with_translations(snippet.content, video.language)
             
             # Process each word
             for word_entry in words_with_translations:
@@ -535,7 +537,7 @@ def generate_translations(request, youtube_id):
     except Exception as e:
         messages.error(request, f"Error generating translations: {str(e)}")
     
-    return redirect('video_details', youtube_id=youtube_id)
+    return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -546,7 +548,7 @@ def publish_video(request, youtube_id):
         
         if video.status != VideoStatus.SNIPPETS_AND_TRANSLATIONS_GENERATED:
             messages.error(request, "Video must have snippets and translations generated before publishing.")
-            return redirect('video_details', youtube_id=youtube_id)
+            return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
         
         video.status = VideoStatus.LIVE
         video.save()
@@ -558,7 +560,7 @@ def publish_video(request, youtube_id):
     except Exception as e:
         messages.error(request, f"Error publishing video: {str(e)}")
     
-    return redirect('video_details', youtube_id=youtube_id)
+    return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -571,7 +573,7 @@ def reset_snippets(request, youtube_id):
                               VideoStatus.SNIPPETS_AND_TRANSLATIONS_GENERATED, 
                               VideoStatus.LIVE]:
             messages.error(request, "Video must have snippets generated to reset them.")
-            return redirect('video_details', youtube_id=youtube_id)
+            return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
         
         # Delete snippets (this will cascade delete words and meanings)
         video.snippets.all().delete()
@@ -587,7 +589,7 @@ def reset_snippets(request, youtube_id):
     except Exception as e:
         messages.error(request, f"Error resetting snippets: {str(e)}")
     
-    return redirect('video_details', youtube_id=youtube_id)
+    return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
 
 def extract_youtube_id(url):
     """Extract YouTube video ID from various URL formats."""
@@ -606,7 +608,7 @@ def extract_youtube_id(url):
 @staff_member_required
 def bulk_import_videos(request):
     """View for bulk importing YouTube videos."""
-    frontend = get_current_frontend(request)
+    language_code = get_current_language(request)
     if request.method == 'POST':
         youtube_links = request.POST.get('youtube_links', '').strip()
         if not youtube_links:
@@ -630,7 +632,7 @@ def bulk_import_videos(request):
             try:
                 Video.objects.get_or_create(
                     youtube_id=video_id,
-                    frontend=frontend,
+                    language=Language.objects.get(code=language_code),
                     defaults={'status': VideoStatus.NEEDS_REVIEW, 'comment': 'bulk imported'}
                 )
                 successful_imports += 1
@@ -652,11 +654,16 @@ def bulk_import_videos(request):
 def mark_videos_without_arabic_subtitles(request):
     """View to mark videos without target language subtitles as not relevant"""
     try:
-        frontend = get_current_frontend(request)
+        language_code = request.POST.get('language_code')
+        if not language_code:
+            messages.error(request, "Language code is required.")
+            return redirect('withvideos:cms:list_all_videos')
+            
+        language = Language.objects.get(code=language_code)
         
-        # Get videos for the current frontend that haven't been checked yet
+        # Get videos for the current language that haven't been checked yet
         videos = Video.objects.filter(
-            frontend=frontend,
+            language=language,
             checked_for_relevant_subtitles=False
         ).exclude(
             status=VideoStatus.NOT_RELEVANT
@@ -667,10 +674,8 @@ def mark_videos_without_arabic_subtitles(request):
         for video in videos:
             # Check if video has target language subtitles
             has_target_language = False
-            if frontend == Frontend.ARABIC:
-                has_target_language = any(lang.startswith('ar') for lang in video.available_subtitle_languages)
-            else:  # German
-                has_target_language = any(lang.startswith('de') for lang in video.available_subtitle_languages)
+            if language.subtitle_prefix:
+                has_target_language = any(lang.startswith(language.subtitle_prefix) for lang in video.available_subtitle_languages)
             
             if not has_target_language:
                 video.status = VideoStatus.NOT_RELEVANT
@@ -678,20 +683,27 @@ def mark_videos_without_arabic_subtitles(request):
                 video.save()
                 marked_count += 1
         
-        messages.success(request, f"Successfully marked {marked_count} videos without {frontend} subtitles as not relevant.")
+        messages.success(request, f"Successfully marked {marked_count} videos without {language.name} subtitles as not relevant.")
+    except Language.DoesNotExist:
+        messages.error(request, f"Language with code {language_code} not found.")
     except Exception as e:
         messages.error(request, f"Error marking videos: {str(e)}")
     
-    return redirect('list_all_videos')
+    return redirect('withvideos:cms:list_all_videos')
 
 @staff_member_required
 @require_http_methods(["POST"])
 def generate_snippets_for_all_shortlisted(request):
     """View to generate snippets for all shortlisted videos"""
-    frontend = get_current_frontend(request)
+    language_code = request.POST.get('language_code')
+    if not language_code:
+        messages.error(request, "Language code is required.")
+        return redirect('withvideos:cms:list_all_videos')
+        
     try:
-        # Get all shortlisted videos for the current frontend
-        videos = Video.objects.filter(frontend=frontend, status=VideoStatus.SHORTLISTED)
+        language = Language.objects.get(code=language_code)
+        # Get all shortlisted videos for the current language
+        videos = Video.objects.filter(language=language, status=VideoStatus.SHORTLISTED)
         processed_count = 0
         error_count = 0
         no_subtitles_count = 0
@@ -716,9 +728,7 @@ def generate_snippets_for_all_shortlisted(request):
                         transcript_list = YouTubeTranscriptApi.list_transcripts(video.youtube_id)
                         
                         for transcript in transcript_list:
-                            if frontend == Frontend.ARABIC and transcript.language_code.startswith('ar'):
-                                target_transcripts.append(transcript)
-                            elif frontend == Frontend.GERMAN and transcript.language_code.startswith('de'):
+                            if language.subtitle_prefix and transcript.language_code.startswith(language.subtitle_prefix):
                                 target_transcripts.append(transcript)
                         
                         if target_transcripts:
@@ -747,7 +757,7 @@ def generate_snippets_for_all_shortlisted(request):
                             processed_count += 1
                         else:
                             no_subtitles_count += 1
-                            error_videos.append(f"{video.youtube_id} (No {frontend} subtitles)")
+                            error_videos.append(f"{video.youtube_id} (No {language.name} subtitles)")
                     except Exception as e:
                         error_count += 1
                         error_videos.append(f"{video.youtube_id} (Error: {str(e)})")
@@ -761,23 +771,28 @@ def generate_snippets_for_all_shortlisted(request):
         if processed_count > 0:
             messages.success(request, f"Successfully generated snippets for {processed_count} videos.")
         if no_subtitles_count > 0:
-            messages.warning(request, f"{no_subtitles_count} videos had no {frontend} subtitles available.")
+            messages.warning(request, f"{no_subtitles_count} videos had no {language.name} subtitles available.")
         if error_count > 0:
             messages.error(request, f"Failed to process {error_count} videos: {', '.join(error_videos)}")
             
+    except Language.DoesNotExist:
+        messages.error(request, f"Language with code {language_code} not found.")
     except Exception as e:
         messages.error(request, f"Error processing videos: {str(e)}")
     
-    return redirect('list_all_videos')
+    return redirect('withvideos:cms:list_all_videos')
 
 @staff_member_required
 @require_http_methods(["POST"])
 def generate_translations_for_all_snippets(request):
     """View to generate translations for all videos with snippets"""
-    frontend = get_current_frontend(request)
+    language_code = get_current_language(request)
     try:
-        # Get all videos with snippets generated for the current frontend
-        videos = Video.objects.filter(frontend=frontend, status=VideoStatus.SNIPPETS_GENERATED)
+        # Get all videos with snippets generated for the current language
+        videos = Video.objects.filter(
+            language__code=language_code,
+            status=VideoStatus.SNIPPETS_GENERATED
+        )
         processed_count = 0
         error_count = 0
         no_snippets_count = 0
@@ -797,7 +812,7 @@ def generate_translations_for_all_snippets(request):
                 total_words = 0
                 for snippet in video.snippets.all():
                     # Get words and translations for this snippet
-                    words_with_translations = get_words_with_translations(snippet.content, frontend)
+                    words_with_translations = get_words_with_translations(snippet.content, video.language)
                     total_words += len(words_with_translations)
                     
                     # Process each word
@@ -838,23 +853,23 @@ def generate_translations_for_all_snippets(request):
     except Exception as e:
         messages.error(request, f"Error processing videos: {str(e)}")
     
-    return redirect('list_all_videos')
+    return redirect('withvideos:cms:list_all_videos')
 
 @staff_member_required
 def actions(request):
     """View for the actions page"""
-    frontend = get_current_frontend(request)
+    language_code = get_current_language(request)
     unchecked_count = Video.objects.filter(
-        frontend=frontend,
+        language__code=language_code,
         checked_for_relevant_subtitles=False
     ).exclude(
         status=VideoStatus.NOT_RELEVANT
     ).count()
     context = {
         'unchecked_count': unchecked_count,
-        'frontend': frontend
+        'language_code': language_code
     }
-    return render(request, 'actions.html', context)
+    return render(request, 'withvideos/cms/actions.html', context)
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -894,7 +909,7 @@ def bulk_check_subtitles(request):
     except Exception as e:
         messages.error(request, f"Error checking subtitles: {str(e)}")
     
-    return redirect('actions')
+    return redirect('withvideos:cms:actions')
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -910,12 +925,12 @@ def blacklist_video(request, youtube_id):
     except Exception as e:
         messages.error(request, f"Error blacklisting video: {str(e)}")
     
-    return redirect('video_details', youtube_id=youtube_id)
+    return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
 
 @staff_member_required
 def import_playlist_videos(request):
     """View to import videos from a YouTube playlist"""
-    frontend = get_current_frontend(request)
+    language_code = get_current_language(request)
     if request.method == 'POST':
         playlist_url = request.POST.get('playlist_url')
         import_all = request.POST.get('import_all') == 'true'
@@ -958,11 +973,11 @@ def import_playlist_videos(request):
                 total_videos = playlist_items_response['pageInfo']['totalResults']
                 
                 # Get existing video IDs from our database
-                existing_video_ids = set(Video.objects.filter(frontend=frontend).values_list('youtube_id', flat=True))
+                existing_video_ids = set(Video.objects.filter(language__code=language_code).values_list('youtube_id', flat=True))
                 
                 # Get the most recent video ID we've processed for this playlist
                 last_processed_video = Video.objects.filter(
-                    frontend=frontend,
+                    language__code=language_code,
                     comment__startswith=f'Imported from playlist {playlist_id}'
                 ).order_by('-youtube_id').first()
                 
@@ -997,7 +1012,7 @@ def import_playlist_videos(request):
                         if video_id not in existing_video_ids:
                             Video.objects.get_or_create(
                                 youtube_id=video_id,
-                                frontend=frontend,
+                                language=Language.objects.get(code=language_code),
                                 defaults={
                                     'status': VideoStatus.NEEDS_REVIEW,
                                     'comment': f'Imported from playlist {playlist_id}: {playlist_title}',
@@ -1074,10 +1089,10 @@ def export_snippets_csv(request, youtube_id):
         
     except Video.DoesNotExist:
         messages.error(request, "Video not found.")
-        return redirect('video_details', youtube_id=youtube_id)
+        return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
     except Exception as e:
         messages.error(request, f"Error exporting snippets: {str(e)}")
-        return redirect('video_details', youtube_id=youtube_id)
+        return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -1087,10 +1102,10 @@ def update_video_priorities(request):
         # Get the current filter parameters
         status_filter = request.POST.get('status_filter', '')
         comment_filter = request.POST.get('comment_filter', '')
-        frontend = get_current_frontend(request)
+        language_code = get_current_language(request)
         
         # Get all videos matching the current filter
-        videos = Video.objects.filter(frontend=frontend)
+        videos = Video.objects.filter(language__code=language_code)
         
         if status_filter:
             videos = videos.filter(status=status_filter)
@@ -1112,7 +1127,7 @@ def update_video_priorities(request):
         messages.error(request, f"Error updating priorities: {str(e)}")
     
     # Redirect back to the list view with the same filters
-    redirect_url = reverse('list_all_videos')
+    redirect_url = reverse('withvideos:cms:list_all_videos')
     if status_filter:
         redirect_url += f"?status={status_filter}"
     if comment_filter:
@@ -1123,98 +1138,108 @@ def update_video_priorities(request):
 @staff_member_required
 def search_videos(request):
     """View to search YouTube videos and automatically import them"""
-    frontend = get_current_frontend(request)
+    language_code = request.GET.get('language', 'de')  # Default to German
     search_query = request.GET.get('q', '')
     
-    # Set country and language based on frontend
-    if frontend == Frontend.ARABIC:
-        region_code = 'EG'
-        language = 'ar'
-    else:  # German
-        region_code = 'DE'
-        language = 'de'
-    
-    if search_query:
-        try:
-            youtube = build('youtube', 'v3', developerKey=settings.YOUTUBE_API_KEY)
-            
-            # Get existing video IDs to exclude
-            existing_video_ids = set(Video.objects.filter(frontend=frontend).values_list('youtube_id', flat=True))
-            
-            # Get the last page token used for this search query
-            last_page_token = request.session.get(f'last_page_token_{search_query}', '')
-            
-            # Search for videos with captions
-            search_response = youtube.search().list(
-                q=search_query,
-                part='id,snippet',
-                type='video',
-                maxResults=10,
-                regionCode=region_code,
-                relevanceLanguage=language,
-                pageToken=last_page_token,
-                videoCaption='any'  # Only include videos with captions
-            ).execute()
-            
-            # Store the next page token for future searches
-            next_page_token = search_response.get('nextPageToken')
-            if next_page_token:
-                request.session[f'last_page_token_{search_query}'] = next_page_token
-            else:
-                # If no more pages, reset to start from beginning
-                request.session[f'last_page_token_{search_query}'] = ''
-            
-            # Get or create tag for this search query
-            tag, _ = Tag.objects.get_or_create(name=search_query.lower())
-            
-            imported_count = 0
-            for item in search_response.get('items', []):
-                video_id = item['id']['videoId']
-                if video_id not in existing_video_ids:
-                    video = Video.objects.create(
-                        youtube_id=video_id,
-                        frontend=frontend,
-                        status=VideoStatus.NEEDS_REVIEW,
-                        comment=f'Imported from search: {search_query}',
-                        youtube_title=item['snippet']['title']
-                    )
-                    # Add the tag to the video
-                    video.tags.add(tag)
-                    imported_count += 1
-            
+    try:
+        language = Language.objects.get(code=language_code)
+        
+        # Set country and language based on language
+        if language.subtitle_prefix and language.subtitle_prefix.startswith('ar'):
+            region_code = 'EG'
+            language_code = 'ar'
+        else:  # German
+            region_code = 'DE'
+            language_code = 'de'
+        
+        if search_query:
+            try:
+                youtube = build('youtube', 'v3', developerKey=settings.YOUTUBE_API_KEY)
+                
+                # Get existing video IDs to exclude
+                existing_video_ids = set(Video.objects.filter(language=language).values_list('youtube_id', flat=True))
+                
+                # Get the last page token used for this search query
+                last_page_token = request.session.get(f'last_page_token_{search_query}', '')
+                
+                # Search for videos with captions
+                search_response = youtube.search().list(
+                    q=search_query,
+                    part='id,snippet',
+                    type='video',
+                    maxResults=10,
+                    regionCode=region_code,
+                    relevanceLanguage=language_code,
+                    pageToken=last_page_token,
+                    videoCaption='any'  # Only include videos with captions
+                ).execute()
+                
+                # Store the next page token for future searches
+                next_page_token = search_response.get('nextPageToken')
+                if next_page_token:
+                    request.session[f'last_page_token_{search_query}'] = next_page_token
+                else:
+                    # If no more pages, reset to start from beginning
+                    request.session[f'last_page_token_{search_query}'] = ''
+                
+                # Get or create tag for this search query
+                tag, _ = Tag.objects.get_or_create(name=search_query.lower())
+                
+                imported_count = 0
+                for item in search_response.get('items', []):
+                    video_id = item['id']['videoId']
+                    if video_id not in existing_video_ids:
+                        video = Video.objects.create(
+                            youtube_id=video_id,
+                            language=language,
+                            status=VideoStatus.NEEDS_REVIEW,
+                            comment=f'Imported from search: {search_query}',
+                            youtube_title=item['snippet']['title']
+                        )
+                        # Add the tag to the video
+                        video.tags.add(tag)
+                        imported_count += 1
+                
+                context = {
+                    'search_query': search_query,
+                    'imported_count': imported_count,
+                    'language': language,
+                    'languages': Language.objects.all()
+                }
+                
+            except Exception as e:
+                context = {
+                    'error': str(e),
+                    'search_query': search_query,
+                    'language': language,
+                    'languages': Language.objects.all()
+                }
+        else:
             context = {
-                'search_query': search_query,
-                'imported_count': imported_count,
-                'frontend': frontend
+                'language': language,
+                'languages': Language.objects.all()
             }
-            
-        except Exception as e:
-            context = {
-                'error': str(e),
-                'search_query': search_query,
-                'frontend': frontend
-            }
-    else:
-        context = {
-            'frontend': frontend
-        }
-    
-    return render(request, 'search_videos.html', context)
+        
+        return render(request, 'withvideos/cms/search_videos.html', context)
+        
+    except Language.DoesNotExist:
+        messages.error(request, f"Language with code {language_code} not found.")
+        return redirect('withvideos:cms:cms_home')
 
 @staff_member_required
 @require_http_methods(["POST"])
 def enrich_video_metadata(request):
     """View to enrich video metadata using YouTube API"""
     print("Starting enrich_video_metadata view")  # Debug log
-    frontend = get_current_frontend(request)
+    language_code = get_current_language(request)
     try:
-        print(f"Building YouTube API client for frontend: {frontend}")  # Debug log
+        print(f"Building YouTube API client for language: {language_code}")  # Debug log
         youtube = build('youtube', 'v3', developerKey=settings.YOUTUBE_API_KEY)
         
         # Get videos that are either live OR have snippets and translations generated
         # AND don't have a title set yet (to avoid unnecessary API calls)
         videos = Video.objects.filter(
-            frontend=frontend,
+            language__code=language_code,
             status__in=[VideoStatus.LIVE, VideoStatus.SNIPPETS_AND_TRANSLATIONS_GENERATED],
             youtube_title__isnull=True
         )
@@ -1317,7 +1342,7 @@ def enrich_video_metadata(request):
         
         # Get count of videos that were skipped because they already had titles
         skipped_count = Video.objects.filter(
-            frontend=frontend,
+            language__code=language_code,
             status__in=[VideoStatus.LIVE, VideoStatus.SNIPPETS_AND_TRANSLATIONS_GENERATED],
             youtube_title__isnull=False
         ).count()
@@ -1335,17 +1360,17 @@ def enrich_video_metadata(request):
         print(f"Error in enrich_video_metadata: {str(e)}")  # Debug log
         messages.error(request, f"Error enriching video metadata: {str(e)}")
     
-    return redirect('actions')
+    return redirect('withvideos:cms:actions')
 
 @staff_member_required
 @require_http_methods(["POST"])
 def reduce_review_priorities(request):
     """View to reduce priority for all videos on the current review page"""
     try:
-        frontend = get_current_frontend(request)
+        language_code = get_current_language(request)
         # Get the first 50 videos that need review, ordered by priority (descending) and youtube_id
         video_ids = Video.objects.filter(
-            frontend=frontend,
+            language__code=language_code,
             status=VideoStatus.NEEDS_REVIEW
         ).order_by('-priority', 'youtube_id')[:50].values_list('id', flat=True)
         
@@ -1356,17 +1381,17 @@ def reduce_review_priorities(request):
     except Exception as e:
         messages.error(request, f"Error updating priorities: {str(e)}")
     
-    return redirect('review_videos')
+    return redirect('withvideos:cms:review_videos')
 
 @staff_member_required
 @require_http_methods(["POST"])
 def publish_videos_with_many_snippets(request):
     """View to publish videos that have more than 5 snippets and are ready for publishing"""
     try:
-        frontend = get_current_frontend(request)
+        language_code = get_current_language(request)
         # Get videos with more than 5 snippets and status SNIPPETS_AND_TRANSLATIONS_GENERATED
         videos = Video.objects.filter(
-            frontend=frontend,
+            language__code=language_code,
             status=VideoStatus.SNIPPETS_AND_TRANSLATIONS_GENERATED
         ).annotate(
             snippet_count=models.Count('snippets')
@@ -1381,7 +1406,7 @@ def publish_videos_with_many_snippets(request):
     except Exception as e:
         messages.error(request, f"Error publishing videos: {str(e)}")
     
-    return redirect('actions')
+    return redirect('withvideos:cms:actions')
 
 
 @staff_member_required
@@ -1404,7 +1429,7 @@ def update_video_status(request, youtube_id):
     except Exception as e:
         messages.error(request, f"Error updating video status: {str(e)}")
     
-    return redirect('video_details', youtube_id=youtube_id)
+    return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
 
 @staff_member_required
 def manage_tags(request, tag_id=None):
@@ -1415,7 +1440,7 @@ def manage_tags(request, tag_id=None):
             tag = Tag.objects.get(id=tag_id)
         except Tag.DoesNotExist:
             messages.error(request, "Tag not found.")
-            return redirect('manage_tags')
+            return redirect('withvideos:cms:manage_tags')
 
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -1423,7 +1448,7 @@ def manage_tags(request, tag_id=None):
 
         if not name:
             messages.error(request, "Tag name is required.")
-            return redirect('manage_tags')
+            return redirect('withvideos:cms:manage_tags')
 
         try:
             if tag:
@@ -1436,10 +1461,10 @@ def manage_tags(request, tag_id=None):
                 # Create new tag
                 Tag.objects.create(name=name, type=type)
                 messages.success(request, "Tag created successfully.")
-            return redirect('manage_tags')
+            return redirect('withvideos:cms:manage_tags')
         except Exception as e:
             messages.error(request, f"Error saving tag: {str(e)}")
-            return redirect('manage_tags')
+            return redirect('withvideos:cms:manage_tags')
 
     # Get all tags for the list
     tags = Tag.objects.all().order_by('name')
@@ -1450,7 +1475,7 @@ def manage_tags(request, tag_id=None):
         'tag_types': TagType.choices
     }
     
-    return render(request, 'tag_management.html', context)
+    return render(request, 'withvideos/cms/tag_management.html', context)
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -1468,7 +1493,7 @@ def remove_tag(request, youtube_id, tag_id):
     except Exception as e:
         messages.error(request, f"Error removing tag: {str(e)}")
     
-    return redirect('video_details', youtube_id=youtube_id)
+    return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -1480,7 +1505,7 @@ def add_tag(request, youtube_id):
         
         if not tag_name:
             messages.error(request, "Tag name cannot be empty.")
-            return redirect('video_details', youtube_id=youtube_id)
+            return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
         
         # Get or create the tag (only manual tags can be created this way)
         tag, created = Tag.objects.get_or_create(
@@ -1501,7 +1526,7 @@ def add_tag(request, youtube_id):
     except Exception as e:
         messages.error(request, f"Error adding tag: {str(e)}")
     
-    return redirect('video_details', youtube_id=youtube_id)
+    return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
 
 @staff_member_required
 def tag_autocomplete(request):

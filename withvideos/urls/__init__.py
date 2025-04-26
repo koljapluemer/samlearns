@@ -5,5 +5,5 @@ app_name = 'withvideos'
 
 urlpatterns = [
     path('', include(app.urlpatterns)),
-    path('cms/', include(cms.urlpatterns)),
+    path('cms/', include((cms.urlpatterns, 'cms'), namespace='cms')),
 ]
