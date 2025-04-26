@@ -54,7 +54,10 @@
                                      'is-active': tabPlayer.isPlaying && bIndex === tabPlayer.currentBeat,
                                      'is-correct': tabPlayer.noteTracking.noteStates[bIndex] === 'correct',
                                      'is-incorrect': tabPlayer.noteTracking.noteStates[bIndex] === 'incorrect',
-                                     'is-missed': bIndex < tabPlayer.currentBeat && tabPlayer.noteTracking.noteStates[bIndex] === 'missed'
+                                     'is-missed': bIndex < tabPlayer.currentBeat && tabPlayer.noteTracking.noteStates[bIndex] === 'missed',
+                                     'is-previous-correct': tabPlayer.noteTracking.previousStates[bIndex] === 'correct' && !tabPlayer.noteTracking.playedNotes[bIndex],
+                                     'is-previous-incorrect': tabPlayer.noteTracking.previousStates[bIndex] === 'incorrect' && !tabPlayer.noteTracking.playedNotes[bIndex],
+                                     'is-previous-missed': tabPlayer.noteTracking.previousStates[bIndex] === 'missed' && !tabPlayer.noteTracking.playedNotes[bIndex]
                                  }"
                                  x-text="beat[string] || '-'">
                             </div>
@@ -266,8 +269,8 @@ document.addEventListener('alpine:init', () => {
                 expectedNotes: [], // Array of expected notes per beat
                 playedNotes: [],   // Array of detected notes per beat
                 noteStates: [],    // Array of note states (correct/incorrect/missed)
-                gracePeriod: 200,  // Time window after beat start to accept notes (ms)
-                lastBeatTime: 0    // Track when each beat started
+                runCount: 0,       // Track how many times we've played through
+                previousStates: [] // Track states from previous runs
             }
         },
 
@@ -309,6 +312,7 @@ document.addEventListener('alpine:init', () => {
             });
             this.tabPlayer.noteTracking.playedNotes = new Array(this.tabPlayer.beats.length).fill(null);
             this.tabPlayer.noteTracking.noteStates = new Array(this.tabPlayer.beats.length).fill('missed');
+            this.tabPlayer.noteTracking.previousStates = new Array(this.tabPlayer.beats.length).fill(null);
             
             this.updateBeatDuration();
             this.$watch('tabPlayer.bpm', () => this.updateBeatDuration());
@@ -383,6 +387,16 @@ document.addEventListener('alpine:init', () => {
                     this.tabPlayer.noteTracking.expectedNotes[previousBeat] && 
                     !this.tabPlayer.noteTracking.playedNotes[previousBeat]) {
                     this.tabPlayer.noteTracking.noteStates[previousBeat] = 'missed';
+                }
+                
+                // If we're starting a new run through the song
+                if (newBeat === 0 && previousBeat === this.tabPlayer.beats.length - 1) {
+                    // Save current states as previous states
+                    this.tabPlayer.noteTracking.previousStates = [...this.tabPlayer.noteTracking.noteStates];
+                    // Reset current states
+                    this.tabPlayer.noteTracking.noteStates = new Array(this.tabPlayer.beats.length).fill('missed');
+                    this.tabPlayer.noteTracking.playedNotes = new Array(this.tabPlayer.beats.length).fill(null);
+                    this.tabPlayer.noteTracking.runCount++;
                 }
                 
                 this.tabPlayer.currentBeat = newBeat;
@@ -531,6 +545,21 @@ document.addEventListener('alpine:init', () => {
     color: var(--warning-invert);
 }
 
+.tab-cell.is-previous-correct {
+    background: var(--success-washed);
+    color: var(--success-invert);
+}
+
+.tab-cell.is-previous-incorrect {
+    background: var(--danger-washed);
+    color: var(--danger-invert);
+}
+
+.tab-cell.is-previous-missed {
+    background: var(--warning-washed);
+    color: var(--warning-invert);
+}
+
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
     :root {
@@ -542,10 +571,11 @@ document.addEventListener('alpine:init', () => {
         --primary: #3273dc;
         --primary-invert: #fff;
         --danger: #ff3860;
+        --danger-washed: #4a1a24;
         --success: #48c774;
-        --success-invert: #fff;
+        --success-washed: #1a3a24;
         --warning: #b86bf4;
-        --warning-invert: #fff;
+        --warning-washed: #2a1a3a;
     }
 }
 
@@ -559,10 +589,11 @@ document.addEventListener('alpine:init', () => {
         --primary: #3273dc;
         --primary-invert: #fff;
         --danger: #ff3860;
+        --danger-washed: #4a1a24;
         --success: #48c774;
-        --success-invert: #fff;
+        --success-washed: #1a3a24;
         --warning: #b86bf4;
-        --warning-invert: #fff;
+        --warning-washed: #2a1a3a;
     }
 }
 
