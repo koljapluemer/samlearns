@@ -61,11 +61,27 @@
             </div>
         </div>
     </div>
+
+    <!-- Subtle note display -->
+    <div class="current-note-display" x-show="currentNote">
+        <span class="current-note" x-text="currentNote"></span>
+    </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
+// Note map for each string (frets 0-12)
+const NOTE_MAP = {
+    'g': ['G', 'G#/Ab', 'A', 'A#/Bb', 'B', 'C', 'C#/Db', 'D', 'D#/Eb', 'E', 'F', 'F#/Gb', 'G'],
+    'c': ['C', 'C#/Db', 'D', 'D#/Eb', 'E', 'F', 'F#/Gb', 'G', 'G#/Ab', 'A', 'A#/Bb', 'B', 'C'],
+    'e': ['E', 'F', 'F#/Gb', 'G', 'G#/Ab', 'A', 'A#/Bb', 'B', 'C', 'C#/Db', 'D', 'D#/Eb', 'E'],
+    'a': ['A', 'A#/Bb', 'B', 'C', 'C#/Db', 'D', 'D#/Eb', 'E', 'F', 'F#/Gb', 'G', 'G#/Ab', 'A'],
+};
+
+// String label map for display
+const STRING_LABELS = { 'g': 'G', 'c': 'C', 'e': 'E', 'a': 'A' };
+
 document.addEventListener('alpine:init', () => {
     Alpine.data('tabPlayer', () => ({
         stringOrder: ['a', 'e', 'c', 'g'],
@@ -80,6 +96,10 @@ document.addEventListener('alpine:init', () => {
         beatDuration: 500, // Initial value, will be updated
         cellWidth: 56, // 3.5rem in pixels (3rem width + 0.5rem gap),
         totalWidth: 0, // Will be calculated in init
+        currentNote: '',
+        currentString: '',
+        currentFret: '',
+        currentStringLabel: '',
 
         init() {
             // Add 4 empty beats at the beginning
@@ -94,6 +114,8 @@ document.addEventListener('alpine:init', () => {
             this.$watch('bpm', () => this.updateBeatDuration());
             // Calculate total width of all beats
             this.totalWidth = this.beats.length * this.cellWidth;
+            // Set initial note
+            this.updateCurrentNote();
         },
 
         updateBeatDuration() {
@@ -121,6 +143,7 @@ document.addEventListener('alpine:init', () => {
             
             // Update current beat (for highlighting)
             this.currentBeat = Math.floor(beatPosition) % this.beats.length;
+            this.updateCurrentNote();
             
             // Calculate scroll position using modulo to create seamless loop
             const beatProgress = beatPosition - Math.floor(beatPosition);
@@ -130,6 +153,32 @@ document.addEventListener('alpine:init', () => {
             
             if (this.isPlaying) {
                 this.animationFrame = requestAnimationFrame((t) => this.animate(t));
+            }
+        },
+
+        updateCurrentNote() {
+            // Find which string is played (not '-') in the current beat
+            const beat = this.beats[this.currentBeat] || {};
+            let found = false;
+            for (const string of this.stringOrder) {
+                const val = beat[string];
+                if (val && val !== '-') {
+                    const fret = parseInt(val, 10);
+                    if (!isNaN(fret) && fret >= 0 && fret < 13) {
+                        this.currentNote = NOTE_MAP[string][fret];
+                        this.currentString = string;
+                        this.currentFret = fret;
+                        this.currentStringLabel = STRING_LABELS[string];
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found) {
+                this.currentNote = '';
+                this.currentString = '';
+                this.currentFret = '';
+                this.currentStringLabel = '';
             }
         }
     }));
@@ -241,6 +290,18 @@ document.addEventListener('alpine:init', () => {
         --primary-invert: #fff;
         --danger: #ff3860;
     }
+}
+
+.current-note-display {
+    text-align: center;
+    margin-top: 1rem;
+    opacity: 0.7;
+}
+
+.current-note {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--text);
 }
 </style>
 {% endblock %} 
