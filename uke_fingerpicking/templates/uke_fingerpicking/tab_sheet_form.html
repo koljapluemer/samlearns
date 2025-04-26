@@ -1,0 +1,197 @@
+{% extends 'uke_fingerpicking/base.html' %}
+{% block content %}
+<section class="section">
+  <h1 class="title">{% if form.instance.pk %}Edit{% else %}Add{% endif %} Tab Sheet</h1>
+  <form method="post" id="tab-sheet-form">
+    {% csrf_token %}
+    <div class="field">
+      <label class="label">Title</label>
+      <div class="control">
+        {{ form.title }}
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">Artist</label>
+      <div class="control">
+        {{ form.artist }}
+      </div>
+    </div>
+    <hr>
+    <h2 class="subtitle">Tab Grid</h2>
+    <div id="tab-grid-container" class="mb-4"></div>
+    <div class="field mt-4">
+      <button type="submit" class="button is-success">
+        <i data-lucide="save"></i>&nbsp;Save
+      </button>
+      <a href="{% url 'cms_tab_sheet_list' %}" class="button is-light">Cancel</a>
+    </div>
+  </form>
+</section>
+{% endblock %}
+{% block extra_js %}
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>lucide.createIcons();</script>
+<script>
+const stringOrder = ['a', 'e', 'c', 'g'];
+const stringLabels = {'a': 'A', 'e': 'E', 'c': 'C', 'g': 'G'};
+let beats = JSON.parse('{{ beats_json|escapejs }}');
+
+function renderTabGrid() {
+  const container = document.getElementById('tab-grid-container');
+  container.innerHTML = '';
+  const table = document.createElement('table');
+  table.className = 'table is-bordered is-narrow tab-grid-table';
+  // Header row (beat numbers)
+  const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+  headerRow.appendChild(document.createElement('th')); // empty corner
+  for (let i = 0; i < beats.length; i++) {
+    const th = document.createElement('th');
+    th.textContent = i + 1;
+    headerRow.appendChild(th);
+  }
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
+  // Body rows (strings)
+  const tbody = document.createElement('tbody');
+  for (let s = 0; s < stringOrder.length; s++) {
+    const stringKey = stringOrder[s];
+    const tr = document.createElement('tr');
+    const labelTd = document.createElement('td');
+    labelTd.textContent = stringLabels[stringKey];
+    labelTd.className = 'has-text-weight-bold';
+    tr.appendChild(labelTd);
+    for (let b = 0; b < beats.length; b++) {
+      const td = document.createElement('td');
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.maxLength = 1;
+      input.className = 'input is-small tab-cell-input';
+      input.style.width = '2.5em';
+      input.style.textAlign = 'center';
+      input.name = `beat_${b}_${stringKey}`;
+      input.value = beats[b][stringKey] || '';
+      input.dataset.beat = b;
+      input.dataset.string = stringKey;
+      input.addEventListener('input', handleCellInput);
+      input.addEventListener('keydown', handleCellKeydown);
+      td.appendChild(input);
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  }
+  table.appendChild(tbody);
+  container.appendChild(table);
+}
+
+function handleCellInput(e) {
+  const input = e.target;
+  const beatIdx = parseInt(input.dataset.beat);
+  const stringKey = input.dataset.string;
+  beats[beatIdx][stringKey] = input.value.slice(0, 1);
+  // Auto-jump to next cell
+  if (input.value.length === 1) {
+    let nextInput = findNextInput(input);
+    if (!nextInput && beatIdx === beats.length - 1 && stringKey === 'g') {
+      // Add new beat column if last cell
+      beats.push({'a': '', 'e': '', 'c': '', 'g': ''});
+      renderTabGrid();
+      setTimeout(() => {
+        // Focus the new cell
+        const newInput = document.querySelector(`input[name='beat_${beats.length - 1}_a']`);
+        if (newInput) newInput.focus();
+      }, 10);
+      return;
+    }
+    if (nextInput) nextInput.focus();
+  }
+}
+
+function findNextInput(currentInput) {
+  const beatIdx = parseInt(currentInput.dataset.beat);
+  const stringKey = currentInput.dataset.string;
+  let sIdx = stringOrder.indexOf(stringKey);
+  let bIdx = beatIdx;
+  // Move right (next string), then down (next beat)
+  if (sIdx < stringOrder.length - 1) {
+    sIdx++;
+  } else {
+    sIdx = 0;
+    bIdx++;
+  }
+  return document.querySelector(`input[name='beat_${bIdx}_${stringOrder[sIdx]}']`);
+}
+
+function handleCellKeydown(e) {
+  // Optional: handle arrow keys for navigation
+  const input = e.target;
+  const beatIdx = parseInt(input.dataset.beat);
+  const stringKey = input.dataset.string;
+  let sIdx = stringOrder.indexOf(stringKey);
+  let bIdx = beatIdx;
+  if (e.key === 'ArrowRight') {
+    if (sIdx < stringOrder.length - 1) {
+      sIdx++;
+    } else {
+      sIdx = 0;
+      bIdx++;
+    }
+    const next = document.querySelector(`input[name='beat_${bIdx}_${stringOrder[sIdx]}']`);
+    if (next) { e.preventDefault(); next.focus(); }
+  } else if (e.key === 'ArrowLeft') {
+    if (sIdx > 0) {
+      sIdx--;
+    } else if (bIdx > 0) {
+      sIdx = stringOrder.length - 1;
+      bIdx--;
+    }
+    const prev = document.querySelector(`input[name='beat_${bIdx}_${stringOrder[sIdx]}']`);
+    if (prev) { e.preventDefault(); prev.focus(); }
+  } else if (e.key === 'ArrowDown') {
+    const down = document.querySelector(`input[name='beat_${beatIdx + 1}_${stringKey}']`);
+    if (down) { e.preventDefault(); down.focus(); }
+  } else if (e.key === 'ArrowUp') {
+    const up = document.querySelector(`input[name='beat_${beatIdx - 1}_${stringKey}']`);
+    if (up) { e.preventDefault(); up.focus(); }
+  }
+}
+
+// On submit, trim trailing empty columns and fill empty cells with '-'
+document.getElementById('tab-sheet-form').addEventListener('submit', function(e) {
+  // Remove trailing empty beats
+  let lastNonEmpty = -1;
+  for (let i = 0; i < beats.length; i++) {
+    const b = beats[i];
+    if (Object.values(b).some(v => v && v !== '-')) {
+      lastNonEmpty = i;
+    }
+  }
+  beats = beats.slice(0, lastNonEmpty + 1);
+  // Fill empty cells with '-'
+  for (let i = 0; i < beats.length; i++) {
+    for (const s of stringOrder) {
+      if (!beats[i][s] || beats[i][s] === '') beats[i][s] = '-';
+    }
+  }
+  // Write values back to inputs
+  for (let b = 0; b < beats.length; b++) {
+    for (const s of stringOrder) {
+      const input = document.querySelector(`input[name='beat_${b}_${s}']`);
+      if (input) input.value = beats[b][s];
+    }
+  }
+});
+
+renderTabGrid();
+</script>
+<style>
+.tab-grid-table th, .tab-grid-table td {
+  text-align: center;
+  vertical-align: middle;
+}
+.tab-grid-table input.tab-cell-input {
+  padding: 0;
+  text-align: center;
+}
+</style>
+{% endblock %} 

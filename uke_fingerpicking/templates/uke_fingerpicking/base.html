@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block body %}
+    {% block nav %}
+    <nav class="navbar is-link" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="{% url 'cms_tab_sheet_list' %}">
+                Uke Fingerpicking CMS
+            </a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="{% url 'cms_tab_sheet_list' %}">
+                    <span class="icon">
+                        <i data-lucide="list"></i>
+                    </span>
+                    <span>Tab Sheets</span>
+                </a>
+                <a class="navbar-item" href="{% url 'cms_tab_sheet_add' %}">
+                    <span class="icon">
+                        <i data-lucide="plus"></i>
+                    </span>
+                    <span>New Tab Sheet</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+    {% endblock %}
+
+    <div class="container mt-4">
+        {% block content %}{% endblock %}
+    </div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>lucide.createIcons();</script>
+{% endblock %}
