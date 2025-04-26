@@ -84,6 +84,27 @@
             </button>
         </div>
     </div>
+
+    <!-- Timing feedback toast -->
+    <div class="timing-feedback"
+         x-show="tabPlayer.timingFeedback.show"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 transform translate-y-2"
+         x-transition:enter-end="opacity-100 transform translate-y-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100 transform translate-y-0"
+         x-transition:leave-end="opacity-0 transform translate-y-2"
+         :class="{
+             'is-very-early': tabPlayer.timingFeedback.type === 'very-early',
+             'is-early': tabPlayer.timingFeedback.type === 'early',
+             'is-slightly-early': tabPlayer.timingFeedback.type === 'slightly-early',
+             'is-perfect': tabPlayer.timingFeedback.type === 'perfect',
+             'is-slightly-late': tabPlayer.timingFeedback.type === 'slightly-late',
+             'is-late': tabPlayer.timingFeedback.type === 'late',
+             'is-very-late': tabPlayer.timingFeedback.type === 'very-late'
+         }">
+        <span x-text="tabPlayer.timingFeedback.message"></span>
+    </div>
 </div>
 {% endblock %}
 
@@ -270,7 +291,14 @@ document.addEventListener('alpine:init', () => {
                 playedNotes: [],   // Array of detected notes per beat
                 noteStates: [],    // Array of note states (correct/incorrect/missed)
                 runCount: 0,       // Track how many times we've played through
-                previousStates: [] // Track states from previous runs
+                previousStates: [], // Track states from previous runs
+                lastBeatTime: 0    // Track when each beat started
+            },
+            timingFeedback: {
+                show: false,
+                message: '',
+                type: '',
+                timeout: null
             }
         },
 
@@ -353,10 +381,88 @@ document.addEventListener('alpine:init', () => {
                 
                 if (playedNoteName === expectedNoteName) {
                     this.tabPlayer.noteTracking.noteStates[currentBeat] = 'correct';
+                    
+                    // Calculate timing only for accepted correct notes
+                    const now = Date.now();
+                    const beatStart = this.tabPlayer.noteTracking.lastBeatTime;
+                    const beatMiddle = beatStart + (this.tabPlayer.beatDuration / 2);
+                    const timeFromMiddle = now - beatMiddle;
+                    const beatQuarter = this.tabPlayer.beatDuration / 4;
+                    
+                    console.log('Timing Debug:', {
+                        now,
+                        beatStart,
+                        beatMiddle,
+                        timeFromMiddle,
+                        beatQuarter,
+                        beatDuration: this.tabPlayer.beatDuration,
+                        currentBeat,
+                        playedNote,
+                        expectedNote
+                    });
+                    
+                    // Determine timing feedback
+                    let timingType = 'perfect';
+                    let timingMessage = 'Perfect timing!';
+                    
+                    if (timeFromMiddle < -beatQuarter * 1.5) {
+                        timingType = 'very-early';
+                        timingMessage = 'Very early';
+                    } else if (timeFromMiddle < -beatQuarter) {
+                        timingType = 'early';
+                        timingMessage = 'Early';
+                    } else if (timeFromMiddle < -beatQuarter / 2) {
+                        timingType = 'slightly-early';
+                        timingMessage = 'A bit early';
+                    } else if (timeFromMiddle > beatQuarter * 1.5) {
+                        timingType = 'very-late';
+                        timingMessage = 'Very late';
+                    } else if (timeFromMiddle > beatQuarter) {
+                        timingType = 'late';
+                        timingMessage = 'Late';
+                    } else if (timeFromMiddle > beatQuarter / 2) {
+                        timingType = 'slightly-late';
+                        timingMessage = 'A bit late';
+                    }
+                    
+                    console.log('Timing Result:', {
+                        timingType,
+                        timingMessage,
+                        timeFromMiddle,
+                        beatQuarter,
+                        thresholds: {
+                            veryEarly: -beatQuarter * 1.5,
+                            early: -beatQuarter,
+                            slightlyEarly: -beatQuarter / 2,
+                            slightlyLate: beatQuarter / 2,
+                            late: beatQuarter,
+                            veryLate: beatQuarter * 1.5
+                        }
+                    });
+                    
+                    // Show timing feedback
+                    this.showTimingFeedback(timingMessage, timingType);
                 } else {
                     this.tabPlayer.noteTracking.noteStates[currentBeat] = 'incorrect';
                 }
             }
+        },
+
+        showTimingFeedback(message, type) {
+            // Clear any existing timeout
+            if (this.tabPlayer.timingFeedback.timeout) {
+                clearTimeout(this.tabPlayer.timingFeedback.timeout);
+            }
+            
+            // Update feedback
+            this.tabPlayer.timingFeedback.message = message;
+            this.tabPlayer.timingFeedback.type = type;
+            this.tabPlayer.timingFeedback.show = true;
+            
+            // Hide after 1 second
+            this.tabPlayer.timingFeedback.timeout = setTimeout(() => {
+                this.tabPlayer.timingFeedback.show = false;
+            }, 1000);
         },
 
         updateBeatDuration() {
@@ -407,6 +513,7 @@ document.addEventListener('alpine:init', () => {
                 }
                 
                 this.tabPlayer.currentBeat = newBeat;
+                this.tabPlayer.noteTracking.lastBeatTime = Date.now();
                 this.updateCurrentNote();
             }
             
@@ -620,5 +727,27 @@ document.addEventListener('alpine:init', () => {
     font-weight: 500;
     color: var(--text);
 }
+
+.timing-feedback {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    background: var(--cell-background);
+    color: var(--text);
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+.timing-feedback.is-very-early { background: #ff3860; color: white; }
+.timing-feedback.is-early { background: #ff7b7b; color: white; }
+.timing-feedback.is-slightly-early { background: #ffb7b7; color: var(--text); }
+.timing-feedback.is-perfect { background: #48c774; color: white; }
+.timing-feedback.is-slightly-late { background: #ffb7b7; color: var(--text); }
+.timing-feedback.is-late { background: #ff7b7b; color: white; }
+.timing-feedback.is-very-late { background: #ff3860; color: white; }
 </style>
 {% endblock %} 
