@@ -416,16 +416,6 @@ document.addEventListener('alpine:init', () => {
                         timingMessage = 'Very late';
                     }
                     
-                    // Debug
-                    console.log('Timing Debug:', {
-                        now,
-                        beatStart,
-                        beatDuration,
-                        timeFromStart,
-                        percent,
-                        timingType,
-                        timingMessage
-                    });
                     
                     // Show timing feedback
                     this.showTimingFeedback(timingMessage, timingType);
@@ -489,6 +479,11 @@ document.addEventListener('alpine:init', () => {
                     this.tabPlayer.noteTracking.noteStates[previousBeat] = 'missed';
                 }
                 
+                // LOGGING: Save previous beat data to localStorage
+                if (previousBeat >= 0) {
+                    this.logBeatProgress(previousBeat);
+                }
+                
                 // If we're starting a new run through the song
                 if (newBeat === 0 && previousBeat === this.tabPlayer.beats.length - 1) {
                     // Save current states as previous states
@@ -511,6 +506,59 @@ document.addEventListener('alpine:init', () => {
             if (this.tabPlayer.isPlaying) {
                 this.tabPlayer.animationFrame = requestAnimationFrame((t) => this.animate(t));
             }
+        },
+
+        logBeatProgress(beatIdx) {
+            // Gather all relevant data
+            const expectedNote = this.tabPlayer.noteTracking.expectedNotes[beatIdx];
+            const playedNote = this.tabPlayer.noteTracking.playedNotes[beatIdx];
+            const state = this.tabPlayer.noteTracking.noteStates[beatIdx];
+            const runCount = this.tabPlayer.noteTracking.runCount;
+            const bpm = this.tabPlayer.bpm;
+            const beatsTotal = this.tabPlayer.beats.length;
+            const songTitle = "{{ tab_sheet.title|escapejs }}";
+            const songArtist = "{{ tab_sheet.artist|escapejs }}";
+            const timestamp = Date.now();
+            // Calculate timing distance to perfect middle (if played)
+            let timingDistance = null;
+            let timingCategory = null;
+            if (playedNote && state === 'correct') {
+                const beatStart = this.tabPlayer.noteTracking.lastBeatTime - this.tabPlayer.beatDuration; // lastBeatTime is set for new beat
+                const beatMiddle = beatStart + (this.tabPlayer.beatDuration / 2);
+                const playedTime = timestamp;
+                timingDistance = playedTime - beatMiddle;
+                // Recalculate timing category for log
+                const timeFromStart = playedTime - beatStart;
+                const percent = timeFromStart / this.tabPlayer.beatDuration;
+                if (percent < 0.2) timingCategory = 'very-early';
+                else if (percent < 0.35) timingCategory = 'early';
+                else if (percent < 0.45) timingCategory = 'slightly-early';
+                else if (percent < 0.55) timingCategory = 'perfect';
+                else if (percent < 0.65) timingCategory = 'slightly-late';
+                else if (percent < 0.8) timingCategory = 'late';
+                else timingCategory = 'very-late';
+            }
+            // Save to localStorage
+            const logKey = `uke_progress_${songTitle}_${songArtist}`;
+            let log = [];
+            try {
+                log = JSON.parse(localStorage.getItem(logKey)) || [];
+            } catch (e) {}
+            log.push({
+                timestamp,
+                songTitle,
+                songArtist,
+                runCount,
+                beatIdx,
+                beatsTotal,
+                expectedNote,
+                playedNote,
+                state,
+                timingDistance,
+                timingCategory,
+                bpm
+            });
+            localStorage.setItem(logKey, JSON.stringify(log));
         },
 
         updateCurrentNote() {
