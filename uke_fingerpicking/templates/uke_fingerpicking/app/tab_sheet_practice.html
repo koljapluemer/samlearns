@@ -265,6 +265,41 @@ const NOTE_MAP = {
 // String label map for display
 const STRING_LABELS = { 'g': 'G', 'c': 'C', 'e': 'E', 'a': 'A' };
 
+// IndexedDB helper for uke progress
+const UKE_DB_NAME = 'uke_progress_db';
+const UKE_DB_VERSION = 1;
+const UKE_STORE = 'uke_progress';
+
+function openUkeDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(UKE_DB_NAME, UKE_DB_VERSION);
+        request.onupgradeneeded = function(event) {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains(UKE_STORE)) {
+                db.createObjectStore(UKE_STORE, { keyPath: 'id', autoIncrement: true });
+            }
+        };
+        request.onsuccess = function(event) {
+            resolve(event.target.result);
+        };
+        request.onerror = function(event) {
+            reject(event.target.error);
+        };
+    });
+}
+
+function addUkeProgressRecord(record) {
+    return openUkeDB().then(db => {
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction(UKE_STORE, 'readwrite');
+            const store = tx.objectStore(UKE_STORE);
+            const req = store.add(record);
+            req.onsuccess = () => resolve();
+            req.onerror = (e) => reject(e);
+        });
+    });
+}
+
 document.addEventListener('alpine:init', () => {
     Alpine.data('app', () => ({
         // Tab Player State
@@ -538,13 +573,8 @@ document.addEventListener('alpine:init', () => {
                 else if (percent < 0.8) timingCategory = 'late';
                 else timingCategory = 'very-late';
             }
-            // Save to localStorage
-            const logKey = `uke_progress_${songTitle}_${songArtist}`;
-            let log = [];
-            try {
-                log = JSON.parse(localStorage.getItem(logKey)) || [];
-            } catch (e) {}
-            log.push({
+            // Save to IndexedDB
+            const record = {
                 timestamp,
                 songTitle,
                 songArtist,
@@ -557,8 +587,10 @@ document.addEventListener('alpine:init', () => {
                 timingDistance,
                 timingCategory,
                 bpm
+            };
+            addUkeProgressRecord(record).catch(e => {
+                console.error('Failed to log uke progress to IndexedDB', e);
             });
-            localStorage.setItem(logKey, JSON.stringify(log));
         },
 
         updateCurrentNote() {
