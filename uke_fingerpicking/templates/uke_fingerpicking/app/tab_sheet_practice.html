@@ -70,7 +70,7 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('tabPlayer', () => ({
         stringOrder: ['a', 'e', 'c', 'g'],
         stringLabels: ['A', 'E', 'C', 'G'],
-        beats: JSON.parse('{{ beats_json|escapejs }}'),
+        beats: [], // Will be initialized in init
         isPlaying: false,
         bpm: 120,
         currentBeat: 0,
@@ -78,11 +78,22 @@ document.addEventListener('alpine:init', () => {
         animationFrame: null,
         startTime: null,
         beatDuration: 500, // Initial value, will be updated
-        cellWidth: 56, // 3.5rem in pixels (3rem width + 0.5rem gap)
+        cellWidth: 56, // 3.5rem in pixels (3rem width + 0.5rem gap),
+        totalWidth: 0, // Will be calculated in init
 
         init() {
+            // Add 4 empty beats at the beginning
+            const originalBeats = JSON.parse('{{ beats_json|escapejs }}');
+            const emptyBeat = { a: '-', e: '-', c: '-', g: '-' };
+            this.beats = [
+                ...Array(4).fill(emptyBeat),
+                ...originalBeats
+            ];
+            
             this.updateBeatDuration();
             this.$watch('bpm', () => this.updateBeatDuration());
+            // Calculate total width of all beats
+            this.totalWidth = this.beats.length * this.cellWidth;
         },
 
         updateBeatDuration() {
@@ -109,16 +120,13 @@ document.addEventListener('alpine:init', () => {
             const beatPosition = positionInSong / this.beatDuration;
             
             // Update current beat (for highlighting)
-            this.currentBeat = Math.floor(beatPosition);
+            this.currentBeat = Math.floor(beatPosition) % this.beats.length;
             
-            // Calculate scroll position
-            // We want the current beat to align with the playhead
-            // The playhead is at 3.5rem from the left (legend width + playhead offset)
-            // So we need to scroll the content so that the current beat aligns with this position
-            const beatProgress = beatPosition - this.currentBeat;
-            const targetPosition = this.currentBeat * this.cellWidth;
-            const progressOffset = beatProgress * this.cellWidth;
-            this.scrollPosition = -(targetPosition + progressOffset);
+            // Calculate scroll position using modulo to create seamless loop
+            const beatProgress = beatPosition - Math.floor(beatPosition);
+            const rawPosition = (this.currentBeat + beatProgress) * this.cellWidth;
+            // Use modulo to create seamless loop
+            this.scrollPosition = -(rawPosition % this.totalWidth);
             
             if (this.isPlaying) {
                 this.animationFrame = requestAnimationFrame((t) => this.animate(t));
