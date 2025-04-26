@@ -385,59 +385,46 @@ document.addEventListener('alpine:init', () => {
                     // Calculate timing only for accepted correct notes
                     const now = Date.now();
                     const beatStart = this.tabPlayer.noteTracking.lastBeatTime;
-                    const beatMiddle = beatStart + (this.tabPlayer.beatDuration / 2);
-                    const timeFromMiddle = now - beatMiddle;
-                    const beatQuarter = this.tabPlayer.beatDuration / 4;
+                    const beatDuration = this.tabPlayer.beatDuration;
+                    const beatMiddle = beatStart + (beatDuration / 2);
+                    const timeFromStart = now - beatStart;
+                    const percent = timeFromStart / beatDuration;
                     
+                    // Define windows
+                    let timingType = 'perfect';
+                    let timingMessage = 'Perfect timing!';
+                    if (percent < 0.2) {
+                        timingType = 'very-early';
+                        timingMessage = 'Very early';
+                    } else if (percent < 0.35) {
+                        timingType = 'early';
+                        timingMessage = 'Early';
+                    } else if (percent < 0.45) {
+                        timingType = 'slightly-early';
+                        timingMessage = 'A bit early';
+                    } else if (percent < 0.55) {
+                        timingType = 'perfect';
+                        timingMessage = 'Perfect timing!';
+                    } else if (percent < 0.65) {
+                        timingType = 'slightly-late';
+                        timingMessage = 'A bit late';
+                    } else if (percent < 0.8) {
+                        timingType = 'late';
+                        timingMessage = 'Late';
+                    } else {
+                        timingType = 'very-late';
+                        timingMessage = 'Very late';
+                    }
+                    
+                    // Debug
                     console.log('Timing Debug:', {
                         now,
                         beatStart,
-                        beatMiddle,
-                        timeFromMiddle,
-                        beatQuarter,
-                        beatDuration: this.tabPlayer.beatDuration,
-                        currentBeat,
-                        playedNote,
-                        expectedNote
-                    });
-                    
-                    // Determine timing feedback
-                    let timingType = 'perfect';
-                    let timingMessage = 'Perfect timing!';
-                    
-                    if (timeFromMiddle < -beatQuarter * 1.5) {
-                        timingType = 'very-early';
-                        timingMessage = 'Very early';
-                    } else if (timeFromMiddle < -beatQuarter) {
-                        timingType = 'early';
-                        timingMessage = 'Early';
-                    } else if (timeFromMiddle < -beatQuarter / 2) {
-                        timingType = 'slightly-early';
-                        timingMessage = 'A bit early';
-                    } else if (timeFromMiddle > beatQuarter * 1.5) {
-                        timingType = 'very-late';
-                        timingMessage = 'Very late';
-                    } else if (timeFromMiddle > beatQuarter) {
-                        timingType = 'late';
-                        timingMessage = 'Late';
-                    } else if (timeFromMiddle > beatQuarter / 2) {
-                        timingType = 'slightly-late';
-                        timingMessage = 'A bit late';
-                    }
-                    
-                    console.log('Timing Result:', {
+                        beatDuration,
+                        timeFromStart,
+                        percent,
                         timingType,
-                        timingMessage,
-                        timeFromMiddle,
-                        beatQuarter,
-                        thresholds: {
-                            veryEarly: -beatQuarter * 1.5,
-                            early: -beatQuarter,
-                            slightlyEarly: -beatQuarter / 2,
-                            slightlyLate: beatQuarter / 2,
-                            late: beatQuarter,
-                            veryLate: beatQuarter * 1.5
-                        }
+                        timingMessage
                     });
                     
                     // Show timing feedback
