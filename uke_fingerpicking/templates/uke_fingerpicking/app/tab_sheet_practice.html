@@ -51,7 +51,10 @@
                             <div class="tab-cell"
                                  :class="{
                                      'is-empty': !beat[string] || beat[string] === '-',
-                                     'is-active': tabPlayer.isPlaying && bIndex === tabPlayer.currentBeat
+                                     'is-active': tabPlayer.isPlaying && bIndex === tabPlayer.currentBeat,
+                                     'is-correct': tabPlayer.noteTracking.noteStates[bIndex] === 'correct',
+                                     'is-incorrect': tabPlayer.noteTracking.noteStates[bIndex] === 'incorrect',
+                                     'is-missed': bIndex < tabPlayer.currentBeat && tabPlayer.noteTracking.noteStates[bIndex] === 'missed'
                                  }"
                                  x-text="beat[string] || '-'">
                             </div>
@@ -246,7 +249,7 @@ document.addEventListener('alpine:init', () => {
             stringLabels: ['A', 'E', 'C', 'G'],
             beats: [],
             isPlaying: false,
-            bpm: 120,
+            bpm: 40,
             currentBeat: 0,
             scrollPosition: 0,
             animationFrame: null,
@@ -257,13 +260,22 @@ document.addEventListener('alpine:init', () => {
             currentNote: '',
             currentString: '',
             currentFret: '',
-            currentStringLabel: ''
+            currentStringLabel: '',
+            // Add note tracking
+            noteTracking: {
+                expectedNotes: [], // Array of expected notes per beat
+                playedNotes: [],   // Array of detected notes per beat
+                noteStates: [],    // Array of note states (correct/incorrect/missed)
+                gracePeriod: 200,  // Time window after beat start to accept notes (ms)
+                lastBeatTime: 0    // Track when each beat started
+            }
         },
 
         // Audio Detection State
         audioDetection: {
             isListening: false,
-            detectedNote: ''
+            detectedNote: '',
+            lastNoteTime: 0
         },
 
         // Audio Detector Instance
@@ -282,6 +294,22 @@ document.addEventListener('alpine:init', () => {
                 ...originalBeats
             ];
             
+            // Initialize note tracking
+            this.tabPlayer.noteTracking.expectedNotes = this.tabPlayer.beats.map(beat => {
+                for (const string of this.tabPlayer.stringOrder) {
+                    const val = beat[string];
+                    if (val && val !== '-') {
+                        const fret = parseInt(val, 10);
+                        if (!isNaN(fret) && fret >= 0 && fret < 13) {
+                            return NOTE_MAP[string][fret];
+                        }
+                    }
+                }
+                return null;
+            });
+            this.tabPlayer.noteTracking.playedNotes = new Array(this.tabPlayer.beats.length).fill(null);
+            this.tabPlayer.noteTracking.noteStates = new Array(this.tabPlayer.beats.length).fill('missed');
+            
             this.updateBeatDuration();
             this.$watch('tabPlayer.bpm', () => this.updateBeatDuration());
             this.tabPlayer.totalWidth = this.tabPlayer.beats.length * this.tabPlayer.cellWidth;
@@ -292,11 +320,41 @@ document.addEventListener('alpine:init', () => {
             this.audioDetector = new AudioDetector();
             document.addEventListener('noteDetected', (event) => {
                 this.audioDetection.detectedNote = event.detail.note;
+                this.audioDetection.lastNoteTime = Date.now();
+                this.checkNoteMatch();
             });
+        },
+
+        checkNoteMatch() {
+            if (!this.tabPlayer.isPlaying) return;
+            
+            const now = Date.now();
+            const currentBeat = this.tabPlayer.currentBeat;
+            const expectedNote = this.tabPlayer.noteTracking.expectedNotes[currentBeat];
+            
+            if (!expectedNote) return; // No note expected in this beat
+            
+            const playedNote = this.audioDetection.detectedNote;
+            this.tabPlayer.noteTracking.playedNotes[currentBeat] = playedNote;
+            
+            // Extract just the note name (without octave) for comparison
+            const expectedNoteName = expectedNote.replace(/\d+$/, '');
+            const playedNoteName = playedNote.replace(/\d+$/, '');
+            
+            if (playedNoteName === expectedNoteName) {
+                this.tabPlayer.noteTracking.noteStates[currentBeat] = 'correct';
+            } else {
+                this.tabPlayer.noteTracking.noteStates[currentBeat] = 'incorrect';
+            }
         },
 
         updateBeatDuration() {
             this.tabPlayer.beatDuration = 60000 / this.tabPlayer.bpm;
+            // Grace period is 60% of beat duration, but at least 200ms and at most 500ms
+            this.tabPlayer.noteTracking.gracePeriod = Math.min(
+                Math.max(200, this.tabPlayer.beatDuration * 0.6),
+                500
+            );
         },
 
         togglePlay() {
@@ -317,8 +375,19 @@ document.addEventListener('alpine:init', () => {
             const positionInSong = elapsed % totalDuration;
             const beatPosition = positionInSong / this.tabPlayer.beatDuration;
             
-            this.tabPlayer.currentBeat = Math.floor(beatPosition) % this.tabPlayer.beats.length;
-            this.updateCurrentNote();
+            const newBeat = Math.floor(beatPosition) % this.tabPlayer.beats.length;
+            if (newBeat !== this.tabPlayer.currentBeat) {
+                // New beat started - check if previous beat was missed
+                const previousBeat = this.tabPlayer.currentBeat;
+                if (previousBeat >= 0 && 
+                    this.tabPlayer.noteTracking.expectedNotes[previousBeat] && 
+                    !this.tabPlayer.noteTracking.playedNotes[previousBeat]) {
+                    this.tabPlayer.noteTracking.noteStates[previousBeat] = 'missed';
+                }
+                
+                this.tabPlayer.currentBeat = newBeat;
+                this.updateCurrentNote();
+            }
             
             const beatProgress = beatPosition - Math.floor(beatPosition);
             const rawPosition = (this.tabPlayer.currentBeat + beatProgress) * this.tabPlayer.cellWidth;
@@ -444,8 +513,22 @@ document.addEventListener('alpine:init', () => {
 }
 
 .tab-cell.is-active {
-    background: var(--primary);
-    color: var(--primary-invert);
+    background: var(--cell-active);
+}
+
+.tab-cell.is-correct {
+    background: var(--success);
+    color: var(--success-invert);
+}
+
+.tab-cell.is-incorrect {
+    background: var(--danger);
+    color: var(--danger-invert);
+}
+
+.tab-cell.is-missed {
+    background: var(--warning);
+    color: var(--warning-invert);
 }
 
 /* Dark mode support */
@@ -454,10 +537,15 @@ document.addEventListener('alpine:init', () => {
         --background: #1a1a1a;
         --border: #333;
         --cell-background: #2a2a2a;
+        --cell-active: #3a3a3a;
         --text: #fff;
         --primary: #3273dc;
         --primary-invert: #fff;
         --danger: #ff3860;
+        --success: #48c774;
+        --success-invert: #fff;
+        --warning: #b86bf4;
+        --warning-invert: #fff;
     }
 }
 
@@ -465,11 +553,16 @@ document.addEventListener('alpine:init', () => {
     :root {
         --background: #f5f5f5;
         --border: #dbdbdb;
-        --cell-background: #fff;
-        --text: #363636;
+        --cell-background: #2a2a2a;
+        --cell-active: #3a3a3a;
+        --text: #fff;
         --primary: #3273dc;
         --primary-invert: #fff;
         --danger: #ff3860;
+        --success: #48c774;
+        --success-invert: #fff;
+        --warning: #b86bf4;
+        --warning-invert: #fff;
     }
 }
 
