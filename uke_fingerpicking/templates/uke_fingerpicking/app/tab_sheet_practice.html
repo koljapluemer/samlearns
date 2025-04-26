@@ -332,23 +332,30 @@ document.addEventListener('alpine:init', () => {
         checkNoteMatch() {
             if (!this.tabPlayer.isPlaying) return;
             
-            const now = Date.now();
             const currentBeat = this.tabPlayer.currentBeat;
             const expectedNote = this.tabPlayer.noteTracking.expectedNotes[currentBeat];
             
             if (!expectedNote) return; // No note expected in this beat
             
             const playedNote = this.audioDetection.detectedNote;
-            this.tabPlayer.noteTracking.playedNotes[currentBeat] = playedNote;
             
             // Extract just the note name (without octave) for comparison
             const expectedNoteName = expectedNote.replace(/\d+$/, '');
             const playedNoteName = playedNote.replace(/\d+$/, '');
             
-            if (playedNoteName === expectedNoteName) {
-                this.tabPlayer.noteTracking.noteStates[currentBeat] = 'correct';
-            } else {
-                this.tabPlayer.noteTracking.noteStates[currentBeat] = 'incorrect';
+            // Only update if:
+            // 1. No note has been played for this beat yet, or
+            // 2. The current state is incorrect and we're playing the correct note
+            if (!this.tabPlayer.noteTracking.playedNotes[currentBeat] || 
+                (this.tabPlayer.noteTracking.noteStates[currentBeat] !== 'correct' && playedNoteName === expectedNoteName)) {
+                
+                this.tabPlayer.noteTracking.playedNotes[currentBeat] = playedNote;
+                
+                if (playedNoteName === expectedNoteName) {
+                    this.tabPlayer.noteTracking.noteStates[currentBeat] = 'correct';
+                } else {
+                    this.tabPlayer.noteTracking.noteStates[currentBeat] = 'incorrect';
+                }
             }
         },
 
