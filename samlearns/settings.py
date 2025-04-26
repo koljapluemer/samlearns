@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'trees_of_germany.apps.TreesOfGermanyConfig',
     'lucide',
     'withvideos.apps.WithvideosConfig',
+    'uke_fingerpicking.apps.UkeFingerpickingConfig',
 ]
 
 MIDDLEWARE = [
