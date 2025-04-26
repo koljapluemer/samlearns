@@ -46,10 +46,10 @@
     <div
       class="timing-feedback"
       x-show="tabPlayer.timingFeedback.show"
-      x-transition:enter="transition ease-out duration-300"
+      x-transition:enter="transition ease-out duration-200"
       x-transition:enter-start="opacity-0 transform translate-y-2"
       x-transition:enter-end="opacity-100 transform translate-y-0"
-      x-transition:leave="transition ease-in duration-200"
+      x-transition:leave="transition ease-in duration-150"
       x-transition:leave-start="opacity-100 transform translate-y-0"
       x-transition:leave-end="opacity-0 transform translate-y-2"
       :class="{
@@ -61,6 +61,7 @@
         'is-late': tabPlayer.timingFeedback.type === 'late',
         'is-very-late': tabPlayer.timingFeedback.type === 'very-late'
       }"
+      :style="`opacity: ${tabPlayer.timingFeedback.opacity}; transition: ${tabPlayer.timingFeedback.transitionStyle};`"
     >
       <span x-text="tabPlayer.timingFeedback.message"></span>
     </div>
@@ -425,6 +426,9 @@
           message: "",
           type: "",
           timeout: null,
+          fadeTimeout: null,
+          opacity: 1,
+          transitionStyle: 'none'
         },
         runSummary: null,
       },
@@ -565,15 +569,26 @@
         if (this.tabPlayer.timingFeedback.timeout) {
           clearTimeout(this.tabPlayer.timingFeedback.timeout);
         }
-
+        if (this.tabPlayer.timingFeedback.fadeTimeout) {
+          clearTimeout(this.tabPlayer.timingFeedback.fadeTimeout);
+        }
         // Update feedback
         this.tabPlayer.timingFeedback.message = message;
         this.tabPlayer.timingFeedback.type = type;
         this.tabPlayer.timingFeedback.show = true;
-
+        // INSTANT fade-in
+        this.tabPlayer.timingFeedback.transitionStyle = 'none';
+        this.tabPlayer.timingFeedback.opacity = 1;
+        // Enable slow fade-out after a short delay
+        this.tabPlayer.timingFeedback.fadeTimeout = setTimeout(() => {
+          this.tabPlayer.timingFeedback.transitionStyle = 'opacity 1.7s cubic-bezier(.4,0,.2,1)';
+          this.tabPlayer.timingFeedback.opacity = 0.35;
+        }, 100);
         // Hide after 1 second
         this.tabPlayer.timingFeedback.timeout = setTimeout(() => {
           this.tabPlayer.timingFeedback.show = false;
+          this.tabPlayer.timingFeedback.opacity = 1;
+          this.tabPlayer.timingFeedback.transitionStyle = 'none';
         }, 1000);
       },
 
@@ -960,6 +975,7 @@
     z-index: 10;
     text-align: center;
     pointer-events: none;
+    transition: opacity 1.7s cubic-bezier(.4,0,.2,1);
   }
 
   .run-summary {
