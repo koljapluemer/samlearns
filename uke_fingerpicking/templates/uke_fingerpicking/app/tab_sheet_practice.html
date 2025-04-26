@@ -2,7 +2,7 @@
 {% load lucide %}
 
 {% block content %}
-<div class="container" x-data="tabPlayer()">
+<div class="container" x-data="app()">
     <div class="level">
         <div class="level-left">
             <h1 class="title">{{ tab_sheet.title }}</h1>
@@ -11,22 +11,22 @@
         <div class="level-right">
             <div class="field has-addons">
                 <div class="control">
-                    <input type="number" x-model="bpm" class="input" min="40" max="300">
+                    <input type="number" x-model="tabPlayer.bpm" class="input" min="40" max="300">
                 </div>
                 <div class="control">
                     <a class="button is-static">BPM</a>
                 </div>
                 <div class="control">
-                    <button @click="togglePlay" class="button" :class="{'is-primary': !isPlaying, 'is-danger': isPlaying}">
+                    <button @click="togglePlay" class="button" :class="{'is-primary': !tabPlayer.isPlaying, 'is-danger': tabPlayer.isPlaying}">
                         <span class="icon">
-                            <template x-if="!isPlaying">
+                            <template x-if="!tabPlayer.isPlaying">
                                 {% lucide "play" size=20 %}
                             </template>
-                            <template x-if="isPlaying">
+                            <template x-if="tabPlayer.isPlaying">
                                 {% lucide "pause" size=20 %}
                             </template>
                         </span>
-                        <span x-text="isPlaying ? 'Pause' : 'Play'"></span>
+                        <span x-text="tabPlayer.isPlaying ? 'Pause' : 'Play'"></span>
                     </button>
                 </div>
             </div>
@@ -37,21 +37,21 @@
         <div class="tab-display-wrapper">
             <!-- Fixed legend and playhead -->
             <div class="tab-legend">
-                <template x-for="(label, index) in stringLabels" :key="index">
+                <template x-for="(label, index) in tabPlayer.stringLabels" :key="index">
                     <div class="string-label" x-text="label"></div>
                 </template>
             </div>
             <div class="playhead"></div>
 
             <!-- Scrolling content -->
-            <div class="tab-content" :style="`transform: translateX(${scrollPosition}px)`">
-                <template x-for="(string, sIndex) in stringOrder" :key="sIndex">
+            <div class="tab-content" :style="`transform: translateX(${tabPlayer.scrollPosition}px)`">
+                <template x-for="(string, sIndex) in tabPlayer.stringOrder" :key="sIndex">
                     <div class="tab-line">
-                        <template x-for="(beat, bIndex) in beats" :key="bIndex">
+                        <template x-for="(beat, bIndex) in tabPlayer.beats" :key="bIndex">
                             <div class="tab-cell"
                                  :class="{
                                      'is-empty': !beat[string] || beat[string] === '-',
-                                     'is-active': isPlaying && bIndex === currentBeat
+                                     'is-active': tabPlayer.isPlaying && bIndex === tabPlayer.currentBeat
                                  }"
                                  x-text="beat[string] || '-'">
                             </div>
@@ -63,14 +63,123 @@
     </div>
 
     <!-- Subtle note display -->
-    <div class="current-note-display" x-show="currentNote">
-        <span class="current-note" x-text="currentNote"></span>
+    <div class="current-note-display" x-show="tabPlayer.currentNote">
+        <span class="current-note" x-text="tabPlayer.currentNote"></span>
+    </div>
+
+    <!-- Audio detection display -->
+    <div class="audio-detection-display">
+        <div class="current-note-display">
+            <span class="current-note" x-text="audioDetection.detectedNote" x-show="audioDetection.detectedNote"></span>
+            <button @click="toggleListening" class="button is-small ml-2" :class="{'is-primary': !audioDetection.isListening, 'is-danger': audioDetection.isListening}">
+                <span class="icon">
+                    {% lucide "mic" size=16 %}
+                </span>
+            </button>
+        </div>
     </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
+// Audio Detection
+class AudioDetector {
+    constructor() {
+        this.audioContext = null;
+        this.analyser = null;
+        this.microphone = null;
+        this.isListening = false;
+        this.noteNames = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+    }
+
+    async startListening() {
+        try {
+            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            this.analyser = this.audioContext.createAnalyser();
+            this.analyser.fftSize = 2048;
+            
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            this.microphone = this.audioContext.createMediaStreamSource(stream);
+            this.microphone.connect(this.analyser);
+            
+            this.isListening = true;
+            this.detectPitch();
+        } catch (error) {
+            console.error('Error accessing microphone:', error);
+        }
+    }
+
+    stopListening() {
+        if (this.microphone) {
+            this.microphone.disconnect();
+            this.microphone = null;
+        }
+        if (this.audioContext) {
+            this.audioContext.close();
+            this.audioContext = null;
+        }
+        this.isListening = false;
+    }
+
+    detectPitch() {
+        if (!this.isListening) return;
+
+        const bufferLength = this.analyser.frequencyBinCount;
+        const dataArray = new Float32Array(bufferLength);
+        this.analyser.getFloatTimeDomainData(dataArray);
+
+        const frequency = this.yinAlgorithm(dataArray);
+        if (frequency) {
+            const note = this.frequencyToNote(frequency);
+            if (note) {
+                const event = new CustomEvent('noteDetected', { detail: { note } });
+                document.dispatchEvent(event);
+            }
+        }
+
+        requestAnimationFrame(() => this.detectPitch());
+    }
+
+    yinAlgorithm(data) {
+        const sampleRate = this.audioContext.sampleRate;
+        const tauMin = Math.floor(sampleRate / 1000); // 1ms
+        const tauMax = Math.floor(sampleRate / 50);   // 20ms
+        
+        let bestTau = 0;
+        let bestValue = 1;
+        
+        for (let tau = tauMin; tau < tauMax; tau++) {
+            let sum = 0;
+            for (let j = 0; j < data.length - tau; j++) {
+                const diff = data[j] - data[j + tau];
+                sum += diff * diff;
+            }
+            
+            const value = sum / (data.length - tau);
+            if (value < bestValue) {
+                bestValue = value;
+                bestTau = tau;
+            }
+        }
+        
+        if (bestValue < 0.1) { // Threshold for valid pitch
+            return sampleRate / bestTau;
+        }
+        return null;
+    }
+
+    frequencyToNote(frequency) {
+        if (frequency <= 0) return null;
+        
+        const noteNum = Math.round(12 * Math.log2(frequency / 440) + 69);
+        const noteName = this.noteNames[noteNum % 12];
+        const octave = Math.floor(noteNum / 12) - 1;
+        
+        return `${noteName}${octave}`;
+    }
+}
+
 // Note map for each string (frets 0-12)
 const NOTE_MAP = {
     'g': ['G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G'],
@@ -83,103 +192,128 @@ const NOTE_MAP = {
 const STRING_LABELS = { 'g': 'G', 'c': 'C', 'e': 'E', 'a': 'A' };
 
 document.addEventListener('alpine:init', () => {
-    Alpine.data('tabPlayer', () => ({
-        stringOrder: ['a', 'e', 'c', 'g'],
-        stringLabels: ['A', 'E', 'C', 'G'],
-        beats: [], // Will be initialized in init
-        isPlaying: false,
-        bpm: 120,
-        currentBeat: 0,
-        scrollPosition: 0,
-        animationFrame: null,
-        startTime: null,
-        beatDuration: 500, // Initial value, will be updated
-        cellWidth: 56, // 3.5rem in pixels (3rem width + 0.5rem gap),
-        totalWidth: 0, // Will be calculated in init
-        currentNote: '',
-        currentString: '',
-        currentFret: '',
-        currentStringLabel: '',
+    Alpine.data('app', () => ({
+        // Tab Player State
+        tabPlayer: {
+            stringOrder: ['a', 'e', 'c', 'g'],
+            stringLabels: ['A', 'E', 'C', 'G'],
+            beats: [],
+            isPlaying: false,
+            bpm: 120,
+            currentBeat: 0,
+            scrollPosition: 0,
+            animationFrame: null,
+            startTime: null,
+            beatDuration: 500,
+            cellWidth: 56,
+            totalWidth: 0,
+            currentNote: '',
+            currentString: '',
+            currentFret: '',
+            currentStringLabel: ''
+        },
+
+        // Audio Detection State
+        audioDetection: {
+            isListening: false,
+            detectedNote: ''
+        },
+
+        // Audio Detector Instance
+        audioDetector: null,
 
         init() {
-            // Add 4 empty beats at the beginning
+            this.initTabPlayer();
+            this.initAudioDetection();
+        },
+
+        initTabPlayer() {
             const originalBeats = JSON.parse('{{ beats_json|escapejs }}');
             const emptyBeat = { a: '-', e: '-', c: '-', g: '-' };
-            this.beats = [
+            this.tabPlayer.beats = [
                 ...Array(4).fill(emptyBeat),
                 ...originalBeats
             ];
             
             this.updateBeatDuration();
-            this.$watch('bpm', () => this.updateBeatDuration());
-            // Calculate total width of all beats
-            this.totalWidth = this.beats.length * this.cellWidth;
-            // Set initial note
+            this.$watch('tabPlayer.bpm', () => this.updateBeatDuration());
+            this.tabPlayer.totalWidth = this.tabPlayer.beats.length * this.tabPlayer.cellWidth;
             this.updateCurrentNote();
         },
 
+        initAudioDetection() {
+            this.audioDetector = new AudioDetector();
+            document.addEventListener('noteDetected', (event) => {
+                this.audioDetection.detectedNote = event.detail.note;
+            });
+        },
+
         updateBeatDuration() {
-            this.beatDuration = 60000 / this.bpm;
+            this.tabPlayer.beatDuration = 60000 / this.tabPlayer.bpm;
         },
 
         togglePlay() {
-            this.isPlaying = !this.isPlaying;
-            if (this.isPlaying) {
-                this.startTime = null;
+            this.tabPlayer.isPlaying = !this.tabPlayer.isPlaying;
+            if (this.tabPlayer.isPlaying) {
+                this.tabPlayer.startTime = null;
                 this.animate();
             } else {
-                cancelAnimationFrame(this.animationFrame);
+                cancelAnimationFrame(this.tabPlayer.animationFrame);
             }
         },
 
         animate(timestamp) {
-            if (!this.startTime) this.startTime = timestamp;
-            const elapsed = timestamp - this.startTime;
+            if (!this.tabPlayer.startTime) this.tabPlayer.startTime = timestamp;
+            const elapsed = timestamp - this.tabPlayer.startTime;
             
-            // Calculate current beat and position
-            const totalDuration = this.beats.length * this.beatDuration;
+            const totalDuration = this.tabPlayer.beats.length * this.tabPlayer.beatDuration;
             const positionInSong = elapsed % totalDuration;
-            const beatPosition = positionInSong / this.beatDuration;
+            const beatPosition = positionInSong / this.tabPlayer.beatDuration;
             
-            // Update current beat (for highlighting)
-            this.currentBeat = Math.floor(beatPosition) % this.beats.length;
+            this.tabPlayer.currentBeat = Math.floor(beatPosition) % this.tabPlayer.beats.length;
             this.updateCurrentNote();
             
-            // Calculate scroll position using modulo to create seamless loop
             const beatProgress = beatPosition - Math.floor(beatPosition);
-            const rawPosition = (this.currentBeat + beatProgress) * this.cellWidth;
-            // Use modulo to create seamless loop
-            this.scrollPosition = -(rawPosition % this.totalWidth);
+            const rawPosition = (this.tabPlayer.currentBeat + beatProgress) * this.tabPlayer.cellWidth;
+            this.tabPlayer.scrollPosition = -(rawPosition % this.tabPlayer.totalWidth);
             
-            if (this.isPlaying) {
-                this.animationFrame = requestAnimationFrame((t) => this.animate(t));
+            if (this.tabPlayer.isPlaying) {
+                this.tabPlayer.animationFrame = requestAnimationFrame((t) => this.animate(t));
             }
         },
 
         updateCurrentNote() {
-            // Find which string is played (not '-') in the current beat
-            const beat = this.beats[this.currentBeat] || {};
+            const beat = this.tabPlayer.beats[this.tabPlayer.currentBeat] || {};
             let found = false;
-            for (const string of this.stringOrder) {
+            for (const string of this.tabPlayer.stringOrder) {
                 const val = beat[string];
                 if (val && val !== '-') {
                     const fret = parseInt(val, 10);
                     if (!isNaN(fret) && fret >= 0 && fret < 13) {
-                        this.currentNote = NOTE_MAP[string][fret];
-                        this.currentString = string;
-                        this.currentFret = fret;
-                        this.currentStringLabel = STRING_LABELS[string];
+                        this.tabPlayer.currentNote = NOTE_MAP[string][fret];
+                        this.tabPlayer.currentString = string;
+                        this.tabPlayer.currentFret = fret;
+                        this.tabPlayer.currentStringLabel = STRING_LABELS[string];
                         found = true;
                         break;
                     }
                 }
             }
             if (!found) {
-                this.currentNote = '';
-                this.currentString = '';
-                this.currentFret = '';
-                this.currentStringLabel = '';
+                this.tabPlayer.currentNote = '';
+                this.tabPlayer.currentString = '';
+                this.tabPlayer.currentFret = '';
+                this.tabPlayer.currentStringLabel = '';
             }
+        },
+
+        toggleListening() {
+            if (this.audioDetection.isListening) {
+                this.audioDetector.stopListening();
+            } else {
+                this.audioDetector.startListening();
+            }
+            this.audioDetection.isListening = !this.audioDetection.isListening;
         }
     }));
 });
@@ -290,6 +424,11 @@ document.addEventListener('alpine:init', () => {
         --primary-invert: #fff;
         --danger: #ff3860;
     }
+}
+
+.audio-detection-display {
+    margin-top: 1rem;
+    text-align: center;
 }
 
 .current-note-display {
