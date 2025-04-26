@@ -10,8 +10,6 @@ def redirect_to_preferred_language(request):
     preferred_lang = getattr(request, 'preferred_language', 'de')
     return redirect('withvideos:video_list', lang_code=preferred_lang)
 
-app_name = 'withvideos'
-
 urlpatterns = [
     path('', redirect_to_preferred_language, name='root'),
     path('videos/<str:lang_code>/', LiveVideoListView.as_view(), name='video_list'),
