@@ -2,7 +2,7 @@
 {% load lucide %}
 
 {% block content %}
-<div class="container">
+<div class="container" x-data="tabPlayer()">
     <div class="level">
         <div class="level-left">
             <h1 class="title">{{ tab_sheet.title }}</h1>
@@ -11,17 +11,22 @@
         <div class="level-right">
             <div class="field has-addons">
                 <div class="control">
-                    <input type="number" id="bpm" class="input" value="120" min="40" max="300">
+                    <input type="number" x-model="bpm" class="input" min="40" max="300">
                 </div>
                 <div class="control">
                     <a class="button is-static">BPM</a>
                 </div>
                 <div class="control">
-                    <button id="play-button" class="button is-primary">
+                    <button @click="togglePlay" class="button" :class="{'is-primary': !isPlaying, 'is-danger': isPlaying}">
                         <span class="icon">
-                            {% lucide "play" size=20 %}
+                            <template x-if="!isPlaying">
+                                {% lucide "play" size=20 %}
+                            </template>
+                            <template x-if="isPlaying">
+                                {% lucide "pause" size=20 %}
+                            </template>
                         </span>
-                        <span>Play</span>
+                        <span x-text="isPlaying ? 'Pause' : 'Play'"></span>
                     </button>
                 </div>
             </div>
@@ -29,132 +34,97 @@
     </div>
 
     <div class="tab-display-container">
-        <div class="tab-display" id="tab-display">
-            <!-- Tab content will be rendered here -->
+        <div class="tab-display-wrapper">
+            <!-- Fixed legend and playhead -->
+            <div class="tab-legend">
+                <template x-for="(label, index) in stringLabels" :key="index">
+                    <div class="string-label" x-text="label"></div>
+                </template>
+            </div>
+            <div class="playhead"></div>
+
+            <!-- Scrolling content -->
+            <div class="tab-content" :style="`transform: translateX(${scrollPosition}px)`">
+                <template x-for="(string, sIndex) in stringOrder" :key="sIndex">
+                    <div class="tab-line">
+                        <template x-for="(beat, bIndex) in beats" :key="bIndex">
+                            <div class="tab-cell"
+                                 :class="{
+                                     'is-empty': !beat[string] || beat[string] === '-',
+                                     'is-active': isPlaying && bIndex === currentBeat
+                                 }"
+                                 x-text="beat[string] || '-'">
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
         </div>
-        <div class="playhead" id="playhead"></div>
     </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-const stringOrder = ['a', 'e', 'c', 'g'];
-const stringLabels = {'a': 'A', 'e': 'E', 'c': 'C', 'g': 'G'};
-let beats = JSON.parse('{{ beats_json|escapejs }}');
-let isPlaying = false;
-let animationFrame;
-let startTime;
-let currentBeat = 0;
-let beatDuration;
-let scrollContainer;
+document.addEventListener('alpine:init', () => {
+    Alpine.data('tabPlayer', () => ({
+        stringOrder: ['a', 'e', 'c', 'g'],
+        stringLabels: ['A', 'E', 'C', 'G'],
+        beats: JSON.parse('{{ beats_json|escapejs }}'),
+        isPlaying: false,
+        bpm: 120,
+        currentBeat: 0,
+        scrollPosition: 0,
+        animationFrame: null,
+        startTime: null,
+        beatDuration: 500, // Initial value, will be updated
+        cellWidth: 56, // 3.5rem in pixels (3rem width + 0.5rem gap)
 
-function renderTabDisplay() {
-    const container = document.getElementById('tab-display');
-    container.innerHTML = '';
-    
-    // Create table
-    const table = document.createElement('table');
-    table.className = 'table is-bordered is-narrow tab-display-table';
-    
-    // Body rows (strings)
-    const tbody = document.createElement('tbody');
-    for (let s = 0; s < stringOrder.length; s++) {
-        const stringKey = stringOrder[s];
-        const tr = document.createElement('tr');
-        
-        // String label (fixed)
-        const labelTd = document.createElement('td');
-        labelTd.textContent = stringLabels[stringKey];
-        labelTd.className = 'string-label has-text-weight-bold';
-        tr.appendChild(labelTd);
-        
-        // Tab cells
-        const cellsTd = document.createElement('td');
-        cellsTd.className = 'tab-cells';
-        for (let b = 0; b < beats.length; b++) {
-            const value = beats[b][stringKey];
-            const span = document.createElement('span');
-            span.textContent = value || '-';
-            span.className = 'tab-cell';
-            if (!value || value === '-') {
-                span.classList.add('is-empty');
+        init() {
+            this.updateBeatDuration();
+            this.$watch('bpm', () => this.updateBeatDuration());
+        },
+
+        updateBeatDuration() {
+            this.beatDuration = 60000 / this.bpm;
+        },
+
+        togglePlay() {
+            this.isPlaying = !this.isPlaying;
+            if (this.isPlaying) {
+                this.startTime = null;
+                this.animate();
+            } else {
+                cancelAnimationFrame(this.animationFrame);
             }
-            span.dataset.beat = b;
-            span.dataset.string = stringKey;
-            cellsTd.appendChild(span);
+        },
+
+        animate(timestamp) {
+            if (!this.startTime) this.startTime = timestamp;
+            const elapsed = timestamp - this.startTime;
+            
+            // Calculate current beat and position
+            const totalDuration = this.beats.length * this.beatDuration;
+            const positionInSong = elapsed % totalDuration;
+            const beatPosition = positionInSong / this.beatDuration;
+            
+            // Update current beat (for highlighting)
+            this.currentBeat = Math.floor(beatPosition);
+            
+            // Calculate scroll position
+            // We want the current beat to align with the playhead
+            // The playhead is at 3.5rem from the left (legend width + playhead offset)
+            // So we need to scroll the content so that the current beat aligns with this position
+            const beatProgress = beatPosition - this.currentBeat;
+            const targetPosition = this.currentBeat * this.cellWidth;
+            const progressOffset = beatProgress * this.cellWidth;
+            this.scrollPosition = -(targetPosition + progressOffset);
+            
+            if (this.isPlaying) {
+                this.animationFrame = requestAnimationFrame((t) => this.animate(t));
+            }
         }
-        tr.appendChild(cellsTd);
-        tbody.appendChild(tr);
-    }
-    table.appendChild(tbody);
-    container.appendChild(table);
-}
-
-function updateBPM() {
-    const bpm = parseInt(document.getElementById('bpm').value);
-    beatDuration = 60000 / bpm; // milliseconds per beat
-}
-
-function animate(timestamp) {
-    if (!startTime) startTime = timestamp;
-    const elapsed = timestamp - startTime;
-    
-    // Calculate current beat and position
-    const beatPosition = (elapsed % (beats.length * beatDuration)) / beatDuration;
-    currentBeat = Math.floor(beatPosition);
-    const beatProgress = beatPosition - currentBeat;
-    
-    // Calculate scroll position
-    const cellWidth = 3; // rem
-    const scrollPosition = (currentBeat + beatProgress) * cellWidth;
-    scrollContainer.scrollLeft = scrollPosition;
-    
-    // Highlight current beat
-    const cells = document.querySelectorAll('.tab-cell');
-    cells.forEach(cell => {
-        const cellBeat = parseInt(cell.dataset.beat);
-        cell.classList.toggle('is-active', cellBeat === currentBeat);
-    });
-    
-    if (isPlaying) {
-        animationFrame = requestAnimationFrame(animate);
-    }
-}
-
-function togglePlay() {
-    const playButton = document.getElementById('play-button');
-    if (!isPlaying) {
-        isPlaying = true;
-        startTime = null;
-        playButton.innerHTML = `
-            <span class="icon">
-                {% lucide "pause" size=20 %}
-            </span>
-            <span>Pause</span>
-        `;
-        animationFrame = requestAnimationFrame(animate);
-    } else {
-        isPlaying = false;
-        playButton.innerHTML = `
-            <span class="icon">
-                {% lucide "play" size=20 %}
-            </span>
-            <span>Play</span>
-        `;
-        cancelAnimationFrame(animationFrame);
-    }
-}
-
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    renderTabDisplay();
-    updateBPM();
-    scrollContainer = document.querySelector('.tab-cells');
-    
-    // Event listeners
-    document.getElementById('bpm').addEventListener('change', updateBPM);
-    document.getElementById('play-button').addEventListener('click', togglePlay);
+    }));
 });
 </script>
 
@@ -168,45 +138,67 @@ document.addEventListener('DOMContentLoaded', () => {
     border-radius: 4px;
 }
 
-.tab-display {
+.tab-display-wrapper {
+    position: relative;
+    display: flex;
     overflow: hidden;
 }
 
-.tab-display-table {
-    margin-bottom: 0;
-    width: 100%;
-    border-collapse: collapse;
+.tab-legend {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-right: 0.5rem;
+    border-right: 1px solid var(--border);
+    z-index: 2;
 }
 
 .string-label {
-    position: sticky;
-    left: 0;
-    z-index: 1;
-    background: var(--background);
-    padding: 0.5rem 1rem;
-    border-right: 1px solid var(--border);
+    text-align: right;
+    padding: 0.5rem;
+    font-weight: bold;
+    color: var(--text);
 }
 
-.tab-cells {
+.playhead {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 3.5rem;
+    width: 2px;
+    background-color: var(--danger);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.tab-content {
+    margin-left: 4rem;
     display: flex;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    padding: 0.5rem 0;
+    flex-direction: column;
+    gap: 0.5rem;
+    will-change: transform;
+    transition: transform 0.05s linear;
 }
 
-.tab-cells::-webkit-scrollbar {
-    display: none;
+.tab-line {
+    display: flex;
+    gap: 0.5rem;
 }
 
 .tab-cell {
     flex: 0 0 3rem;
-    text-align: center;
-    padding: 0.5rem;
-    margin: 0 0.25rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: var(--cell-background);
     border-radius: 4px;
-    transition: background-color 0.2s, color 0.2s;
+    transition: background-color 0.1s linear;
 }
 
 .tab-cell.is-empty {
@@ -218,24 +210,13 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--primary-invert);
 }
 
-.playhead {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    width: 2px;
-    background-color: var(--danger);
-    transform: translateX(-50%);
-    pointer-events: none;
-    z-index: 2;
-}
-
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
     :root {
         --background: #1a1a1a;
         --border: #333;
         --cell-background: #2a2a2a;
+        --text: #fff;
         --primary: #3273dc;
         --primary-invert: #fff;
         --danger: #ff3860;
@@ -247,6 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
         --background: #f5f5f5;
         --border: #dbdbdb;
         --cell-background: #fff;
+        --text: #363636;
         --primary: #3273dc;
         --primary-invert: #fff;
         --danger: #ff3860;
