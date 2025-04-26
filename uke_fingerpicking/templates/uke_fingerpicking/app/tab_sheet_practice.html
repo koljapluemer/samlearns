@@ -1,55 +1,95 @@
-{% extends "uke_fingerpicking/base.html" %}
-{% load lucide %}
-
+{% extends "uke_fingerpicking/base.html" %} {% load lucide %} 
 {% block content %}
 <div class="container" x-data="app()">
-    <div class="level">
-        <div class="level-left">
-            <h1 class="title">{{ tab_sheet.title }}</h1>
-            <h2 class="subtitle">{{ tab_sheet.artist }}</h2>
-        </div>
-        <div class="level-right">
-            <div class="field has-addons">
-                <div class="control">
-                    <input type="number" x-model="tabPlayer.bpm" class="input" min="40" max="300">
-                </div>
-                <div class="control">
-                    <a class="button is-static">BPM</a>
-                </div>
-                <div class="control">
-                    <button @click="togglePlay" class="button" :class="{'is-primary': !tabPlayer.isPlaying, 'is-danger': tabPlayer.isPlaying}">
-                        <span class="icon">
-                            <template x-if="!tabPlayer.isPlaying">
-                                {% lucide "play" size=20 %}
-                            </template>
-                            <template x-if="tabPlayer.isPlaying">
-                                {% lucide "pause" size=20 %}
-                            </template>
-                        </span>
-                        <span x-text="tabPlayer.isPlaying ? 'Pause' : 'Play'"></span>
-                    </button>
-                </div>
-            </div>
-        </div>
+  <div class="level">
+    <div class="level-left">
+      <h1 class="title">{{ tab_sheet.title }}</h1>
+      <h2 class="subtitle">{{ tab_sheet.artist }}</h2>
     </div>
+    <div class="level-right">
+      <div class="field has-addons">
+        <div class="control">
+          <input
+            type="number"
+            x-model="tabPlayer.bpm"
+            class="input"
+            min="40"
+            max="300"
+          />
+        </div>
+        <div class="control">
+          <a class="button is-static">BPM</a>
+        </div>
+        <div class="control">
+          <button
+            @click="togglePlay"
+            class="button"
+            :class="{'is-primary': !tabPlayer.isPlaying, 'is-danger': tabPlayer.isPlaying}"
+          >
+            <span class="icon">
+              <template x-if="!tabPlayer.isPlaying">
+                {% lucide "play" size=20 %}
+              </template>
+              <template x-if="tabPlayer.isPlaying">
+                {% lucide "pause" size=20 %}
+              </template>
+            </span>
+            <span x-text="tabPlayer.isPlaying ? 'Pause' : 'Play'"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <div class="tab-display-container">
-        <div class="tab-display-wrapper">
-            <!-- Fixed legend and playhead -->
-            <div class="tab-legend">
-                <template x-for="(label, index) in tabPlayer.stringLabels" :key="index">
-                    <div class="string-label" x-text="label"></div>
-                </template>
-            </div>
-            <div class="playhead"></div>
+  <!-- Timing feedback toast above main viz -->
+  <div class="timing-feedback-wrapper">
+    <div
+      class="timing-feedback"
+      x-show="tabPlayer.timingFeedback.show"
+      x-transition:enter="transition ease-out duration-300"
+      x-transition:enter-start="opacity-0 transform translate-y-2"
+      x-transition:enter-end="opacity-100 transform translate-y-0"
+      x-transition:leave="transition ease-in duration-200"
+      x-transition:leave-start="opacity-100 transform translate-y-0"
+      x-transition:leave-end="opacity-0 transform translate-y-2"
+      :class="{
+        'is-very-early': tabPlayer.timingFeedback.type === 'very-early',
+        'is-early': tabPlayer.timingFeedback.type === 'early',
+        'is-slightly-early': tabPlayer.timingFeedback.type === 'slightly-early',
+        'is-perfect': tabPlayer.timingFeedback.type === 'perfect',
+        'is-slightly-late': tabPlayer.timingFeedback.type === 'slightly-late',
+        'is-late': tabPlayer.timingFeedback.type === 'late',
+        'is-very-late': tabPlayer.timingFeedback.type === 'very-late'
+      }"
+    >
+      <span x-text="tabPlayer.timingFeedback.message"></span>
+    </div>
+  </div>
 
-            <!-- Scrolling content -->
-            <div class="tab-content" :style="`transform: translateX(${tabPlayer.scrollPosition}px)`">
-                <template x-for="(string, sIndex) in tabPlayer.stringOrder" :key="sIndex">
-                    <div class="tab-line">
-                        <template x-for="(beat, bIndex) in tabPlayer.beats" :key="bIndex">
-                            <div class="tab-cell"
-                                 :class="{
+  <div class="tab-display-container">
+    <div class="tab-display-wrapper">
+      <!-- Fixed legend and playhead -->
+      <div class="tab-legend">
+        <template x-for="(label, index) in tabPlayer.stringLabels" :key="index">
+          <div class="string-label" x-text="label"></div>
+        </template>
+      </div>
+      <div class="playhead"></div>
+
+      <!-- Scrolling content -->
+      <div
+        class="tab-content"
+        :style="`transform: translateX(${tabPlayer.scrollPosition}px)`"
+      >
+        <template
+          x-for="(string, sIndex) in tabPlayer.stringOrder"
+          :key="sIndex"
+        >
+          <div class="tab-line">
+            <template x-for="(beat, bIndex) in tabPlayer.beats" :key="bIndex">
+              <div
+                class="tab-cell"
+                :class="{
                                      'is-empty': !beat[string] || beat[string] === '-',
                                      'is-active': tabPlayer.isPlaying && bIndex === tabPlayer.currentBeat,
                                      'is-correct': tabPlayer.noteTracking.noteStates[bIndex] === 'correct',
@@ -59,632 +99,697 @@
                                      'is-previous-incorrect': tabPlayer.noteTracking.previousStates[bIndex] === 'incorrect' && !tabPlayer.noteTracking.playedNotes[bIndex],
                                      'is-previous-missed': tabPlayer.noteTracking.previousStates[bIndex] === 'missed' && !tabPlayer.noteTracking.playedNotes[bIndex]
                                  }"
-                                 x-text="beat[string] || '-'">
-                            </div>
-                        </template>
-                    </div>
-                </template>
-            </div>
-        </div>
-    </div>
-
-    <!-- Subtle note display -->
-    <div class="current-note-display" x-show="tabPlayer.currentNote">
-        <span class="current-note" x-text="tabPlayer.currentNote"></span>
-    </div>
-
-    <!-- Audio detection display -->
-    <div class="audio-detection-display">
-        <div class="current-note-display">
-            <span class="current-note" x-text="audioDetection.detectedNote" x-show="audioDetection.detectedNote"></span>
-            <button @click="toggleListening" class="button is-small ml-2" :class="{'is-primary': !audioDetection.isListening, 'is-danger': audioDetection.isListening}">
-                <span class="icon">
-                    {% lucide "mic" size=16 %}
-                </span>
-            </button>
-        </div>
-    </div>
-
-    <!-- Timing feedback toast -->
-    <div class="timing-feedback"
-         x-show="tabPlayer.timingFeedback.show"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0 transform translate-y-2"
-         x-transition:enter-end="opacity-100 transform translate-y-0"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100 transform translate-y-0"
-         x-transition:leave-end="opacity-0 transform translate-y-2"
-         :class="{
-             'is-very-early': tabPlayer.timingFeedback.type === 'very-early',
-             'is-early': tabPlayer.timingFeedback.type === 'early',
-             'is-slightly-early': tabPlayer.timingFeedback.type === 'slightly-early',
-             'is-perfect': tabPlayer.timingFeedback.type === 'perfect',
-             'is-slightly-late': tabPlayer.timingFeedback.type === 'slightly-late',
-             'is-late': tabPlayer.timingFeedback.type === 'late',
-             'is-very-late': tabPlayer.timingFeedback.type === 'very-late'
-         }">
-        <span x-text="tabPlayer.timingFeedback.message"></span>
-    </div>
-
-    <!-- Feedback summary below main viz -->
-    <div class="run-summary" x-show="tabPlayer.runSummary !== null">
-        <template x-if="tabPlayer.runSummary">
-            <div>
-                <div class="summary-bar">
-                    <span class="summary-correct" :style="`width: ${tabPlayer.runSummary.percentCorrect}%`"></span>
-                    <span class="summary-incorrect" :style="`width: ${tabPlayer.runSummary.percentIncorrect}%`"></span>
-                    <span class="summary-missed" :style="`width: ${tabPlayer.runSummary.percentMissed}%`"></span>
-                </div>
-                <div class="summary-text">
-                    <span class="has-text-success">Correct: <b x-text="tabPlayer.runSummary.percentCorrect.toFixed(1)"></b>%</span>
-                    <span class="has-text-danger ml-4">Incorrect: <b x-text="tabPlayer.runSummary.percentIncorrect.toFixed(1)"></b>%</span>
-                    <span class="has-text-warning ml-4">Missed: <b x-text="tabPlayer.runSummary.percentMissed.toFixed(1)"></b>%</span>
-                </div>
-            </div>
+                x-text="beat[string] || '-'"
+              ></div>
+            </template>
+          </div>
         </template>
+      </div>
     </div>
-</div>
-{% endblock %}
+  </div>
 
-{% block extra_js %}
+  <!-- Feedback summary below main viz -->
+  <div class="run-summary" x-show="tabPlayer.runSummary !== null">
+    <template x-if="tabPlayer.runSummary">
+      <div>
+        <div class="summary-bar">
+          <span
+            class="summary-correct"
+            :style="`width: ${tabPlayer.runSummary.percentCorrect}%`"
+          ></span>
+          <span
+            class="summary-incorrect"
+            :style="`width: ${tabPlayer.runSummary.percentIncorrect}%`"
+          ></span>
+          <span
+            class="summary-missed"
+            :style="`width: ${tabPlayer.runSummary.percentMissed}%`"
+          ></span>
+        </div>
+        <div class="summary-text">
+          <span class="has-text-success"
+            >Correct:
+            <b x-text="tabPlayer.runSummary.percentCorrect.toFixed(1)"></b
+            >%</span
+          >
+          <span class="has-text-danger ml-4"
+            >Incorrect:
+            <b x-text="tabPlayer.runSummary.percentIncorrect.toFixed(1)"></b
+            >%</span
+          >
+          <span class="has-text-warning ml-4"
+            >Missed:
+            <b x-text="tabPlayer.runSummary.percentMissed.toFixed(1)"></b
+            >%</span
+          >
+        </div>
+      </div>
+    </template>
+  </div>
+
+  <!-- Subtle note display -->
+  <div class="current-note-display" x-show="tabPlayer.currentNote">
+    <span class="current-note" x-text="tabPlayer.currentNote"></span>
+  </div>
+
+  <!-- Audio detection display -->
+  <div class="audio-detection-display">
+    <div class="current-note-display">
+      <span
+        class="current-note"
+        x-text="audioDetection.detectedNote"
+        x-show="audioDetection.detectedNote"
+      ></span>
+      <button
+        @click="toggleListening"
+        class="button is-small ml-2"
+        :class="{'is-primary': !audioDetection.isListening, 'is-danger': audioDetection.isListening}"
+      >
+        <span class="icon"> {% lucide "mic" size=16 %} </span>
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block extra_js %}
 <script>
-// Audio Detection
-class AudioDetector {
+  // Audio Detection
+  class AudioDetector {
     constructor() {
-        this.audioContext = null;
-        this.analyser = null;
-        this.microphone = null;
-        this.isListening = false;
-        this.noteNames = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
-        
-        // Detection parameters
-        this.minAmplitude = 0.05; // Lowered to catch softer notes
-        this.minNoteDuration = 30; // Reduced to catch quick notes
-        this.maxNoteDuration = 800; // Increased to allow for longer notes
-        this.minFrequency = 150; // Lowered to catch lower notes (around D3)
-        this.maxFrequency = 1200; // Increased to catch higher notes (around D6)
-        
-        // State tracking
-        this.lastNoteTime = 0;
-        this.currentNoteStart = 0;
-        this.isNoteActive = false;
-        this.silenceCount = 0;
-        this.silenceThreshold = 2; // Reduced to be more responsive
+      this.audioContext = null;
+      this.analyser = null;
+      this.microphone = null;
+      this.isListening = false;
+      this.noteNames = [
+        "C",
+        "C#",
+        "D",
+        "D#",
+        "E",
+        "F",
+        "F#",
+        "G",
+        "G#",
+        "A",
+        "A#",
+        "B",
+      ];
+
+      // Detection parameters
+      this.minAmplitude = 0.05; // Lowered to catch softer notes
+      this.minNoteDuration = 30; // Reduced to catch quick notes
+      this.maxNoteDuration = 800; // Increased to allow for longer notes
+      this.minFrequency = 150; // Lowered to catch lower notes (around D3)
+      this.maxFrequency = 1200; // Increased to catch higher notes (around D6)
+
+      // State tracking
+      this.lastNoteTime = 0;
+      this.currentNoteStart = 0;
+      this.isNoteActive = false;
+      this.silenceCount = 0;
+      this.silenceThreshold = 2; // Reduced to be more responsive
     }
 
     async startListening() {
-        try {
-            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            this.analyser = this.audioContext.createAnalyser();
-            this.analyser.fftSize = 2048;
-            
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            this.microphone = this.audioContext.createMediaStreamSource(stream);
-            this.microphone.connect(this.analyser);
-            
-            this.isListening = true;
-            this.detectPitch();
-        } catch (error) {
-            console.error('Error accessing microphone:', error);
-        }
+      try {
+        this.audioContext = new (window.AudioContext ||
+          window.webkitAudioContext)();
+        this.analyser = this.audioContext.createAnalyser();
+        this.analyser.fftSize = 2048;
+
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+        });
+        this.microphone = this.audioContext.createMediaStreamSource(stream);
+        this.microphone.connect(this.analyser);
+
+        this.isListening = true;
+        this.detectPitch();
+      } catch (error) {
+        console.error("Error accessing microphone:", error);
+      }
     }
 
     stopListening() {
-        if (this.microphone) {
-            this.microphone.disconnect();
-            this.microphone = null;
-        }
-        if (this.audioContext) {
-            this.audioContext.close();
-            this.audioContext = null;
-        }
-        this.isListening = false;
+      if (this.microphone) {
+        this.microphone.disconnect();
+        this.microphone = null;
+      }
+      if (this.audioContext) {
+        this.audioContext.close();
+        this.audioContext = null;
+      }
+      this.isListening = false;
     }
 
     getAmplitude(data) {
-        let sum = 0;
-        for (let i = 0; i < data.length; i++) {
-            sum += Math.abs(data[i]);
-        }
-        return sum / data.length;
+      let sum = 0;
+      for (let i = 0; i < data.length; i++) {
+        sum += Math.abs(data[i]);
+      }
+      return sum / data.length;
     }
 
     detectPitch() {
-        if (!this.isListening) return;
+      if (!this.isListening) return;
 
-        const bufferLength = this.analyser.frequencyBinCount;
-        const dataArray = new Float32Array(bufferLength);
-        this.analyser.getFloatTimeDomainData(dataArray);
+      const bufferLength = this.analyser.frequencyBinCount;
+      const dataArray = new Float32Array(bufferLength);
+      this.analyser.getFloatTimeDomainData(dataArray);
 
-        const amplitude = this.getAmplitude(dataArray);
-        const now = Date.now();
+      const amplitude = this.getAmplitude(dataArray);
+      const now = Date.now();
 
-        if (amplitude > this.minAmplitude) {
-            // We have a potential note
-            if (!this.isNoteActive) {
-                this.isNoteActive = true;
-                this.currentNoteStart = now;
-                this.silenceCount = 0;
-            }
-
-            const frequency = this.yinAlgorithm(dataArray);
-            if (frequency && frequency >= this.minFrequency && frequency <= this.maxFrequency) {
-                const note = this.frequencyToNote(frequency);
-                if (note) {
-                    // Only emit note if it's been active for minimum duration
-                    const noteDuration = now - this.currentNoteStart;
-                    if (noteDuration >= this.minNoteDuration && noteDuration <= this.maxNoteDuration) {
-                        const event = new CustomEvent('noteDetected', { detail: { note } });
-                        document.dispatchEvent(event);
-                    }
-                }
-            }
-        } else {
-            // Silence detected
-            if (this.isNoteActive) {
-                this.silenceCount++;
-                if (this.silenceCount >= this.silenceThreshold) {
-                    this.isNoteActive = false;
-                    this.lastNoteTime = now;
-                }
-            }
+      if (amplitude > this.minAmplitude) {
+        // We have a potential note
+        if (!this.isNoteActive) {
+          this.isNoteActive = true;
+          this.currentNoteStart = now;
+          this.silenceCount = 0;
         }
 
-        requestAnimationFrame(() => this.detectPitch());
+        const frequency = this.yinAlgorithm(dataArray);
+        if (
+          frequency &&
+          frequency >= this.minFrequency &&
+          frequency <= this.maxFrequency
+        ) {
+          const note = this.frequencyToNote(frequency);
+          if (note) {
+            // Only emit note if it's been active for minimum duration
+            const noteDuration = now - this.currentNoteStart;
+            if (
+              noteDuration >= this.minNoteDuration &&
+              noteDuration <= this.maxNoteDuration
+            ) {
+              const event = new CustomEvent("noteDetected", {
+                detail: { note },
+              });
+              document.dispatchEvent(event);
+            }
+          }
+        }
+      } else {
+        // Silence detected
+        if (this.isNoteActive) {
+          this.silenceCount++;
+          if (this.silenceCount >= this.silenceThreshold) {
+            this.isNoteActive = false;
+            this.lastNoteTime = now;
+          }
+        }
+      }
+
+      requestAnimationFrame(() => this.detectPitch());
     }
 
     yinAlgorithm(data) {
-        const sampleRate = this.audioContext.sampleRate;
-        const tauMin = Math.floor(sampleRate / this.maxFrequency); // Higher frequency = smaller period
-        const tauMax = Math.floor(sampleRate / this.minFrequency); // Lower frequency = larger period
-        
-        let bestTau = 0;
-        let bestValue = 1;
-        
-        for (let tau = tauMin; tau < tauMax; tau++) {
-            let sum = 0;
-            for (let j = 0; j < data.length - tau; j++) {
-                const diff = data[j] - data[j + tau];
-                sum += diff * diff;
-            }
-            
-            const value = sum / (data.length - tau);
-            if (value < bestValue) {
-                bestValue = value;
-                bestTau = tau;
-            }
+      const sampleRate = this.audioContext.sampleRate;
+      const tauMin = Math.floor(sampleRate / this.maxFrequency); // Higher frequency = smaller period
+      const tauMax = Math.floor(sampleRate / this.minFrequency); // Lower frequency = larger period
+
+      let bestTau = 0;
+      let bestValue = 1;
+
+      for (let tau = tauMin; tau < tauMax; tau++) {
+        let sum = 0;
+        for (let j = 0; j < data.length - tau; j++) {
+          const diff = data[j] - data[j + tau];
+          sum += diff * diff;
         }
-        
-        if (bestValue < 0.1) { // Threshold for valid pitch
-            return sampleRate / bestTau;
+
+        const value = sum / (data.length - tau);
+        if (value < bestValue) {
+          bestValue = value;
+          bestTau = tau;
         }
-        return null;
+      }
+
+      if (bestValue < 0.1) {
+        // Threshold for valid pitch
+        return sampleRate / bestTau;
+      }
+      return null;
     }
 
     frequencyToNote(frequency) {
-        if (frequency <= 0) return null;
-        
-        const noteNum = Math.round(12 * Math.log2(frequency / 440) + 69);
-        const noteName = this.noteNames[noteNum % 12];
-        const octave = Math.floor(noteNum / 12) - 1;
-        
-        return `${noteName}${octave}`;
+      if (frequency <= 0) return null;
+
+      const noteNum = Math.round(12 * Math.log2(frequency / 440) + 69);
+      const noteName = this.noteNames[noteNum % 12];
+      const octave = Math.floor(noteNum / 12) - 1;
+
+      return `${noteName}${octave}`;
     }
-}
+  }
 
-// Note map for each string (frets 0-12)
-const NOTE_MAP = {
-    'g': ['G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G'],
-    'c': ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C'],
-    'e': ['E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E'],
-    'a': ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A'],
-};
+  // Note map for each string (frets 0-12)
+  const NOTE_MAP = {
+    g: ["G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"],
+    c: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C"],
+    e: ["E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"],
+    a: ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"],
+  };
 
-// String label map for display
-const STRING_LABELS = { 'g': 'G', 'c': 'C', 'e': 'E', 'a': 'A' };
+  // String label map for display
+  const STRING_LABELS = { g: "G", c: "C", e: "E", a: "A" };
 
-// IndexedDB helper for uke progress
-const UKE_DB_NAME = 'uke_progress_db';
-const UKE_DB_VERSION = 1;
-const UKE_STORE = 'uke_progress';
+  // IndexedDB helper for uke progress
+  const UKE_DB_NAME = "uke_progress_db";
+  const UKE_DB_VERSION = 1;
+  const UKE_STORE = "uke_progress";
 
-function openUkeDB() {
+  function openUkeDB() {
     return new Promise((resolve, reject) => {
-        const request = indexedDB.open(UKE_DB_NAME, UKE_DB_VERSION);
-        request.onupgradeneeded = function(event) {
-            const db = event.target.result;
-            if (!db.objectStoreNames.contains(UKE_STORE)) {
-                db.createObjectStore(UKE_STORE, { keyPath: 'id', autoIncrement: true });
-            }
-        };
-        request.onsuccess = function(event) {
-            resolve(event.target.result);
-        };
-        request.onerror = function(event) {
-            reject(event.target.error);
-        };
-    });
-}
-
-function addUkeProgressRecord(record) {
-    return openUkeDB().then(db => {
-        return new Promise((resolve, reject) => {
-            const tx = db.transaction(UKE_STORE, 'readwrite');
-            const store = tx.objectStore(UKE_STORE);
-            const req = store.add(record);
-            req.onsuccess = () => resolve();
-            req.onerror = (e) => reject(e);
-        });
-    });
-}
-
-document.addEventListener('alpine:init', () => {
-    Alpine.data('app', () => ({
-        // Tab Player State
-        tabPlayer: {
-            stringOrder: ['a', 'e', 'c', 'g'],
-            stringLabels: ['A', 'E', 'C', 'G'],
-            beats: [],
-            isPlaying: false,
-            bpm: 40,
-            currentBeat: 0,
-            scrollPosition: 0,
-            animationFrame: null,
-            startTime: null,
-            beatDuration: 500,
-            cellWidth: 56,
-            totalWidth: 0,
-            currentNote: '',
-            currentString: '',
-            currentFret: '',
-            currentStringLabel: '',
-            // Add note tracking
-            noteTracking: {
-                expectedNotes: [], // Array of expected notes per beat
-                playedNotes: [],   // Array of detected notes per beat
-                noteStates: [],    // Array of note states (correct/incorrect/missed)
-                runCount: 0,       // Track how many times we've played through
-                previousStates: [], // Track states from previous runs
-                lastBeatTime: 0    // Track when each beat started
-            },
-            timingFeedback: {
-                show: false,
-                message: '',
-                type: '',
-                timeout: null
-            },
-            runSummary: null,
-        },
-
-        // Audio Detection State
-        audioDetection: {
-            isListening: false,
-            detectedNote: '',
-            lastNoteTime: 0
-        },
-
-        // Audio Detector Instance
-        audioDetector: null,
-
-        init() {
-            this.initTabPlayer();
-            this.initAudioDetection();
-        },
-
-        initTabPlayer() {
-            const originalBeats = JSON.parse('{{ beats_json|escapejs }}');
-            const emptyBeat = { a: '-', e: '-', c: '-', g: '-' };
-            this.tabPlayer.beats = [
-                ...Array(4).fill(emptyBeat),
-                ...originalBeats
-            ];
-            
-            // Initialize note tracking
-            this.tabPlayer.noteTracking.expectedNotes = this.tabPlayer.beats.map(beat => {
-                for (const string of this.tabPlayer.stringOrder) {
-                    const val = beat[string];
-                    if (val && val !== '-') {
-                        const fret = parseInt(val, 10);
-                        if (!isNaN(fret) && fret >= 0 && fret < 13) {
-                            return NOTE_MAP[string][fret];
-                        }
-                    }
-                }
-                return null;
-            });
-            this.tabPlayer.noteTracking.playedNotes = new Array(this.tabPlayer.beats.length).fill(null);
-            this.tabPlayer.noteTracking.noteStates = new Array(this.tabPlayer.beats.length).fill('missed');
-            this.tabPlayer.noteTracking.previousStates = new Array(this.tabPlayer.beats.length).fill(null);
-            
-            this.updateBeatDuration();
-            this.$watch('tabPlayer.bpm', () => this.updateBeatDuration());
-            this.tabPlayer.totalWidth = this.tabPlayer.beats.length * this.tabPlayer.cellWidth;
-            this.updateCurrentNote();
-        },
-
-        initAudioDetection() {
-            this.audioDetector = new AudioDetector();
-            document.addEventListener('noteDetected', (event) => {
-                this.audioDetection.detectedNote = event.detail.note;
-                this.audioDetection.lastNoteTime = Date.now();
-                this.checkNoteMatch();
-            });
-        },
-
-        checkNoteMatch() {
-            if (!this.tabPlayer.isPlaying) return;
-            
-            const currentBeat = this.tabPlayer.currentBeat;
-            const expectedNote = this.tabPlayer.noteTracking.expectedNotes[currentBeat];
-            
-            if (!expectedNote) return; // No note expected in this beat
-            
-            const playedNote = this.audioDetection.detectedNote;
-            
-            // Extract just the note name (without octave) for comparison
-            const expectedNoteName = expectedNote.replace(/\d+$/, '');
-            const playedNoteName = playedNote.replace(/\d+$/, '');
-            
-            // Only update if:
-            // 1. No note has been played for this beat yet, or
-            // 2. The current state is incorrect and we're playing the correct note
-            if (!this.tabPlayer.noteTracking.playedNotes[currentBeat] || 
-                (this.tabPlayer.noteTracking.noteStates[currentBeat] !== 'correct' && playedNoteName === expectedNoteName)) {
-                
-                this.tabPlayer.noteTracking.playedNotes[currentBeat] = playedNote;
-                
-                if (playedNoteName === expectedNoteName) {
-                    this.tabPlayer.noteTracking.noteStates[currentBeat] = 'correct';
-                    
-                    // Calculate timing only for accepted correct notes
-                    const now = Date.now();
-                    const beatStart = this.tabPlayer.noteTracking.lastBeatTime;
-                    const beatDuration = this.tabPlayer.beatDuration;
-                    const beatMiddle = beatStart + (beatDuration / 2);
-                    const timeFromStart = now - beatStart;
-                    const percent = timeFromStart / beatDuration;
-                    
-                    // Define windows
-                    let timingType = 'perfect';
-                    let timingMessage = 'Perfect timing!';
-                    if (percent < 0.2) {
-                        timingType = 'very-early';
-                        timingMessage = 'Very early';
-                    } else if (percent < 0.35) {
-                        timingType = 'early';
-                        timingMessage = 'Early';
-                    } else if (percent < 0.45) {
-                        timingType = 'slightly-early';
-                        timingMessage = 'A bit early';
-                    } else if (percent < 0.55) {
-                        timingType = 'perfect';
-                        timingMessage = 'Perfect timing!';
-                    } else if (percent < 0.65) {
-                        timingType = 'slightly-late';
-                        timingMessage = 'A bit late';
-                    } else if (percent < 0.8) {
-                        timingType = 'late';
-                        timingMessage = 'Late';
-                    } else {
-                        timingType = 'very-late';
-                        timingMessage = 'Very late';
-                    }
-                    
-                    
-                    // Show timing feedback
-                    this.showTimingFeedback(timingMessage, timingType);
-                } else {
-                    this.tabPlayer.noteTracking.noteStates[currentBeat] = 'incorrect';
-                }
-            }
-        },
-
-        showTimingFeedback(message, type) {
-            // Clear any existing timeout
-            if (this.tabPlayer.timingFeedback.timeout) {
-                clearTimeout(this.tabPlayer.timingFeedback.timeout);
-            }
-            
-            // Update feedback
-            this.tabPlayer.timingFeedback.message = message;
-            this.tabPlayer.timingFeedback.type = type;
-            this.tabPlayer.timingFeedback.show = true;
-            
-            // Hide after 1 second
-            this.tabPlayer.timingFeedback.timeout = setTimeout(() => {
-                this.tabPlayer.timingFeedback.show = false;
-            }, 1000);
-        },
-
-        updateBeatDuration() {
-            this.tabPlayer.beatDuration = 60000 / this.tabPlayer.bpm;
-            // Grace period is 60% of beat duration, but at least 200ms and at most 500ms
-            this.tabPlayer.noteTracking.gracePeriod = Math.min(
-                Math.max(200, this.tabPlayer.beatDuration * 0.6),
-                500
-            );
-        },
-
-        togglePlay() {
-            this.tabPlayer.isPlaying = !this.tabPlayer.isPlaying;
-            if (this.tabPlayer.isPlaying) {
-                this.tabPlayer.startTime = null;
-                this.animate();
-            } else {
-                cancelAnimationFrame(this.tabPlayer.animationFrame);
-            }
-        },
-
-        animate(timestamp) {
-            if (!this.tabPlayer.startTime) this.tabPlayer.startTime = timestamp;
-            const elapsed = timestamp - this.tabPlayer.startTime;
-            
-            const totalDuration = this.tabPlayer.beats.length * this.tabPlayer.beatDuration;
-            const positionInSong = elapsed % totalDuration;
-            const beatPosition = positionInSong / this.tabPlayer.beatDuration;
-            
-            const newBeat = Math.floor(beatPosition) % this.tabPlayer.beats.length;
-            if (newBeat !== this.tabPlayer.currentBeat) {
-                // New beat started - check if previous beat was missed
-                const previousBeat = this.tabPlayer.currentBeat;
-                if (previousBeat >= 0 && 
-                    this.tabPlayer.noteTracking.expectedNotes[previousBeat] && 
-                    !this.tabPlayer.noteTracking.playedNotes[previousBeat]) {
-                    this.tabPlayer.noteTracking.noteStates[previousBeat] = 'missed';
-                }
-                
-                // LOGGING: Save previous beat data to IndexedDB
-                if (previousBeat >= 0) {
-                    this.logBeatProgress(previousBeat);
-                }
-                
-                // If we're starting a new run through the song
-                if (newBeat === 0 && previousBeat === this.tabPlayer.beats.length - 1) {
-                    // Save current states as previous states
-                    this.tabPlayer.noteTracking.previousStates = [...this.tabPlayer.noteTracking.noteStates];
-                    // Tally up run summary
-                    this.tallyRunSummary();
-                    // Reset current states
-                    this.tabPlayer.noteTracking.noteStates = new Array(this.tabPlayer.beats.length).fill('missed');
-                    this.tabPlayer.noteTracking.playedNotes = new Array(this.tabPlayer.beats.length).fill(null);
-                    this.tabPlayer.noteTracking.runCount++;
-                }
-                
-                this.tabPlayer.currentBeat = newBeat;
-                this.tabPlayer.noteTracking.lastBeatTime = Date.now();
-                this.updateCurrentNote();
-            }
-            
-            const beatProgress = beatPosition - Math.floor(beatPosition);
-            const rawPosition = (this.tabPlayer.currentBeat + beatProgress) * this.tabPlayer.cellWidth;
-            this.tabPlayer.scrollPosition = -(rawPosition % this.tabPlayer.totalWidth);
-            
-            if (this.tabPlayer.isPlaying) {
-                this.tabPlayer.animationFrame = requestAnimationFrame((t) => this.animate(t));
-            }
-        },
-
-        tallyRunSummary() {
-            // Only count beats with an expected note
-            const states = this.tabPlayer.noteTracking.noteStates;
-            const expectedNotes = this.tabPlayer.noteTracking.expectedNotes;
-            const filtered = states.map((s, i) => ({ state: s, expected: expectedNotes[i] })).filter(b => b.expected);
-            const total = filtered.length;
-            const correct = filtered.filter(b => b.state === 'correct').length;
-            const incorrect = filtered.filter(b => b.state === 'incorrect').length;
-            const missed = filtered.filter(b => b.state === 'missed').length;
-            this.tabPlayer.runSummary = {
-                percentCorrect: total ? (correct / total) * 100 : 0,
-                percentIncorrect: total ? (incorrect / total) * 100 : 0,
-                percentMissed: total ? (missed / total) * 100 : 0
-            };
-        },
-
-        logBeatProgress(beatIdx) {
-            // Gather all relevant data
-            const expectedNote = this.tabPlayer.noteTracking.expectedNotes[beatIdx];
-            if (!expectedNote) return; // Don't log empty beats
-            const playedNote = this.tabPlayer.noteTracking.playedNotes[beatIdx];
-            const state = this.tabPlayer.noteTracking.noteStates[beatIdx];
-            const runCount = this.tabPlayer.noteTracking.runCount;
-            const bpm = this.tabPlayer.bpm;
-            const beatsTotal = this.tabPlayer.beats.length;
-            const songTitle = "{{ tab_sheet.title|escapejs }}";
-            const songArtist = "{{ tab_sheet.artist|escapejs }}";
-            const timestamp = Date.now();
-            // Calculate timing distance to perfect middle (if played)
-            let timingDistance = null;
-            let timingCategory = null;
-            if (playedNote && state === 'correct') {
-                const beatStart = this.tabPlayer.noteTracking.lastBeatTime - this.tabPlayer.beatDuration; // lastBeatTime is set for new beat
-                const beatMiddle = beatStart + (this.tabPlayer.beatDuration / 2);
-                const playedTime = timestamp;
-                timingDistance = playedTime - beatMiddle;
-                // Recalculate timing category for log
-                const timeFromStart = playedTime - beatStart;
-                const percent = timeFromStart / this.tabPlayer.beatDuration;
-                if (percent < 0.2) timingCategory = 'very-early';
-                else if (percent < 0.35) timingCategory = 'early';
-                else if (percent < 0.45) timingCategory = 'slightly-early';
-                else if (percent < 0.55) timingCategory = 'perfect';
-                else if (percent < 0.65) timingCategory = 'slightly-late';
-                else if (percent < 0.8) timingCategory = 'late';
-                else timingCategory = 'very-late';
-            }
-            // Save to IndexedDB
-            const record = {
-                timestamp,
-                songTitle,
-                songArtist,
-                runCount,
-                beatIdx,
-                beatsTotal,
-                expectedNote,
-                playedNote,
-                state,
-                timingDistance,
-                timingCategory,
-                bpm
-            };
-            addUkeProgressRecord(record).catch(e => {
-                console.error('Failed to log uke progress to IndexedDB', e);
-            });
-        },
-
-        updateCurrentNote() {
-            const beat = this.tabPlayer.beats[this.tabPlayer.currentBeat] || {};
-            let found = false;
-            for (const string of this.tabPlayer.stringOrder) {
-                const val = beat[string];
-                if (val && val !== '-') {
-                    const fret = parseInt(val, 10);
-                    if (!isNaN(fret) && fret >= 0 && fret < 13) {
-                        this.tabPlayer.currentNote = NOTE_MAP[string][fret];
-                        this.tabPlayer.currentString = string;
-                        this.tabPlayer.currentFret = fret;
-                        this.tabPlayer.currentStringLabel = STRING_LABELS[string];
-                        found = true;
-                        break;
-                    }
-                }
-            }
-            if (!found) {
-                this.tabPlayer.currentNote = '';
-                this.tabPlayer.currentString = '';
-                this.tabPlayer.currentFret = '';
-                this.tabPlayer.currentStringLabel = '';
-            }
-        },
-
-        toggleListening() {
-            if (this.audioDetection.isListening) {
-                this.audioDetector.stopListening();
-            } else {
-                this.audioDetector.startListening();
-            }
-            this.audioDetection.isListening = !this.audioDetection.isListening;
+      const request = indexedDB.open(UKE_DB_NAME, UKE_DB_VERSION);
+      request.onupgradeneeded = function (event) {
+        const db = event.target.result;
+        if (!db.objectStoreNames.contains(UKE_STORE)) {
+          db.createObjectStore(UKE_STORE, {
+            keyPath: "id",
+            autoIncrement: true,
+          });
         }
+      };
+      request.onsuccess = function (event) {
+        resolve(event.target.result);
+      };
+      request.onerror = function (event) {
+        reject(event.target.error);
+      };
+    });
+  }
+
+  function addUkeProgressRecord(record) {
+    return openUkeDB().then((db) => {
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(UKE_STORE, "readwrite");
+        const store = tx.objectStore(UKE_STORE);
+        const req = store.add(record);
+        req.onsuccess = () => resolve();
+        req.onerror = (e) => reject(e);
+      });
+    });
+  }
+
+  document.addEventListener("alpine:init", () => {
+    Alpine.data("app", () => ({
+      // Tab Player State
+      tabPlayer: {
+        stringOrder: ["a", "e", "c", "g"],
+        stringLabels: ["A", "E", "C", "G"],
+        beats: [],
+        isPlaying: false,
+        bpm: 40,
+        currentBeat: 0,
+        scrollPosition: 0,
+        animationFrame: null,
+        startTime: null,
+        beatDuration: 500,
+        cellWidth: 56,
+        totalWidth: 0,
+        currentNote: "",
+        currentString: "",
+        currentFret: "",
+        currentStringLabel: "",
+        // Add note tracking
+        noteTracking: {
+          expectedNotes: [], // Array of expected notes per beat
+          playedNotes: [], // Array of detected notes per beat
+          noteStates: [], // Array of note states (correct/incorrect/missed)
+          runCount: 0, // Track how many times we've played through
+          previousStates: [], // Track states from previous runs
+          lastBeatTime: 0, // Track when each beat started
+        },
+        timingFeedback: {
+          show: false,
+          message: "",
+          type: "",
+          timeout: null,
+        },
+        runSummary: null,
+      },
+
+      // Audio Detection State
+      audioDetection: {
+        isListening: false,
+        detectedNote: "",
+        lastNoteTime: 0,
+      },
+
+      // Audio Detector Instance
+      audioDetector: null,
+
+      init() {
+        this.initTabPlayer();
+        this.initAudioDetection();
+      },
+
+      initTabPlayer() {
+        const originalBeats = JSON.parse("{{ beats_json|escapejs }}");
+        const emptyBeat = { a: "-", e: "-", c: "-", g: "-" };
+        this.tabPlayer.beats = [...Array(4).fill(emptyBeat), ...originalBeats];
+
+        // Initialize note tracking
+        this.tabPlayer.noteTracking.expectedNotes = this.tabPlayer.beats.map(
+          (beat) => {
+            for (const string of this.tabPlayer.stringOrder) {
+              const val = beat[string];
+              if (val && val !== "-") {
+                const fret = parseInt(val, 10);
+                if (!isNaN(fret) && fret >= 0 && fret < 13) {
+                  return NOTE_MAP[string][fret];
+                }
+              }
+            }
+            return null;
+          }
+        );
+        this.tabPlayer.noteTracking.playedNotes = new Array(
+          this.tabPlayer.beats.length
+        ).fill(null);
+        this.tabPlayer.noteTracking.noteStates = new Array(
+          this.tabPlayer.beats.length
+        ).fill("missed");
+        this.tabPlayer.noteTracking.previousStates = new Array(
+          this.tabPlayer.beats.length
+        ).fill(null);
+
+        this.updateBeatDuration();
+        this.$watch("tabPlayer.bpm", () => this.updateBeatDuration());
+        this.tabPlayer.totalWidth =
+          this.tabPlayer.beats.length * this.tabPlayer.cellWidth;
+        this.updateCurrentNote();
+      },
+
+      initAudioDetection() {
+        this.audioDetector = new AudioDetector();
+        document.addEventListener("noteDetected", (event) => {
+          this.audioDetection.detectedNote = event.detail.note;
+          this.audioDetection.lastNoteTime = Date.now();
+          this.checkNoteMatch();
+        });
+      },
+
+      checkNoteMatch() {
+        if (!this.tabPlayer.isPlaying) return;
+
+        const currentBeat = this.tabPlayer.currentBeat;
+        const expectedNote =
+          this.tabPlayer.noteTracking.expectedNotes[currentBeat];
+
+        if (!expectedNote) return; // No note expected in this beat
+
+        const playedNote = this.audioDetection.detectedNote;
+
+        // Extract just the note name (without octave) for comparison
+        const expectedNoteName = expectedNote.replace(/\d+$/, "");
+        const playedNoteName = playedNote.replace(/\d+$/, "");
+
+        // Only update if:
+        // 1. No note has been played for this beat yet, or
+        // 2. The current state is incorrect and we're playing the correct note
+        if (
+          !this.tabPlayer.noteTracking.playedNotes[currentBeat] ||
+          (this.tabPlayer.noteTracking.noteStates[currentBeat] !== "correct" &&
+            playedNoteName === expectedNoteName)
+        ) {
+          this.tabPlayer.noteTracking.playedNotes[currentBeat] = playedNote;
+
+          if (playedNoteName === expectedNoteName) {
+            this.tabPlayer.noteTracking.noteStates[currentBeat] = "correct";
+
+            // Calculate timing only for accepted correct notes
+            const now = Date.now();
+            const beatStart = this.tabPlayer.noteTracking.lastBeatTime;
+            const beatDuration = this.tabPlayer.beatDuration;
+            const beatMiddle = beatStart + beatDuration / 2;
+            const timeFromStart = now - beatStart;
+            const percent = timeFromStart / beatDuration;
+
+            // Define windows
+            let timingType = "perfect";
+            let timingMessage = "Perfect timing!";
+            if (percent < 0.2) {
+              timingType = "very-early";
+              timingMessage = "Very early";
+            } else if (percent < 0.35) {
+              timingType = "early";
+              timingMessage = "Early";
+            } else if (percent < 0.45) {
+              timingType = "slightly-early";
+              timingMessage = "A bit early";
+            } else if (percent < 0.55) {
+              timingType = "perfect";
+              timingMessage = "Perfect timing!";
+            } else if (percent < 0.65) {
+              timingType = "slightly-late";
+              timingMessage = "A bit late";
+            } else if (percent < 0.8) {
+              timingType = "late";
+              timingMessage = "Late";
+            } else {
+              timingType = "very-late";
+              timingMessage = "Very late";
+            }
+
+            // Show timing feedback
+            this.showTimingFeedback(timingMessage, timingType);
+          } else {
+            this.tabPlayer.noteTracking.noteStates[currentBeat] = "incorrect";
+          }
+        }
+      },
+
+      showTimingFeedback(message, type) {
+        // Clear any existing timeout
+        if (this.tabPlayer.timingFeedback.timeout) {
+          clearTimeout(this.tabPlayer.timingFeedback.timeout);
+        }
+
+        // Update feedback
+        this.tabPlayer.timingFeedback.message = message;
+        this.tabPlayer.timingFeedback.type = type;
+        this.tabPlayer.timingFeedback.show = true;
+
+        // Hide after 1 second
+        this.tabPlayer.timingFeedback.timeout = setTimeout(() => {
+          this.tabPlayer.timingFeedback.show = false;
+        }, 1000);
+      },
+
+      updateBeatDuration() {
+        this.tabPlayer.beatDuration = 60000 / this.tabPlayer.bpm;
+        // Grace period is 60% of beat duration, but at least 200ms and at most 500ms
+        this.tabPlayer.noteTracking.gracePeriod = Math.min(
+          Math.max(200, this.tabPlayer.beatDuration * 0.6),
+          500
+        );
+      },
+
+      togglePlay() {
+        this.tabPlayer.isPlaying = !this.tabPlayer.isPlaying;
+        if (this.tabPlayer.isPlaying) {
+          this.tabPlayer.startTime = null;
+          this.animate();
+        } else {
+          cancelAnimationFrame(this.tabPlayer.animationFrame);
+        }
+      },
+
+      animate(timestamp) {
+        if (!this.tabPlayer.startTime) this.tabPlayer.startTime = timestamp;
+        const elapsed = timestamp - this.tabPlayer.startTime;
+
+        const totalDuration =
+          this.tabPlayer.beats.length * this.tabPlayer.beatDuration;
+        const positionInSong = elapsed % totalDuration;
+        const beatPosition = positionInSong / this.tabPlayer.beatDuration;
+
+        const newBeat = Math.floor(beatPosition) % this.tabPlayer.beats.length;
+        if (newBeat !== this.tabPlayer.currentBeat) {
+          // New beat started - check if previous beat was missed
+          const previousBeat = this.tabPlayer.currentBeat;
+          if (
+            previousBeat >= 0 &&
+            this.tabPlayer.noteTracking.expectedNotes[previousBeat] &&
+            !this.tabPlayer.noteTracking.playedNotes[previousBeat]
+          ) {
+            this.tabPlayer.noteTracking.noteStates[previousBeat] = "missed";
+          }
+
+          // LOGGING: Save previous beat data to IndexedDB
+          if (previousBeat >= 0) {
+            this.logBeatProgress(previousBeat);
+          }
+
+          // If we're starting a new run through the song
+          if (
+            newBeat === 0 &&
+            previousBeat === this.tabPlayer.beats.length - 1
+          ) {
+            // Save current states as previous states
+            this.tabPlayer.noteTracking.previousStates = [
+              ...this.tabPlayer.noteTracking.noteStates,
+            ];
+            // Tally up run summary
+            this.tallyRunSummary();
+            // Reset current states
+            this.tabPlayer.noteTracking.noteStates = new Array(
+              this.tabPlayer.beats.length
+            ).fill("missed");
+            this.tabPlayer.noteTracking.playedNotes = new Array(
+              this.tabPlayer.beats.length
+            ).fill(null);
+            this.tabPlayer.noteTracking.runCount++;
+          }
+
+          this.tabPlayer.currentBeat = newBeat;
+          this.tabPlayer.noteTracking.lastBeatTime = Date.now();
+          this.updateCurrentNote();
+        }
+
+        const beatProgress = beatPosition - Math.floor(beatPosition);
+        const rawPosition =
+          (this.tabPlayer.currentBeat + beatProgress) *
+          this.tabPlayer.cellWidth;
+        this.tabPlayer.scrollPosition = -(
+          rawPosition % this.tabPlayer.totalWidth
+        );
+
+        if (this.tabPlayer.isPlaying) {
+          this.tabPlayer.animationFrame = requestAnimationFrame((t) =>
+            this.animate(t)
+          );
+        }
+      },
+
+      tallyRunSummary() {
+        // Only count beats with an expected note
+        const states = this.tabPlayer.noteTracking.noteStates;
+        const expectedNotes = this.tabPlayer.noteTracking.expectedNotes;
+        const filtered = states
+          .map((s, i) => ({ state: s, expected: expectedNotes[i] }))
+          .filter((b) => b.expected);
+        const total = filtered.length;
+        const correct = filtered.filter((b) => b.state === "correct").length;
+        const incorrect = filtered.filter(
+          (b) => b.state === "incorrect"
+        ).length;
+        const missed = filtered.filter((b) => b.state === "missed").length;
+        this.tabPlayer.runSummary = {
+          percentCorrect: total ? (correct / total) * 100 : 0,
+          percentIncorrect: total ? (incorrect / total) * 100 : 0,
+          percentMissed: total ? (missed / total) * 100 : 0,
+        };
+      },
+
+      logBeatProgress(beatIdx) {
+        // Gather all relevant data
+        const expectedNote = this.tabPlayer.noteTracking.expectedNotes[beatIdx];
+        if (!expectedNote) return; // Don't log empty beats
+        const playedNote = this.tabPlayer.noteTracking.playedNotes[beatIdx];
+        const state = this.tabPlayer.noteTracking.noteStates[beatIdx];
+        const runCount = this.tabPlayer.noteTracking.runCount;
+        const bpm = this.tabPlayer.bpm;
+        const beatsTotal = this.tabPlayer.beats.length;
+        const songTitle = "{{ tab_sheet.title|escapejs }}";
+        const songArtist = "{{ tab_sheet.artist|escapejs }}";
+        const timestamp = Date.now();
+        // Calculate timing distance to perfect middle (if played)
+        let timingDistance = null;
+        let timingCategory = null;
+        if (playedNote && state === "correct") {
+          const beatStart =
+            this.tabPlayer.noteTracking.lastBeatTime -
+            this.tabPlayer.beatDuration; // lastBeatTime is set for new beat
+          const beatMiddle = beatStart + this.tabPlayer.beatDuration / 2;
+          const playedTime = timestamp;
+          timingDistance = playedTime - beatMiddle;
+          // Recalculate timing category for log
+          const timeFromStart = playedTime - beatStart;
+          const percent = timeFromStart / this.tabPlayer.beatDuration;
+          if (percent < 0.2) timingCategory = "very-early";
+          else if (percent < 0.35) timingCategory = "early";
+          else if (percent < 0.45) timingCategory = "slightly-early";
+          else if (percent < 0.55) timingCategory = "perfect";
+          else if (percent < 0.65) timingCategory = "slightly-late";
+          else if (percent < 0.8) timingCategory = "late";
+          else timingCategory = "very-late";
+        }
+        // Save to IndexedDB
+        const record = {
+          timestamp,
+          songTitle,
+          songArtist,
+          runCount,
+          beatIdx,
+          beatsTotal,
+          expectedNote,
+          playedNote,
+          state,
+          timingDistance,
+          timingCategory,
+          bpm,
+        };
+        addUkeProgressRecord(record).catch((e) => {
+          console.error("Failed to log uke progress to IndexedDB", e);
+        });
+      },
+
+      updateCurrentNote() {
+        const beat = this.tabPlayer.beats[this.tabPlayer.currentBeat] || {};
+        let found = false;
+        for (const string of this.tabPlayer.stringOrder) {
+          const val = beat[string];
+          if (val && val !== "-") {
+            const fret = parseInt(val, 10);
+            if (!isNaN(fret) && fret >= 0 && fret < 13) {
+              this.tabPlayer.currentNote = NOTE_MAP[string][fret];
+              this.tabPlayer.currentString = string;
+              this.tabPlayer.currentFret = fret;
+              this.tabPlayer.currentStringLabel = STRING_LABELS[string];
+              found = true;
+              break;
+            }
+          }
+        }
+        if (!found) {
+          this.tabPlayer.currentNote = "";
+          this.tabPlayer.currentString = "";
+          this.tabPlayer.currentFret = "";
+          this.tabPlayer.currentStringLabel = "";
+        }
+      },
+
+      toggleListening() {
+        if (this.audioDetection.isListening) {
+          this.audioDetector.stopListening();
+        } else {
+          this.audioDetector.startListening();
+        }
+        this.audioDetection.isListening = !this.audioDetection.isListening;
+      },
     }));
-});
+  });
 </script>
 
 <style>
-.tab-display-container {
+  .tab-display-container {
     position: relative;
     overflow: hidden;
     margin: 2rem 0;
     padding: 1rem;
     background: var(--background);
     border-radius: 4px;
-}
+  }
 
-.tab-display-wrapper {
+  .tab-display-wrapper {
     position: relative;
     display: flex;
     overflow: hidden;
-}
+  }
 
-.tab-legend {
+  .tab-legend {
     position: absolute;
     left: 0;
     top: 0;
@@ -696,16 +801,16 @@ document.addEventListener('alpine:init', () => {
     padding-right: 0.5rem;
     border-right: 1px solid var(--border);
     z-index: 2;
-}
+  }
 
-.string-label {
+  .string-label {
     text-align: right;
     padding: 0.5rem;
     font-weight: bold;
     color: var(--text);
-}
+  }
 
-.playhead {
+  .playhead {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -714,23 +819,23 @@ document.addEventListener('alpine:init', () => {
     background-color: var(--danger);
     z-index: 2;
     pointer-events: none;
-}
+  }
 
-.tab-content {
+  .tab-content {
     margin-left: 4rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     will-change: transform;
     transition: transform 0.05s linear;
-}
+  }
 
-.tab-line {
+  .tab-line {
     display: flex;
     gap: 0.5rem;
-}
+  }
 
-.tab-cell {
+  .tab-cell {
     flex: 0 0 3rem;
     height: 2.5rem;
     display: flex;
@@ -739,152 +844,154 @@ document.addEventListener('alpine:init', () => {
     background: var(--cell-background);
     border-radius: 4px;
     transition: background-color 0.1s linear;
-}
+  }
 
-.tab-cell.is-empty {
+  .tab-cell.is-empty {
     visibility: hidden;
-}
+  }
 
-.tab-cell.is-active {
+  .tab-cell.is-active {
     background: var(--cell-active);
-}
+  }
 
-.tab-cell.is-correct {
+  .tab-cell.is-correct {
     background: var(--success);
     color: var(--success-invert);
-}
+  }
 
-.tab-cell.is-incorrect {
+  .tab-cell.is-incorrect {
     background: var(--danger);
     color: var(--danger-invert);
-}
+  }
 
-.tab-cell.is-missed {
+  .tab-cell.is-missed {
     background: var(--warning);
     color: var(--warning-invert);
-}
+  }
 
-.tab-cell.is-previous-correct {
+  .tab-cell.is-previous-correct {
     background: var(--success-washed);
     color: var(--success-invert);
-}
+  }
 
-.tab-cell.is-previous-incorrect {
+  .tab-cell.is-previous-incorrect {
     background: var(--danger-washed);
     color: var(--danger-invert);
-}
+  }
 
-.tab-cell.is-previous-missed {
+  .tab-cell.is-previous-missed {
     background: var(--warning-washed);
     color: var(--warning-invert);
-}
+  }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
+  /* Dark mode support */
+  @media (prefers-color-scheme: dark) {
     :root {
-        --background: #1a1a1a;
-        --border: #333;
-        --cell-background: #2a2a2a;
-        --cell-active: #3a3a3a;
-        --text: #fff;
-        --primary: #3273dc;
-        --primary-invert: #fff;
-        --danger: #ff3860;
-        --danger-washed: #4a1a24;
-        --success: #48c774;
-        --success-washed: #1a3a24;
-        --warning: #b86bf4;
-        --warning-washed: #2a1a3a;
+      --background: #1a1a1a;
+      --border: #333;
+      --cell-background: #2a2a2a;
+      --cell-active: #3a3a3a;
+      --text: #fff;
+      --primary: #3273dc;
+      --primary-invert: #fff;
+      --danger: #ff3860;
+      --danger-washed: #4a1a24;
+      --success: #48c774;
+      --success-washed: #1a3a24;
+      --warning: #b86bf4;
+      --warning-washed: #2a1a3a;
     }
-}
+  }
 
-@media (prefers-color-scheme: light) {
+  @media (prefers-color-scheme: light) {
     :root {
-        --background: #f5f5f5;
-        --border: #dbdbdb;
-        --cell-background: #2a2a2a;
-        --cell-active: #3a3a3a;
-        --text: #fff;
-        --primary: #3273dc;
-        --primary-invert: #fff;
-        --danger: #ff3860;
-        --danger-washed: #4a1a24;
-        --success: #48c774;
-        --success-washed: #1a3a24;
-        --warning: #b86bf4;
-        --warning-washed: #2a1a3a;
+      --background: #f5f5f5;
+      --border: #dbdbdb;
+      --cell-background: #2a2a2a;
+      --cell-active: #3a3a3a;
+      --text: #fff;
+      --primary: #3273dc;
+      --primary-invert: #fff;
+      --danger: #ff3860;
+      --danger-washed: #4a1a24;
+      --success: #48c774;
+      --success-washed: #1a3a24;
+      --warning: #b86bf4;
+      --warning-washed: #2a1a3a;
     }
-}
+  }
 
-.audio-detection-display {
+  .audio-detection-display {
     margin-top: 1rem;
     text-align: center;
-}
+  }
 
-.current-note-display {
+  .current-note-display {
     text-align: center;
     margin-top: 1rem;
     opacity: 0.7;
-}
+  }
 
-.current-note {
+  .current-note {
     font-size: 1.2rem;
     font-weight: 500;
     color: var(--text);
-}
+  }
 
-.timing-feedback {
-    position: fixed;
-    bottom: 2rem;
+  .timing-feedback-wrapper {
+    position: relative;
+    height: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .timing-feedback {
+    position: absolute;
     left: 50%;
+    top: 0;
     transform: translateX(-50%);
-    padding: 0.75rem 1.5rem;
+    min-width: 180px;
+    max-width: 90vw;
+    padding: 0.5rem 1.25rem;
     border-radius: 4px;
     background: var(--cell-background);
     color: var(--text);
     font-weight: 500;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 100;
-}
+    z-index: 10;
+    text-align: center;
+    pointer-events: none;
+  }
 
-.timing-feedback.is-very-early { background: #ff3860; color: white; }
-.timing-feedback.is-early { background: #ff7b7b; color: white; }
-.timing-feedback.is-slightly-early { background: #ffb7b7; color: var(--text); }
-.timing-feedback.is-perfect { background: #48c774; color: white; }
-.timing-feedback.is-slightly-late { background: #ffb7b7; color: var(--text); }
-.timing-feedback.is-late { background: #ff7b7b; color: white; }
-.timing-feedback.is-very-late { background: #ff3860; color: white; }
-
-.run-summary {
+  .run-summary {
     margin: 2rem auto 0 auto;
     max-width: 600px;
     text-align: center;
-}
-.summary-bar {
+  }
+  .summary-bar {
     display: flex;
     height: 1.25rem;
     border-radius: 6px;
     overflow: hidden;
     margin-bottom: 0.5rem;
     background: #222;
-}
-.summary-correct {
+  }
+  .summary-correct {
     background: #48c774;
     display: inline-block;
     height: 100%;
-}
-.summary-incorrect {
+  }
+  .summary-incorrect {
     background: #ff3860;
     display: inline-block;
     height: 100%;
-}
-.summary-missed {
+  }
+  .summary-missed {
     background: #b86bf4;
     display: inline-block;
     height: 100%;
-}
-.summary-text span {
+  }
+  .summary-text span {
     font-size: 1.1rem;
-}
+  }
 </style>
-{% endblock %} 
+{% endblock %}
