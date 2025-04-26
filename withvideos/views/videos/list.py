@@ -5,7 +5,7 @@ from django.http import HttpResponse
 
 class LiveVideoListView(ListView):
     model = Video
-    template_name = 'withvideos/videos/list.html'
+    template_name = 'withvideos/app/videos/list.html'
     context_object_name = 'videos'
     
     def get_context_data(self, **kwargs):

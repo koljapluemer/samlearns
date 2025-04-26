@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="mb-8 text-3xl font-bold">All Videos</h1>
+    
+    <!-- Filters -->
+    <div class="mb-6">
+        <div class="flex flex-wrap gap-4">
+            <!-- Status Filter -->
+            <div class="flex flex-wrap gap-2">
+                <a href="{% url 'withvideos:cms:list_all_videos' %}{% if comment_filter %}?comment={{ comment_filter }}{% endif %}" 
+                   class="px-3 py-1 text-sm rounded {% if not status_filter %}bg-blue-500 text-white{% else %}bg-gray-100 text-gray-700 hover:bg-gray-200{% endif %}">
+                    All
+                </a>
+                {% for status_value, status_label in status_choices %}
+                    <a href="{% url 'withvideos:cms:list_all_videos' %}?status={{ status_value }}{% if comment_filter %}&comment={{ comment_filter }}{% endif %}" 
+                       class="px-3 py-1 text-sm rounded {% if status_filter == status_value %}bg-blue-500 text-white{% else %}bg-gray-100 text-gray-700 hover:bg-gray-200{% endif %}">
+                        {{ status_label }}
+                    </a>
+                {% endfor %}
+            </div>
+            
+            <!-- Comment Filter -->
+            <form method="get" class="flex items-center gap-2">
+                <input type="text" 
+                       name="comment" 
+                       value="{{ comment_filter }}" 
+                       placeholder="Filter by comment..."
+                       class="px-3 py-1 text-sm border rounded">
+                {% if status_filter %}
+                    <input type="hidden" name="status" value="{{ status_filter }}">
+                {% endif %}
+                <button type="submit" class="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded hover:bg-gray-200">
+                    Filter
+                </button>
+                {% if comment_filter %}
+                    <a href="{% url 'withvideos:cms:list_all_videos' %}{% if status_filter %}?status={{ status_filter }}{% endif %}" 
+                       class="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded hover:bg-gray-200">
+                        Clear
+                    </a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+    
+    <!-- Priority Update Buttons -->
+    <div class="mb-6">
+        <form method="post" action="{% url 'withvideos:cms:update_video_priorities' %}" class="flex gap-4">
+            {% csrf_token %}
+            {% if status_filter %}
+                <input type="hidden" name="status_filter" value="{{ status_filter }}">
+            {% endif %}
+            {% if comment_filter %}
+                <input type="hidden" name="comment_filter" value="{{ comment_filter }}">
+            {% endif %}
+            <button type="submit" name="action" value="increase" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                Increase Priority for All
+            </button>
+            <button type="submit" name="action" value="decrease" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                Decrease Priority for All
+            </button>
+        </form>
+    </div>
+    
+    {% if videos %}
+        <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">YouTube ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Comment</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for video in videos %}
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                <a href="https://www.youtube.com/watch?v={{ video.youtube_id }}" 
+                                   target="_blank" 
+                                   class="text-blue-600 hover:text-blue-900 hover:underline">
+                                    {{ video.youtube_id }}
+                                </a>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                {% include "includes/video_status.html" %}
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-500">
+                                {{ video.comment|truncatechars:50 }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <a href="{% url 'withvideos:cms:video_details' video.youtube_id %}" class="text-blue-600 hover:text-blue-900">View Details</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if page_obj.paginator.num_pages > 1 %}
+            <div class="mt-8 flex justify-center">
+                <div class="flex space-x-2">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if comment_filter %}&comment={{ comment_filter }}{% endif %}" 
+                           class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
+                            Previous
+                        </a>
+                    {% endif %}
+                    
+                    <span class="px-4 py-2">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+                    
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}{% if status_filter %}&status={{ status_filter }}{% endif %}{% if comment_filter %}&comment={{ comment_filter }}{% endif %}" 
+                           class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
+                            Next
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="text-center py-8">
+            <p class="text-gray-600">No videos found.</p>
+            <a href="{% url 'withvideos:cms:import_channel_videos' %}" class="text-blue-500 hover:text-blue-700">
+                Import some videos
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %} 

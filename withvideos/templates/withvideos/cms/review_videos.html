@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Review Videos</h1>
+        <div class="flex gap-4">
+            <form method="post" action="{% url 'withvideos:cms:reduce_review_priorities' %}" class="inline">
+                {% csrf_token %}
+                <button type="submit" class="px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2">
+                    <i class="fas fa-arrow-down mr-2"></i>Reduce Priorities
+                </button>
+            </form>
+            <form method="post" action="{% url 'withvideos:cms:update_video_statuses' %}" class="inline">
+                {% csrf_token %}
+                <button type="submit" 
+                        class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    Save All Changes
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Bulk Status Update -->
+    {% if videos %}
+    <div class="mb-8 bg-white p-6 rounded-lg shadow-sm">
+        <h2 class="text-xl font-semibold mb-4">Bulk Status Update</h2>
+        <form method="post" action="{% url 'withvideos:cms:update_video_statuses' %}" class="flex items-center gap-4">
+            {% csrf_token %}
+            <select name="bulk_status" class="border rounded px-3 py-2">
+                <option value="">Select an action...</option>
+                <option value="shortlisted">Shortlist All</option>
+                <option value="longlisted">Longlist All</option>
+                <option value="not_relevant">Set All to Not Relevant</option>
+            </select>
+            <button type="submit" 
+                    class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    onclick="return confirm('Are you sure you want to update the status of all videos?')">
+                Confirm Bulk Update
+            </button>
+        </form>
+    </div>
+    {% endif %}
+    
+    {% if videos %}
+        <form method="post" action="{% url 'withvideos:cms:update_video_statuses' %}" class="space-y-8">
+            {% csrf_token %}
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for video in videos %}
+                    <div class="border rounded-lg overflow-hidden bg-white shadow-sm">
+                        <div class="relative pb-[56.25%]">
+                            <iframe 
+                                class="absolute top-0 left-0 w-full h-full"
+                                src="https://www.youtube.com/embed/{{ video.youtube_id }}"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        
+                        <div class="p-4">
+                            {% if video.available_subtitle_languages %}
+                                <div class="mb-4">
+                                    <p class="text-sm font-medium text-gray-700 mb-1">Available Subtitles:</p>
+                                    <div class="flex flex-wrap gap-1">
+                                        {% for lang in video.available_subtitle_languages %}
+                                            <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
+                                                {{ lang }}
+                                            </span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                                    <div class="flex flex-wrap gap-2">
+                                        <label class="inline-flex items-center">
+                                            <input type="radio" name="status_{{ video.youtube_id }}" value="needs_review" 
+                                                   class="hidden peer" {% if video.status == 'needs_review' %}checked{% endif %}>
+                                            <span class="px-3 py-1 text-sm rounded cursor-pointer peer-checked:bg-blue-500 peer-checked:text-white bg-gray-100 text-gray-700 hover:bg-gray-200">
+                                                Needs Review
+                                            </span>
+                                        </label>
+                                        <label class="inline-flex items-center">
+                                            <input type="radio" name="status_{{ video.youtube_id }}" value="shortlisted" 
+                                                   class="hidden peer" {% if video.status == 'shortlisted' %}checked{% endif %}>
+                                            <span class="px-3 py-1 text-sm rounded cursor-pointer peer-checked:bg-green-500 peer-checked:text-white bg-gray-100 text-gray-700 hover:bg-gray-200">
+                                                Shortlist
+                                            </span>
+                                        </label>
+                                        <label class="inline-flex items-center">
+                                            <input type="radio" name="status_{{ video.youtube_id }}" value="longlisted" 
+                                                   class="hidden peer" {% if video.status == 'longlisted' %}checked{% endif %}>
+                                            <span class="px-3 py-1 text-sm rounded cursor-pointer peer-checked:bg-yellow-500 peer-checked:text-white bg-gray-100 text-gray-700 hover:bg-gray-200">
+                                                Longlist
+                                            </span>
+                                        </label>
+                                        <label class="inline-flex items-center">
+                                            <input type="radio" name="status_{{ video.youtube_id }}" value="not_relevant" 
+                                                   class="hidden peer" {% if video.status == 'not_relevant' %}checked{% endif %}>
+                                            <span class="px-3 py-1 text-sm rounded cursor-pointer peer-checked:bg-red-500 peer-checked:text-white bg-gray-100 text-gray-700 hover:bg-gray-200">
+                                                Not Relevant
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Comment</label>
+                                    <textarea name="comment_{{ video.youtube_id }}" 
+                                              class="w-full px-3 py-2 border rounded"
+                                              rows="2"
+                                              placeholder="Add a comment...">{{ video.comment }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="flex justify-center space-x-4">
+                <button type="submit" 
+                        class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    Save All Changes
+                </button>
+                <a href="{% url 'withvideos:cms:review_videos' %}" 
+                   class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    {% else %}
+        <div class="text-center py-8">
+            <p class="text-gray-600">No videos need review at the moment.</p>
+            <a href="{% url 'withvideos:cms:import_channel_videos' %}" class="text-blue-500 hover:text-blue-700">
+                Import more videos
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %} 

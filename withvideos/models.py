@@ -32,6 +32,7 @@ class VideoStatus(models.TextChoices):
 class Language(models.Model):
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=100)
+    subtitle_prefix = models.CharField(max_length=100, blank=True, null=True)
 
 
 class Video(models.Model):
