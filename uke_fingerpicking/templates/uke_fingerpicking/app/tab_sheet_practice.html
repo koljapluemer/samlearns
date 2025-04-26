@@ -91,6 +91,20 @@ class AudioDetector {
         this.microphone = null;
         this.isListening = false;
         this.noteNames = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+        
+        // Detection parameters
+        this.minAmplitude = 0.05; // Lowered to catch softer notes
+        this.minNoteDuration = 30; // Reduced to catch quick notes
+        this.maxNoteDuration = 800; // Increased to allow for longer notes
+        this.minFrequency = 150; // Lowered to catch lower notes (around D3)
+        this.maxFrequency = 1200; // Increased to catch higher notes (around D6)
+        
+        // State tracking
+        this.lastNoteTime = 0;
+        this.currentNoteStart = 0;
+        this.isNoteActive = false;
+        this.silenceCount = 0;
+        this.silenceThreshold = 2; // Reduced to be more responsive
     }
 
     async startListening() {
@@ -122,6 +136,14 @@ class AudioDetector {
         this.isListening = false;
     }
 
+    getAmplitude(data) {
+        let sum = 0;
+        for (let i = 0; i < data.length; i++) {
+            sum += Math.abs(data[i]);
+        }
+        return sum / data.length;
+    }
+
     detectPitch() {
         if (!this.isListening) return;
 
@@ -129,12 +151,37 @@ class AudioDetector {
         const dataArray = new Float32Array(bufferLength);
         this.analyser.getFloatTimeDomainData(dataArray);
 
-        const frequency = this.yinAlgorithm(dataArray);
-        if (frequency) {
-            const note = this.frequencyToNote(frequency);
-            if (note) {
-                const event = new CustomEvent('noteDetected', { detail: { note } });
-                document.dispatchEvent(event);
+        const amplitude = this.getAmplitude(dataArray);
+        const now = Date.now();
+
+        if (amplitude > this.minAmplitude) {
+            // We have a potential note
+            if (!this.isNoteActive) {
+                this.isNoteActive = true;
+                this.currentNoteStart = now;
+                this.silenceCount = 0;
+            }
+
+            const frequency = this.yinAlgorithm(dataArray);
+            if (frequency && frequency >= this.minFrequency && frequency <= this.maxFrequency) {
+                const note = this.frequencyToNote(frequency);
+                if (note) {
+                    // Only emit note if it's been active for minimum duration
+                    const noteDuration = now - this.currentNoteStart;
+                    if (noteDuration >= this.minNoteDuration && noteDuration <= this.maxNoteDuration) {
+                        const event = new CustomEvent('noteDetected', { detail: { note } });
+                        document.dispatchEvent(event);
+                    }
+                }
+            }
+        } else {
+            // Silence detected
+            if (this.isNoteActive) {
+                this.silenceCount++;
+                if (this.silenceCount >= this.silenceThreshold) {
+                    this.isNoteActive = false;
+                    this.lastNoteTime = now;
+                }
             }
         }
 
@@ -143,8 +190,8 @@ class AudioDetector {
 
     yinAlgorithm(data) {
         const sampleRate = this.audioContext.sampleRate;
-        const tauMin = Math.floor(sampleRate / 1000); // 1ms
-        const tauMax = Math.floor(sampleRate / 50);   // 20ms
+        const tauMin = Math.floor(sampleRate / this.maxFrequency); // Higher frequency = smaller period
+        const tauMax = Math.floor(sampleRate / this.minFrequency); // Lower frequency = larger period
         
         let bestTau = 0;
         let bestValue = 1;
