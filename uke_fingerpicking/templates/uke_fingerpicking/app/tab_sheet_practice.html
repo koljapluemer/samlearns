@@ -1,0 +1,256 @@
+{% extends "uke_fingerpicking/base.html" %}
+{% load lucide %}
+
+{% block content %}
+<div class="container">
+    <div class="level">
+        <div class="level-left">
+            <h1 class="title">{{ tab_sheet.title }}</h1>
+            <h2 class="subtitle">{{ tab_sheet.artist }}</h2>
+        </div>
+        <div class="level-right">
+            <div class="field has-addons">
+                <div class="control">
+                    <input type="number" id="bpm" class="input" value="120" min="40" max="300">
+                </div>
+                <div class="control">
+                    <a class="button is-static">BPM</a>
+                </div>
+                <div class="control">
+                    <button id="play-button" class="button is-primary">
+                        <span class="icon">
+                            {% lucide "play" size=20 %}
+                        </span>
+                        <span>Play</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-display-container">
+        <div class="tab-display" id="tab-display">
+            <!-- Tab content will be rendered here -->
+        </div>
+        <div class="playhead" id="playhead"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const stringOrder = ['a', 'e', 'c', 'g'];
+const stringLabels = {'a': 'A', 'e': 'E', 'c': 'C', 'g': 'G'};
+let beats = JSON.parse('{{ beats_json|escapejs }}');
+let isPlaying = false;
+let animationFrame;
+let startTime;
+let currentBeat = 0;
+let beatDuration;
+let scrollContainer;
+
+function renderTabDisplay() {
+    const container = document.getElementById('tab-display');
+    container.innerHTML = '';
+    
+    // Create table
+    const table = document.createElement('table');
+    table.className = 'table is-bordered is-narrow tab-display-table';
+    
+    // Body rows (strings)
+    const tbody = document.createElement('tbody');
+    for (let s = 0; s < stringOrder.length; s++) {
+        const stringKey = stringOrder[s];
+        const tr = document.createElement('tr');
+        
+        // String label (fixed)
+        const labelTd = document.createElement('td');
+        labelTd.textContent = stringLabels[stringKey];
+        labelTd.className = 'string-label has-text-weight-bold';
+        tr.appendChild(labelTd);
+        
+        // Tab cells
+        const cellsTd = document.createElement('td');
+        cellsTd.className = 'tab-cells';
+        for (let b = 0; b < beats.length; b++) {
+            const value = beats[b][stringKey];
+            const span = document.createElement('span');
+            span.textContent = value || '-';
+            span.className = 'tab-cell';
+            if (!value || value === '-') {
+                span.classList.add('is-empty');
+            }
+            span.dataset.beat = b;
+            span.dataset.string = stringKey;
+            cellsTd.appendChild(span);
+        }
+        tr.appendChild(cellsTd);
+        tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+    container.appendChild(table);
+}
+
+function updateBPM() {
+    const bpm = parseInt(document.getElementById('bpm').value);
+    beatDuration = 60000 / bpm; // milliseconds per beat
+}
+
+function animate(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const elapsed = timestamp - startTime;
+    
+    // Calculate current beat and position
+    const beatPosition = (elapsed % (beats.length * beatDuration)) / beatDuration;
+    currentBeat = Math.floor(beatPosition);
+    const beatProgress = beatPosition - currentBeat;
+    
+    // Calculate scroll position
+    const cellWidth = 3; // rem
+    const scrollPosition = (currentBeat + beatProgress) * cellWidth;
+    scrollContainer.scrollLeft = scrollPosition;
+    
+    // Highlight current beat
+    const cells = document.querySelectorAll('.tab-cell');
+    cells.forEach(cell => {
+        const cellBeat = parseInt(cell.dataset.beat);
+        cell.classList.toggle('is-active', cellBeat === currentBeat);
+    });
+    
+    if (isPlaying) {
+        animationFrame = requestAnimationFrame(animate);
+    }
+}
+
+function togglePlay() {
+    const playButton = document.getElementById('play-button');
+    if (!isPlaying) {
+        isPlaying = true;
+        startTime = null;
+        playButton.innerHTML = `
+            <span class="icon">
+                {% lucide "pause" size=20 %}
+            </span>
+            <span>Pause</span>
+        `;
+        animationFrame = requestAnimationFrame(animate);
+    } else {
+        isPlaying = false;
+        playButton.innerHTML = `
+            <span class="icon">
+                {% lucide "play" size=20 %}
+            </span>
+            <span>Play</span>
+        `;
+        cancelAnimationFrame(animationFrame);
+    }
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    renderTabDisplay();
+    updateBPM();
+    scrollContainer = document.querySelector('.tab-cells');
+    
+    // Event listeners
+    document.getElementById('bpm').addEventListener('change', updateBPM);
+    document.getElementById('play-button').addEventListener('click', togglePlay);
+});
+</script>
+
+<style>
+.tab-display-container {
+    position: relative;
+    overflow: hidden;
+    margin: 2rem 0;
+    padding: 1rem;
+    background: var(--background);
+    border-radius: 4px;
+}
+
+.tab-display {
+    overflow: hidden;
+}
+
+.tab-display-table {
+    margin-bottom: 0;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.string-label {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--background);
+    padding: 0.5rem 1rem;
+    border-right: 1px solid var(--border);
+}
+
+.tab-cells {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 0.5rem 0;
+}
+
+.tab-cells::-webkit-scrollbar {
+    display: none;
+}
+
+.tab-cell {
+    flex: 0 0 3rem;
+    text-align: center;
+    padding: 0.5rem;
+    margin: 0 0.25rem;
+    background: var(--cell-background);
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.tab-cell.is-empty {
+    visibility: hidden;
+}
+
+.tab-cell.is-active {
+    background: var(--primary);
+    color: var(--primary-invert);
+}
+
+.playhead {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background-color: var(--danger);
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #1a1a1a;
+        --border: #333;
+        --cell-background: #2a2a2a;
+        --primary: #3273dc;
+        --primary-invert: #fff;
+        --danger: #ff3860;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --background: #f5f5f5;
+        --border: #dbdbdb;
+        --cell-background: #fff;
+        --primary: #3273dc;
+        --primary-invert: #fff;
+        --danger: #ff3860;
+    }
+}
+</style>
+{% endblock %} 

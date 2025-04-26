@@ -1,24 +1,44 @@
 {% extends "uke_fingerpicking/base.html" %}
+{% load lucide %}
 
 {% block content %}
 <div class="container">
   <h1 class="title">Tab Sheets</h1>
   
   <div class="content">
-    <ul>
-      {% for tab_sheet in tab_sheets %}
-        <li>
-          <a href="#" class="is-size-5">
-            {{ tab_sheet.title }}
-            {% if tab_sheet.artist %}
-              <span class="has-text-grey">by {{ tab_sheet.artist }}</span>
-            {% endif %}
-          </a>
-        </li>
-      {% empty %}
-        <li class="has-text-grey">No tab sheets available yet.</li>
-      {% endfor %}
-    </ul>
+    <table class="table is-fullwidth">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Artist</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tab_sheet in tab_sheets %}
+          <tr>
+            <td>
+              <a href="{% url 'uke_fingerpicking:tab_sheet_practice' tab_sheet.pk %}">
+                {{ tab_sheet.title }}
+              </a>
+            </td>
+            <td>{{ tab_sheet.artist }}</td>
+            <td>
+              <a href="{% url 'uke_fingerpicking:tab_sheet_practice' tab_sheet.pk %}" class="button is-small is-primary">
+                <span class="icon">
+                  {% lucide "play" size=16 %}
+                </span>
+                <span>Practice</span>
+              </a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="3" class="has-text-centered has-text-grey">No tab sheets available yet.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </div>
 {% endblock %}
