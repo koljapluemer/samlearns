@@ -1,37 +1,42 @@
 {% extends "base.html" %}
+{% load lucide %}
 
 {% block body %}
     {% block nav %}
-    <nav class="navbar is-link" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="{% url 'cms_tab_sheet_list' %}">
-                Uke Fingerpicking CMS
-            </a>
-        </div>
-        <div class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item" href="{% url 'cms_tab_sheet_list' %}">
-                    <span class="icon">
-                        <i data-lucide="list"></i>
-                    </span>
-                    <span>Tab Sheets</span>
-                </a>
-                <a class="navbar-item" href="{% url 'cms_tab_sheet_add' %}">
-                    <span class="icon">
-                        <i data-lucide="plus"></i>
-                    </span>
-                    <span>New Tab Sheet</span>
+    <header class="is-link p-4">
+        <div class="columns is-vcentered is-justify-content-space-between">
+            <div class="column is-narrow">
+                <a href="{% url 'uke_fingerpicking:tab_sheet_list' %}" class="is-size-4 has-text-white">
+                    Uke Fingerpicking
                 </a>
             </div>
+            <div class="column is-narrow">
+                <div class="columns is-vcentered is-2">
+                    <div class="column is-narrow">
+                        <a href="{% url 'uke_fingerpicking:tab_sheet_list' %}" class="button is-link is-light">
+                            <span class="icon">
+                                {% lucide "music" size=20 %}
+                            </span>
+                            <span>Tab Sheets</span>
+                        </a>
+                    </div>
+                    {% if user.is_authenticated and user.is_superuser %}
+                    <div class="column is-narrow">
+                        <a href="{% url 'uke_fingerpicking_cms:tab_sheet_list' %}" class="button is-link is-light">
+                            <span class="icon">
+                                {% lucide "settings" size=20 %}
+                            </span>
+                            <span>Manage</span>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
         </div>
-    </nav>
+    </header>
     {% endblock %}
 
     <div class="container mt-4">
         {% block content %}{% endblock %}
     </div>
-{% endblock %}
-{% block extra_js %}
-<script src="https://unpkg.com/lucide@latest"></script>
-<script>lucide.createIcons();</script>
 {% endblock %}

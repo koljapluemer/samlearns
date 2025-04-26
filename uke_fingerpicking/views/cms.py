@@ -4,17 +4,22 @@ from django.shortcuts import redirect
 from django.forms.models import model_to_dict
 from uke_fingerpicking.models import TabSheet, Beat
 from django.utils.safestring import mark_safe
+from django.contrib.auth.mixins import UserPassesTestMixin
 import json
 
-class TabSheetListView(ListView):
+class SuperuserRequiredMixin(UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_superuser
+
+class TabSheetListView(SuperuserRequiredMixin, ListView):
     model = TabSheet
-    template_name = 'uke_fingerpicking/tab_sheet_list.html'
+    template_name = 'uke_fingerpicking/cms/tab_sheet_list.html'
     context_object_name = 'tab_sheets'
 
-class TabSheetCreateView(CreateView):
+class TabSheetCreateView(SuperuserRequiredMixin, CreateView):
     model = TabSheet
     fields = ['title', 'artist']
-    template_name = 'uke_fingerpicking/tab_sheet_form.html'
+    template_name = 'uke_fingerpicking/cms/tab_sheet_form.html'
     success_url = reverse_lazy('cms_tab_sheet_list')
 
     def get_context_data(self, **kwargs):
@@ -66,10 +71,10 @@ class TabSheetCreateView(CreateView):
             idx += 1
         return beats
 
-class TabSheetUpdateView(UpdateView):
+class TabSheetUpdateView(SuperuserRequiredMixin, UpdateView):
     model = TabSheet
     fields = ['title', 'artist']
-    template_name = 'uke_fingerpicking/tab_sheet_form.html'
+    template_name = 'uke_fingerpicking/cms/tab_sheet_form.html'
     success_url = reverse_lazy('cms_tab_sheet_list')
 
     def get_context_data(self, **kwargs):

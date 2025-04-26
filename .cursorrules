@@ -20,7 +20,7 @@ Django/Python
 - Use custom templates in plain HTML, avoid pre-made Form and FormFactories
 - Style with Bulma CSS
 - Honor the template structure: there is a project-wide `base.html`, as well as a `base.html` per app
-- Use lucide.dev (note the lucide django plugin!) for icons. NOT!! FontAwesome.
+- Use lucide.dev (note the lucide django plugin!) for icons. NOT!! FontAwesome. THE DJANGO PLUGIN!! NOT A HOT LOADED SCRIPT!! THE DJANGO PLUGIN IS INSTALLED!!!
 
 
 Error Handling and Validation

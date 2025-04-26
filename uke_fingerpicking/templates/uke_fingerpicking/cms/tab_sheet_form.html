@@ -1,4 +1,6 @@
-{% extends 'uke_fingerpicking/base.html' %}
+{% extends "uke_fingerpicking/base.html" %}
+{% load lucide %}
+
 {% block content %}
 <section class="section">
   <h1 class="title">{% if form.instance.pk %}Edit{% else %}Add{% endif %} Tab Sheet</h1>
@@ -21,24 +23,32 @@
     <div id="tab-grid-container" class="mb-4"></div>
     <div class="field">
       <button type="button" class="button is-info" onclick="appendBeat()">
-        <i data-lucide="plus"></i>&nbsp;Add Beat
+        <span class="icon">
+          {% lucide "plus" size=20 %}
+        </span>
+        <span>Add Beat</span>
       </button>
       <button type="button" class="button is-danger" onclick="deleteLastBeat()" id="delete-last-beat">
-        <i data-lucide="minus"></i>&nbsp;Delete Last Beat
+        <span class="icon">
+          {% lucide "minus" size=20 %}
+        </span>
+        <span>Delete Last Beat</span>
       </button>
     </div>
     <div class="field mt-4">
       <button type="submit" class="button is-success">
-        <i data-lucide="save"></i>&nbsp;Save
+        <span class="icon">
+          {% lucide "save" size=20 %}
+        </span>
+        <span>Save</span>
       </button>
-      <a href="{% url 'cms_tab_sheet_list' %}" class="button is-light">Cancel</a>
+      <a href="{% url 'uke_fingerpicking_cms:tab_sheet_list' %}" class="button is-light">Cancel</a>
     </div>
   </form>
 </section>
 {% endblock %}
+
 {% block extra_js %}
-<script src="https://unpkg.com/lucide@latest"></script>
-<script>lucide.createIcons();</script>
 <script>
 const stringOrder = ['a', 'e', 'c', 'g'];
 const stringLabels = {'a': 'A', 'e': 'E', 'c': 'C', 'g': 'G'};
