@@ -105,6 +105,24 @@
          }">
         <span x-text="tabPlayer.timingFeedback.message"></span>
     </div>
+
+    <!-- Feedback summary below main viz -->
+    <div class="run-summary" x-show="tabPlayer.runSummary !== null">
+        <template x-if="tabPlayer.runSummary">
+            <div>
+                <div class="summary-bar">
+                    <span class="summary-correct" :style="`width: ${tabPlayer.runSummary.percentCorrect}%`"></span>
+                    <span class="summary-incorrect" :style="`width: ${tabPlayer.runSummary.percentIncorrect}%`"></span>
+                    <span class="summary-missed" :style="`width: ${tabPlayer.runSummary.percentMissed}%`"></span>
+                </div>
+                <div class="summary-text">
+                    <span class="has-text-success">Correct: <b x-text="tabPlayer.runSummary.percentCorrect.toFixed(1)"></b>%</span>
+                    <span class="has-text-danger ml-4">Incorrect: <b x-text="tabPlayer.runSummary.percentIncorrect.toFixed(1)"></b>%</span>
+                    <span class="has-text-warning ml-4">Missed: <b x-text="tabPlayer.runSummary.percentMissed.toFixed(1)"></b>%</span>
+                </div>
+            </div>
+        </template>
+    </div>
 </div>
 {% endblock %}
 
@@ -334,7 +352,8 @@ document.addEventListener('alpine:init', () => {
                 message: '',
                 type: '',
                 timeout: null
-            }
+            },
+            runSummary: null,
         },
 
         // Audio Detection State
@@ -514,7 +533,7 @@ document.addEventListener('alpine:init', () => {
                     this.tabPlayer.noteTracking.noteStates[previousBeat] = 'missed';
                 }
                 
-                // LOGGING: Save previous beat data to localStorage
+                // LOGGING: Save previous beat data to IndexedDB
                 if (previousBeat >= 0) {
                     this.logBeatProgress(previousBeat);
                 }
@@ -523,6 +542,8 @@ document.addEventListener('alpine:init', () => {
                 if (newBeat === 0 && previousBeat === this.tabPlayer.beats.length - 1) {
                     // Save current states as previous states
                     this.tabPlayer.noteTracking.previousStates = [...this.tabPlayer.noteTracking.noteStates];
+                    // Tally up run summary
+                    this.tallyRunSummary();
                     // Reset current states
                     this.tabPlayer.noteTracking.noteStates = new Array(this.tabPlayer.beats.length).fill('missed');
                     this.tabPlayer.noteTracking.playedNotes = new Array(this.tabPlayer.beats.length).fill(null);
@@ -543,9 +564,26 @@ document.addEventListener('alpine:init', () => {
             }
         },
 
+        tallyRunSummary() {
+            // Only count beats with an expected note
+            const states = this.tabPlayer.noteTracking.noteStates;
+            const expectedNotes = this.tabPlayer.noteTracking.expectedNotes;
+            const filtered = states.map((s, i) => ({ state: s, expected: expectedNotes[i] })).filter(b => b.expected);
+            const total = filtered.length;
+            const correct = filtered.filter(b => b.state === 'correct').length;
+            const incorrect = filtered.filter(b => b.state === 'incorrect').length;
+            const missed = filtered.filter(b => b.state === 'missed').length;
+            this.tabPlayer.runSummary = {
+                percentCorrect: total ? (correct / total) * 100 : 0,
+                percentIncorrect: total ? (incorrect / total) * 100 : 0,
+                percentMissed: total ? (missed / total) * 100 : 0
+            };
+        },
+
         logBeatProgress(beatIdx) {
             // Gather all relevant data
             const expectedNote = this.tabPlayer.noteTracking.expectedNotes[beatIdx];
+            if (!expectedNote) return; // Don't log empty beats
             const playedNote = this.tabPlayer.noteTracking.playedNotes[beatIdx];
             const state = this.tabPlayer.noteTracking.noteStates[beatIdx];
             const runCount = this.tabPlayer.noteTracking.runCount;
@@ -816,5 +854,37 @@ document.addEventListener('alpine:init', () => {
 .timing-feedback.is-slightly-late { background: #ffb7b7; color: var(--text); }
 .timing-feedback.is-late { background: #ff7b7b; color: white; }
 .timing-feedback.is-very-late { background: #ff3860; color: white; }
+
+.run-summary {
+    margin: 2rem auto 0 auto;
+    max-width: 600px;
+    text-align: center;
+}
+.summary-bar {
+    display: flex;
+    height: 1.25rem;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+    background: #222;
+}
+.summary-correct {
+    background: #48c774;
+    display: inline-block;
+    height: 100%;
+}
+.summary-incorrect {
+    background: #ff3860;
+    display: inline-block;
+    height: 100%;
+}
+.summary-missed {
+    background: #b86bf4;
+    display: inline-block;
+    height: 100%;
+}
+.summary-text span {
+    font-size: 1.1rem;
+}
 </style>
 {% endblock %} 
