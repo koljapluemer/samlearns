@@ -1,6 +1,7 @@
 staticfiles/
 static/
 media/
+trees_of_germany/static/
 *.pyc
 __pycache__/
 *.pyo
