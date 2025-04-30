@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "-----> Cleaning up static files"
+rm -rf staticfiles/ 
