@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.core.files.storage import default_storage
 from django.templatetags.static import static
 # Create your models here.
 class TreeSpecies(models.Model):
@@ -24,5 +25,5 @@ class TreeImage(models.Model):
     def get_usable_url(self):
         if self.is_blacklisted:
             return None
-        # The path is already relative to the app's static directory
-        return static(self.path)
+        # Use the storage backend to get the proper URL
+        return default_storage.url(self.path)
