@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "-----> Removing static files from build"
+find . -type d -name "static" -exec rm -rf {} + 
