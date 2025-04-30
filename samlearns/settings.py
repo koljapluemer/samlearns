@@ -12,11 +12,27 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import environ
 from dotenv import load_dotenv
 import dj_database_url
 from storages.backends.s3boto3 import S3Boto3Storage
 
-load_dotenv()
+# Initialize environ
+env = environ.Env(
+    # Set default values and casting
+    DEBUG=(bool, False),
+    DJANGO_SECRET_KEY=(str, 'django-insecure-key'),
+    DJANGO_ALLOWED_HOSTS=(list, ['localhost', '127.0.0.1']),
+    R2_ACCESS_KEY_ID=(str, ''),
+    R2_SECRET_ACCESS_KEY=(str, ''),
+    R2_BUCKET_NAME=(str, ''),
+    R2_ACCOUNT_ID=(str, ''),
+    YOUTUBE_API_KEY=(str, ''),
+    OPENAI_API_KEY=(str, ''),
+)
+
+# Read .env file
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,12 +42,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-)pvg2wb9dtc&)g(%f-90fr(vi&2f*vmyvdp+rmw6f^q4$kn1_4')
+SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = env('DJANGO_ALLOWED_HOSTS')
 
 
 # Application definition
@@ -129,35 +145,36 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 # Cloudflare R2 Configuration
-AWS_ACCESS_KEY_ID = os.getenv('R2_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('R2_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = os.getenv('R2_BUCKET_NAME')
-AWS_S3_ENDPOINT_URL = f"https://{os.getenv('R2_ACCOUNT_ID')}.r2.cloudflarestorage.com"
-AWS_S3_CUSTOM_DOMAIN = f"{os.getenv('R2_BUCKET_NAME')}.r2.dev"
-AWS_S3_REGION_NAME = 'auto'  # Required for R2
+AWS_ACCESS_KEY_ID = env('R2_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('R2_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = env('R2_BUCKET_NAME')
+AWS_S3_ENDPOINT_URL = f"https://{env('R2_ACCOUNT_ID')}.r2.cloudflarestorage.com"
+AWS_S3_CUSTOM_DOMAIN = f"{env('R2_BUCKET_NAME')}.r2.dev"
 AWS_DEFAULT_ACL = 'public-read'
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
 }
 
 # Static files configuration
-STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # Required for collectstatic
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
+if DEBUG:
+    STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
+    print("DEBUG is True")
+else:
+    print("DEBUG is False")
+    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
+    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 
-# Use custom storage classes for R2
-class R2StaticStorage(S3Boto3Storage):
-    location = 'static'
-    default_acl = 'public-read'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = []
 
-class R2MediaStorage(S3Boto3Storage):
-    location = 'media'
-    default_acl = 'public-read'
-
-STATICFILES_STORAGE = 'samlearns.settings.R2StaticStorage'
-DEFAULT_FILE_STORAGE = 'samlearns.settings.R2MediaStorage'
+# Use S3Boto3Storage for both static and media files
+if not DEBUG:
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+else:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -176,10 +193,10 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
 
 # API Keys
-YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
+YOUTUBE_API_KEY = env('YOUTUBE_API_KEY')
 if not YOUTUBE_API_KEY:
     raise ValueError("YOUTUBE_API_KEY environment variable is not set")
 
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+OPENAI_API_KEY = env('OPENAI_API_KEY')
 if not OPENAI_API_KEY:
     raise ValueError("OPENAI_API_KEY environment variable is not set")
