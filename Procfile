@@ -1,1 +1,2 @@
-web: gunicorn samlearns.wsgi --log-file - 
+web: gunicorn samlearns.wsgi --log-file -
+release: python manage.py collectstatic --noinput 

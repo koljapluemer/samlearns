@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import dj_database_url
+from storages.backends.s3boto3 import S3Boto3Storage
 
 load_dotenv()
 
@@ -133,6 +134,7 @@ AWS_SECRET_ACCESS_KEY = os.getenv('R2_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.getenv('R2_BUCKET_NAME')
 AWS_S3_ENDPOINT_URL = f"https://{os.getenv('R2_ACCOUNT_ID')}.r2.cloudflarestorage.com"
 AWS_S3_CUSTOM_DOMAIN = f"{os.getenv('R2_BUCKET_NAME')}.r2.dev"
+AWS_S3_REGION_NAME = 'auto'  # Required for R2
 AWS_DEFAULT_ACL = 'public-read'
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
@@ -140,11 +142,22 @@ AWS_S3_OBJECT_PARAMETERS = {
 
 # Static files configuration
 STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Required for collectstatic
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 
-# Media files configuration
-MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# Use custom storage classes for R2
+class R2StaticStorage(S3Boto3Storage):
+    location = 'static'
+    default_acl = 'public-read'
+
+class R2MediaStorage(S3Boto3Storage):
+    location = 'media'
+    default_acl = 'public-read'
+
+STATICFILES_STORAGE = 'samlearns.settings.R2StaticStorage'
+DEFAULT_FILE_STORAGE = 'samlearns.settings.R2MediaStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
