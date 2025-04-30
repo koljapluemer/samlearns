@@ -159,9 +159,7 @@ AWS_S3_OBJECT_PARAMETERS = {
 if DEBUG:
     STATIC_URL = '/static/'
     MEDIA_URL = '/media/'
-    print("DEBUG is True")
 else:
-    print("DEBUG is False")
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 
