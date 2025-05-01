@@ -1,0 +1,153 @@
+{% extends "uke_fingerpicking/base.html" %}
+{% load lucide %}
+
+{% block content %}
+<div class="container" x-data="app()">
+    <div class="level">
+        <div class="level-left">
+            <h1 class="title">{{ tab_sheet.title }}</h1>
+            <h2 class="subtitle">{{ tab_sheet.artist }}</h2>
+        </div>
+        <div class="level-right">
+            <a 
+                :href="`{% url 'uke_fingerpicking:tab_sheet_practice_active' tab_sheet.pk %}?bpm=${bpm}`"
+                class="button is-primary"
+            >
+                <span class="icon">
+                    {% lucide "play" size=20 %}
+                </span>
+                <span>Practice Again</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="box">
+        <h3 class="title is-4">Current Practice Session</h3>
+        <div class="sessions-list" x-show="runs.length > 0">
+            <template x-for="run in runs" :key="run.timestamp">
+                <div class="session-card box">
+                    <div class="level">
+                        <div class="level-left">
+                            <div>
+                                <span class="is-size-5" x-text="formatDate(run.timestamp)"></span>
+                                <span class="tag is-info ml-2" x-text="`${run.bpm} BPM`"></span>
+                            </div>
+                        </div>
+                        <div class="level-right">
+                            <div class="tags">
+                                <span class="tag is-success" x-text="`${run.summary.percentCorrect.toFixed(1)}% Correct`"></span>
+                                <span class="tag is-danger" x-text="`${run.summary.percentIncorrect.toFixed(1)}% Incorrect`"></span>
+                                <span class="tag is-warning" x-text="`${run.summary.percentMissed.toFixed(1)}% Missed`"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="summary-bar mt-2">
+                        <span
+                            class="summary-correct"
+                            :style="`width: ${run.summary.percentCorrect}%`"
+                        ></span>
+                        <span
+                            class="summary-incorrect"
+                            :style="`width: ${run.summary.percentIncorrect}%`"
+                        ></span>
+                        <span
+                            class="summary-missed"
+                            :style="`width: ${run.summary.percentMissed}%`"
+                        ></span>
+                    </div>
+                </div>
+            </template>
+        </div>
+        <div class="has-text-centered" x-show="runs.length === 0">
+            <p class="is-size-5">No runs recorded in this session.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ tab_sheet_data|json_script:"tab-sheet-data" }}
+
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('app', () => ({
+        runs: [],
+        bpm: 40,
+        sessionId: null,
+
+        init() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const bpmParam = urlParams.get('bpm');
+            const sessionIdParam = urlParams.get('sessionId');
+            if (bpmParam) {
+                this.bpm = parseInt(bpmParam);
+            }
+            if (sessionIdParam) {
+                this.sessionId = parseInt(sessionIdParam);
+            }
+            this.loadRuns();
+        },
+
+        async loadRuns() {
+            try {
+                const db = await openUkeDB();
+                const tx = db.transaction(UKE_STORE, 'readonly');
+                const store = tx.objectStore(UKE_STORE);
+                const tabSheetData = JSON.parse(document.getElementById('tab-sheet-data').textContent);
+                
+                const runs = [];
+                const cursor = await store.openCursor();
+                while (cursor) {
+                    if (cursor.value.tabSheetId === tabSheetData.id && 
+                        cursor.value.sessionId === this.sessionId) {
+                        runs.push(cursor.value);
+                    }
+                    await cursor.continue();
+                }
+                
+                // Sort runs by timestamp (newest first)
+                this.runs = runs.sort((a, b) => b.timestamp - a.timestamp);
+            } catch (error) {
+                console.error('Failed to load runs:', error);
+            }
+        },
+
+        formatDate(timestamp) {
+            return new Date(timestamp).toLocaleString();
+        }
+    }));
+});
+</script>
+
+<style>
+.session-card {
+    margin-bottom: 1rem;
+}
+
+.summary-bar {
+    display: flex;
+    height: 1.25rem;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #222;
+}
+
+.summary-correct {
+    background: #48c774;
+    display: inline-block;
+    height: 100%;
+}
+
+.summary-incorrect {
+    background: #ff3860;
+    display: inline-block;
+    height: 100%;
+}
+
+.summary-missed {
+    background: #b86bf4;
+    display: inline-block;
+    height: 100%;
+}
+</style>
+{% endblock %} 

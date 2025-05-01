@@ -1,0 +1,71 @@
+{% extends "uke_fingerpicking/base.html" %}
+{% load lucide %}
+
+{% block content %}
+<div class="container" x-data="{ bpm: 40 }">
+    <div class="level">
+        <div class="level-left">
+            <h1 class="title">{{ tab_sheet.title }}</h1>
+            <h2 class="subtitle">{{ tab_sheet.artist }}</h2>
+        </div>
+    </div>
+
+    <div class="box">
+        <h3 class="title is-4">Practice Setup</h3>
+        <div class="field">
+            <label class="label">Select BPM (Beats Per Minute)</label>
+            <div class="control">
+                <input 
+                    type="range" 
+                    class="slider" 
+                    min="40" 
+                    max="300" 
+                    x-model="bpm" 
+                    step="5"
+                    @input="updateUrl"
+                >
+            </div>
+            <div class="has-text-centered mt-2">
+                <span class="is-size-4" x-text="bpm"></span>
+                <span class="is-size-4"> BPM</span>
+            </div>
+        </div>
+
+        <div class="field mt-4">
+            <div class="control">
+                <a 
+                    :href="`{% url 'uke_fingerpicking:tab_sheet_practice_active' tab_sheet.pk %}?bpm=${bpm}`"
+                    class="button is-primary is-fullwidth"
+                >
+                    <span class="icon">
+                        {% lucide "play" size=20 %}
+                    </span>
+                    <span>Start Practice</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('app', () => ({
+        init() {
+            // Initialize BPM from URL if present
+            const urlParams = new URLSearchParams(window.location.search);
+            const bpmParam = urlParams.get('bpm');
+            if (bpmParam) {
+                this.bpm = parseInt(bpmParam);
+            }
+        },
+        updateUrl() {
+            const url = new URL(window.location);
+            url.searchParams.set('bpm', this.bpm);
+            window.history.replaceState({}, '', url);
+        }
+    }));
+});
+</script>
+{% endblock %} 
