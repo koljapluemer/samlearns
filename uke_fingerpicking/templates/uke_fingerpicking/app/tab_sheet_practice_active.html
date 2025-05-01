@@ -588,8 +588,7 @@
         if (!this.tabPlayer.isPlaying) return;
 
         const currentBeat = this.tabPlayer.currentBeat;
-        const expectedNote =
-          this.tabPlayer.noteTracking.expectedNotes[currentBeat];
+        const expectedNote = this.tabPlayer.noteTracking.expectedNotes[currentBeat];
 
         if (!expectedNote) return;
 
@@ -610,28 +609,36 @@
             const now = Date.now();
             const beatStart = this.tabPlayer.noteTracking.lastBeatTime;
             const beatDuration = this.tabPlayer.beatDuration;
-            const beatMiddle = beatStart + beatDuration / 2;
             const timeFromStart = now - beatStart;
-            const percent = timeFromStart / beatDuration;
-
+            
+            // Calculate the visual position of the note relative to the beat box
+            // The beat box starts when the left edge hits the red line
+            // The notch is at the center of the box
+            // The beat box ends when the right edge hits the red line
+            const visualPosition = timeFromStart / beatDuration;
+            
+            // Define timing windows based on the visual representation
+            // 0% = left edge of box at red line
+            // 50% = notch at red line (perfect timing)
+            // 100% = right edge of box at red line
             let timingType = "perfect";
             let timingMessage = "Perfect timing!";
-            if (percent < 0.2) {
+            if (visualPosition < 0.25) {
               timingType = "very-early";
               timingMessage = "Very early";
-            } else if (percent < 0.35) {
+            } else if (visualPosition < 0.4) {
               timingType = "early";
               timingMessage = "Early";
-            } else if (percent < 0.45) {
+            } else if (visualPosition < 0.45) {
               timingType = "slightly-early";
               timingMessage = "A bit early";
-            } else if (percent < 0.55) {
+            } else if (visualPosition < 0.55) {
               timingType = "perfect";
               timingMessage = "Perfect timing!";
-            } else if (percent < 0.65) {
+            } else if (visualPosition < 0.6) {
               timingType = "slightly-late";
               timingMessage = "A bit late";
-            } else if (percent < 0.8) {
+            } else if (visualPosition < 0.75) {
               timingType = "late";
               timingMessage = "Late";
             } else {
