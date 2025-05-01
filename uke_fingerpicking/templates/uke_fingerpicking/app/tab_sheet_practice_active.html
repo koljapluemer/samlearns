@@ -1,61 +1,35 @@
-{% extends "uke_fingerpicking/base.html" %}
-{% load lucide %}
-
+{% extends "uke_fingerpicking/base.html" %} {% load lucide %} 
 {% block content %}
 <div class="container" x-data="app()">
-    <div class="level">
-        <div class="level-left">
-            <h1 class="title">{{ tab_sheet.title }}</h1>
-            <h2 class="subtitle">{{ tab_sheet.artist }}</h2>
-        </div>
-        <div class="level-right">
-            <div class="field has-addons">
-                <div class="control">
-                    <input
-                        type="number"
-                        x-model="tabPlayer.bpm"
-                        class="input"
-                        min="40"
-                        max="300"
-                        @change="updateBpm"
-                    />
-                </div>
-                <div class="control">
-                    <a class="button is-static">BPM</a>
-                </div>
-                <div class="control">
-                    <button
-                        @click="togglePractice"
-                        class="button"
-                        :class="{'is-primary': !tabPlayer.isPlaying, 'is-danger': tabPlayer.isPlaying}"
-                    >
-                        <span class="icon">
-                            <template x-if="!tabPlayer.isPlaying">
-                                {% lucide "play" size=20 %}
-                            </template>
-                            <template x-if="tabPlayer.isPlaying">
-                                {% lucide "pause" size=20 %}
-                            </template>
-                        </span>
-                        <span x-text="tabPlayer.isPlaying ? 'Pause' : 'Start'"></span>
-                    </button>
-                </div>
-            </div>
-        </div>
+  <div class="level">
+    <div class="level-left">
+      <h1 class="title">{{ tab_sheet.title }}</h1>
+      <h2 class="subtitle">{{ tab_sheet.artist }}</h2>
     </div>
+    <div class="level-right">
+      <div class="field has-addons">
+        <div class="control">
+          <a class="button is-static">
+            <span x-text="tabPlayer.bpm"></span>
+            <span> BPM</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <!-- Timing feedback toast -->
-    <div class="timing-feedback-wrapper">
-        <div
-            class="timing-feedback"
-            x-show="tabPlayer.timingFeedback.show"
-            x-transition:enter="transition ease-out duration-200"
-            x-transition:enter-start="opacity-0 transform translate-y-2"
-            x-transition:enter-end="opacity-100 transform translate-y-0"
-            x-transition:leave="transition ease-in duration-150"
-            x-transition:leave-start="opacity-100 transform translate-y-0"
-            x-transition:leave-end="opacity-0 transform translate-y-2"
-            :class="{
+  <!-- Timing feedback toast -->
+  <div class="timing-feedback-wrapper">
+    <div
+      class="timing-feedback"
+      x-show="tabPlayer.timingFeedback.show"
+      x-transition:enter="transition ease-out duration-200"
+      x-transition:enter-start="opacity-0 transform translate-y-2"
+      x-transition:enter-end="opacity-100 transform translate-y-0"
+      x-transition:leave="transition ease-in duration-150"
+      x-transition:leave-start="opacity-100 transform translate-y-0"
+      x-transition:leave-end="opacity-0 transform translate-y-2"
+      :class="{
                 'is-very-early': tabPlayer.timingFeedback.type === 'very-early',
                 'is-early': tabPlayer.timingFeedback.type === 'early',
                 'is-slightly-early': tabPlayer.timingFeedback.type === 'slightly-early',
@@ -64,773 +38,816 @@
                 'is-late': tabPlayer.timingFeedback.type === 'late',
                 'is-very-late': tabPlayer.timingFeedback.type === 'very-late'
             }"
-            :style="`opacity: ${tabPlayer.timingFeedback.opacity}; transition: ${tabPlayer.timingFeedback.transitionStyle};`"
-        >
-            <span x-text="tabPlayer.timingFeedback.message"></span>
-        </div>
+      :style="`opacity: ${tabPlayer.timingFeedback.opacity}; transition: ${tabPlayer.timingFeedback.transitionStyle};`"
+    >
+      <span x-text="tabPlayer.timingFeedback.message"></span>
     </div>
+  </div>
 
-    <!-- Canvas-based tab visualization -->
-    <div class="tab-display-container">
-        <canvas id="tabCanvas"></canvas>
-    </div>
 
-    <!-- Current note display -->
-    <div class="current-note-display" x-show="tabPlayer.currentNote">
-        <span class="current-note" x-text="tabPlayer.currentNote"></span>
-    </div>
 
-    <!-- Audio detection display -->
-    <div class="audio-detection-display">
-        <div class="current-note-display">
-            <span
-                class="current-note"
-                x-text="audioDetection.detectedNote"
-                x-show="audioDetection.detectedNote"
-            ></span>
-            <button
-                @click="toggleListening"
-                class="button is-small ml-2"
-                :class="{'is-primary': !audioDetection.isListening, 'is-danger': audioDetection.isListening}"
-            >
-                <span class="icon"> {% lucide "mic" size=16 %} </span>
-            </button>
-        </div>
-    </div>
+  <button
+    @click="togglePractice"
+    class="button is-large is-primary"
+    :class="{'is-danger': tabPlayer.isPlaying}"
+  >
+    <span class="icon">
+      <template x-if="!tabPlayer.isPlaying">
+        {% lucide "play" size=24 %}
+      </template>
+      <template x-if="tabPlayer.isPlaying">
+        {% lucide "pause" size=24 %}
+      </template>
+    </span>
+    <span x-text="tabPlayer.isPlaying ? 'Pause' : 'Start'"></span>
+  </button>
 
-    <!-- End practice button -->
-    <div class="has-text-centered mt-4">
-        <a 
-            :href="`{% url 'uke_fingerpicking:tab_sheet_practice_results' tab_sheet.pk %}?bpm=${tabPlayer.bpm}&sessionId=${tabPlayer.sessionId}`"
-            class="button is-info"
-            @click="endPractice"
-        >
-            <span class="icon">
-                {% lucide "chart-column" size=20 %}
-            </span>
-            <span>View Results</span>
-        </a>
-    </div>
+  
+  <!-- Canvas-based tab visualization -->
+  <div class="tab-display-container">
+    <canvas id="tabCanvas"></canvas>
+  </div>
+
+
+
+  <!-- End practice button -->
+  <div class="has-text-centered mt-4">
+    <a
+      :href="`{% url 'uke_fingerpicking:tab_sheet_practice_results' tab_sheet.pk %}?bpm=${tabPlayer.bpm}&sessionId=${tabPlayer.sessionId}`"
+      class="button is-info"
+      @click="endPractice"
+    >
+      <span class="icon"> {% lucide "chart-column" size=20 %} </span>
+      <span>View Results</span>
+    </a>
+  </div>
+
+  <span
+    class="current-note"
+    x-text="audioDetection.detectedNote"
+    x-show="audioDetection.detectedNote"
+  ></span>
+  <div class="current-note-display" x-show="tabPlayer.currentNote">
+    <span class="current-note" x-text="tabPlayer.currentNote"></span>
+  </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
-{{ beats_json|json_script:"beats-data" }}
+{% endblock %} {% block extra_js %} 
+{{ beats_json|json_script:"beats-data" }} 
 {{ tab_sheet_data|json_script:"tab-sheet-data" }}
 
 <script>
-// Constants
-const UKE_DB_NAME = "uke_progress_db";
-const UKE_DB_VERSION = 1;
-const UKE_STORE = "uke_progress";
+  // Constants
+  const UKE_DB_NAME = "uke_progress_db";
+  const UKE_DB_VERSION = 1;
+  const UKE_STORE = "uke_progress";
 
-// Note map for each string (frets 0-12)
-const NOTE_MAP = {
+  // Note map for each string (frets 0-12)
+  const NOTE_MAP = {
     g: ["G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"],
     c: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C"],
     e: ["E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"],
     a: ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"],
-};
+  };
 
-// String label map for display
-const STRING_LABELS = { g: "G", c: "C", e: "E", a: "A" };
+  // String label map for display
+  const STRING_LABELS = { g: "G", c: "C", e: "E", a: "A" };
 
-// IndexedDB helper
-function openUkeDB() {
+  // IndexedDB helper
+  function openUkeDB() {
     return new Promise((resolve, reject) => {
-        const request = indexedDB.open(UKE_DB_NAME, UKE_DB_VERSION);
-        request.onupgradeneeded = function (event) {
-            const db = event.target.result;
-            if (!db.objectStoreNames.contains(UKE_STORE)) {
-                db.createObjectStore(UKE_STORE, {
-                    keyPath: "id",
-                    autoIncrement: true,
-                });
-            }
-        };
-        request.onsuccess = function (event) {
-            resolve(event.target.result);
-        };
-        request.onerror = function (event) {
-            reject(event.target.error);
-        };
+      const request = indexedDB.open(UKE_DB_NAME, UKE_DB_VERSION);
+      request.onupgradeneeded = function (event) {
+        const db = event.target.result;
+        if (!db.objectStoreNames.contains(UKE_STORE)) {
+          db.createObjectStore(UKE_STORE, {
+            keyPath: "id",
+            autoIncrement: true,
+          });
+        }
+      };
+      request.onsuccess = function (event) {
+        resolve(event.target.result);
+      };
+      request.onerror = function (event) {
+        reject(event.target.error);
+      };
     });
-}
+  }
 
-function addUkeProgressRecord(record) {
+  function addUkeProgressRecord(record) {
     return openUkeDB().then((db) => {
-        return new Promise((resolve, reject) => {
-            const tx = db.transaction(UKE_STORE, "readwrite");
-            const store = tx.objectStore(UKE_STORE);
-            const req = store.add(record);
-            req.onsuccess = () => resolve();
-            req.onerror = (e) => reject(e);
-        });
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(UKE_STORE, "readwrite");
+        const store = tx.objectStore(UKE_STORE);
+        const req = store.add(record);
+        req.onsuccess = () => resolve();
+        req.onerror = (e) => reject(e);
+      });
     });
-}
+  }
 
-// Canvas Renderer
-class CanvasRenderer {
+  // Canvas Renderer
+  class CanvasRenderer {
     constructor(canvas, tabPlayer) {
-        this.canvas = canvas;
-        this.ctx = canvas.getContext('2d');
-        this.tabPlayer = tabPlayer;
-        this.cellWidth = 56;
-        this.cellHeight = 40;
-        this.stringSpacing = 40;
-        this.legendWidth = 40;
-        this.topPadding = 0;
-        this.playheadWidth = 2;
-        this.playheadOffset = 50;
-        this.notchHeight = 5;
-        this.notchWidth = 2;
-        this.colors = {
-            background: '#1a1a1a',
-            border: '#333',
-            cellBackground: '#2a2a2a',
-            cellActive: '#3a3a3a',
-            text: '#fff',
-            success: '#48c774',
-            successWashed: '#1a3a24',
-            danger: '#ff3860',
-            dangerWashed: '#4a1a24',
-            warning: '#b86bf4',
-            warningWashed: '#2a1a3a',
-        };
+      this.canvas = canvas;
+      this.ctx = canvas.getContext("2d");
+      this.tabPlayer = tabPlayer;
+      this.cellWidth = 56;
+      this.cellHeight = 40;
+      this.stringSpacing = 40;
+      this.legendWidth = 40;
+      this.topPadding = 0;
+      this.playheadWidth = 2;
+      this.playheadOffset = 50;
+      this.notchHeight = 5;
+      this.notchWidth = 2;
+      this.colors = {
+        background: "#1a1a1a",
+        border: "#333",
+        cellBackground: "#2a2a2a",
+        cellActive: "#3a3a3a",
+        text: "#fff",
+        success: "#48c774",
+        successWashed: "#1a3a24",
+        danger: "#ff3860",
+        dangerWashed: "#4a1a24",
+        warning: "#b86bf4",
+        warningWashed: "#2a1a3a",
+      };
 
-        this.resize();
-        window.addEventListener('resize', () => this.resize());
-        this.ctx.font = '14px sans-serif';
-        this.ctx.textAlign = 'center';
-        this.ctx.textBaseline = 'middle';
+      this.resize();
+      window.addEventListener("resize", () => this.resize());
+      this.ctx.font = "14px sans-serif";
+      this.ctx.textAlign = "center";
+      this.ctx.textBaseline = "middle";
     }
 
     resize() {
-        const container = this.canvas.parentElement;
-        const dpr = window.devicePixelRatio || 1;
-        this.canvas.width = container.clientWidth * dpr;
-        this.canvas.height = container.clientHeight * dpr;
-        this.canvas.style.width = `${container.clientWidth}px`;
-        this.canvas.style.height = `${container.clientHeight}px`;
-        this.ctx.scale(dpr, dpr);
+      const container = this.canvas.parentElement;
+      const dpr = window.devicePixelRatio || 1;
+      this.canvas.width = container.clientWidth * dpr;
+      this.canvas.height = container.clientHeight * dpr;
+      this.canvas.style.width = `${container.clientWidth}px`;
+      this.canvas.style.height = `${container.clientHeight}px`;
+      this.ctx.scale(dpr, dpr);
     }
 
     draw() {
-        this.ctx.fillStyle = this.colors.background;
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        this.drawLegend();
-        this.drawTabContent();
-        this.drawPlayhead();
+      this.ctx.fillStyle = this.colors.background;
+      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      this.drawLegend();
+      this.drawTabContent();
+      this.drawPlayhead();
     }
 
     drawLegend() {
-        this.ctx.fillStyle = this.colors.text;
-        this.ctx.textAlign = 'right';
-        this.tabPlayer.stringLabels.forEach((label, index) => {
-            const y = this.topPadding + index * this.stringSpacing + this.stringSpacing / 2;
-            this.ctx.fillText(label, this.legendWidth - 10, y);
-        });
-        this.ctx.textAlign = 'center';
+      this.ctx.fillStyle = this.colors.text;
+      this.ctx.textAlign = "right";
+      this.tabPlayer.stringLabels.forEach((label, index) => {
+        const y =
+          this.topPadding + index * this.stringSpacing + this.stringSpacing / 2;
+        this.ctx.fillText(label, this.legendWidth - 10, y);
+      });
+      this.ctx.textAlign = "center";
     }
 
     drawPlayhead() {
-        const x = this.legendWidth + this.playheadOffset + this.playheadWidth / 2;
-        this.ctx.fillStyle = this.colors.danger;
-        this.ctx.fillRect(x, 0, this.playheadWidth, this.canvas.height);
+      const x = this.legendWidth + this.playheadOffset + this.playheadWidth / 2;
+      this.ctx.fillStyle = this.colors.danger;
+      this.ctx.fillRect(x, 0, this.playheadWidth, this.canvas.height);
     }
 
     drawTabContent() {
-        const scrollX = this.tabPlayer.scrollPosition;
-        const startX = this.legendWidth + this.playheadOffset + this.playheadWidth;
+      const scrollX = this.tabPlayer.scrollPosition;
+      const startX =
+        this.legendWidth + this.playheadOffset + this.playheadWidth;
 
-        this.tabPlayer.stringOrder.forEach((string, sIndex) => {
-            const y = this.topPadding + sIndex * this.stringSpacing;
-            
-            this.tabPlayer.beats.forEach((beat, bIndex) => {
-                const x = startX + bIndex * this.cellWidth + scrollX;
-                const value = beat[string] || '-';
-                
-                if (value === '-') return;
+      this.tabPlayer.stringOrder.forEach((string, sIndex) => {
+        const y = this.topPadding + sIndex * this.stringSpacing;
 
-                let bgColor = this.colors.cellBackground;
-                let textColor = this.colors.text;
+        this.tabPlayer.beats.forEach((beat, bIndex) => {
+          const x = startX + bIndex * this.cellWidth + scrollX;
+          const value = beat[string] || "-";
 
-                if (this.tabPlayer.isPlaying && bIndex === this.tabPlayer.currentBeat) {
-                    bgColor = this.colors.cellActive;
-                } else {
-                    const state = this.tabPlayer.noteTracking.noteStates[bIndex];
-                    const prevState = this.tabPlayer.noteTracking.previousStates[bIndex];
-                    const played = this.tabPlayer.noteTracking.playedNotes[bIndex];
+          if (value === "-") return;
 
-                    if (state === 'correct') {
-                        bgColor = this.colors.success;
-                    } else if (state === 'incorrect') {
-                        bgColor = this.colors.danger;
-                    } else if (state === 'missed' && bIndex < this.tabPlayer.currentBeat) {
-                        bgColor = this.colors.warning;
-                    } else if (prevState === 'correct' && !played) {
-                        bgColor = this.colors.successWashed;
-                    } else if (prevState === 'incorrect' && !played) {
-                        bgColor = this.colors.dangerWashed;
-                    } else if (prevState === 'missed' && !played) {
-                        bgColor = this.colors.warningWashed;
-                    }
-                }
+          let bgColor = this.colors.cellBackground;
+          let textColor = this.colors.text;
 
-                this.ctx.fillStyle = bgColor;
-                this.ctx.fillRect(x, y, this.cellWidth, this.stringSpacing - 10);
-                
-                this.ctx.fillStyle = textColor;
-                this.ctx.fillText(value, x + this.cellWidth / 2, y + (this.stringSpacing - 10) / 2);
+          if (
+            this.tabPlayer.isPlaying &&
+            bIndex === this.tabPlayer.currentBeat
+          ) {
+            bgColor = this.colors.cellActive;
+          } else {
+            const state = this.tabPlayer.noteTracking.noteStates[bIndex];
+            const prevState =
+              this.tabPlayer.noteTracking.previousStates[bIndex];
+            const played = this.tabPlayer.noteTracking.playedNotes[bIndex];
 
-                this.drawTimingNotch(x + this.cellWidth / 2, y);
-            });
+            if (state === "correct") {
+              bgColor = this.colors.success;
+            } else if (state === "incorrect") {
+              bgColor = this.colors.danger;
+            } else if (
+              state === "missed" &&
+              bIndex < this.tabPlayer.currentBeat
+            ) {
+              bgColor = this.colors.warning;
+            } else if (prevState === "correct" && !played) {
+              bgColor = this.colors.successWashed;
+            } else if (prevState === "incorrect" && !played) {
+              bgColor = this.colors.dangerWashed;
+            } else if (prevState === "missed" && !played) {
+              bgColor = this.colors.warningWashed;
+            }
+          }
+
+          this.ctx.fillStyle = bgColor;
+          this.ctx.fillRect(x, y, this.cellWidth, this.stringSpacing - 10);
+
+          this.ctx.fillStyle = textColor;
+          this.ctx.fillText(
+            value,
+            x + this.cellWidth / 2,
+            y + (this.stringSpacing - 10) / 2
+          );
+
+          this.drawTimingNotch(x + this.cellWidth / 2, y);
         });
+      });
     }
 
     drawTimingNotch(x, y) {
-        this.ctx.fillStyle = this.colors.text;
-        this.ctx.fillRect(
-            x - this.notchWidth / 2,
-            y,
-            this.notchWidth,
-            this.notchHeight
-        );
+      this.ctx.fillStyle = this.colors.text;
+      this.ctx.fillRect(
+        x - this.notchWidth / 2,
+        y,
+        this.notchWidth,
+        this.notchHeight
+      );
     }
-}
+  }
 
-// Audio Detector
-class AudioDetector {
+  // Audio Detector
+  class AudioDetector {
     constructor() {
-        this.audioContext = null;
-        this.analyser = null;
-        this.microphone = null;
-        this.isListening = false;
-        this.noteNames = [
-            "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"
-        ];
+      this.audioContext = null;
+      this.analyser = null;
+      this.microphone = null;
+      this.isListening = false;
+      this.noteNames = [
+        "C",
+        "C#",
+        "D",
+        "D#",
+        "E",
+        "F",
+        "F#",
+        "G",
+        "G#",
+        "A",
+        "A#",
+        "B",
+      ];
 
-        this.minAmplitude = 0.05;
-        this.minNoteDuration = 30;
-        this.maxNoteDuration = 800;
-        this.minFrequency = 150;
-        this.maxFrequency = 1200;
+      this.minAmplitude = 0.05;
+      this.minNoteDuration = 30;
+      this.maxNoteDuration = 800;
+      this.minFrequency = 150;
+      this.maxFrequency = 1200;
 
-        this.lastNoteTime = 0;
-        this.currentNoteStart = 0;
-        this.isNoteActive = false;
-        this.silenceCount = 0;
-        this.silenceThreshold = 2;
+      this.lastNoteTime = 0;
+      this.currentNoteStart = 0;
+      this.isNoteActive = false;
+      this.silenceCount = 0;
+      this.silenceThreshold = 2;
     }
 
     async startListening() {
-        try {
-            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            this.analyser = this.audioContext.createAnalyser();
-            this.analyser.fftSize = 2048;
+      try {
+        this.audioContext = new (window.AudioContext ||
+          window.webkitAudioContext)();
+        this.analyser = this.audioContext.createAnalyser();
+        this.analyser.fftSize = 2048;
 
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            this.microphone = this.audioContext.createMediaStreamSource(stream);
-            this.microphone.connect(this.analyser);
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+        });
+        this.microphone = this.audioContext.createMediaStreamSource(stream);
+        this.microphone.connect(this.analyser);
 
-            this.isListening = true;
-            this.detectPitch();
-        } catch (error) {
-            console.error("Error accessing microphone:", error);
-        }
+        this.isListening = true;
+        this.detectPitch();
+      } catch (error) {
+        console.error("Error accessing microphone:", error);
+      }
     }
 
     stopListening() {
-        if (this.microphone) {
-            this.microphone.disconnect();
-            this.microphone = null;
-        }
-        if (this.audioContext) {
-            this.audioContext.close();
-            this.audioContext = null;
-        }
-        this.isListening = false;
+      if (this.microphone) {
+        this.microphone.disconnect();
+        this.microphone = null;
+      }
+      if (this.audioContext) {
+        this.audioContext.close();
+        this.audioContext = null;
+      }
+      this.isListening = false;
     }
 
     getAmplitude(data) {
-        let sum = 0;
-        for (let i = 0; i < data.length; i++) {
-            sum += Math.abs(data[i]);
-        }
-        return sum / data.length;
+      let sum = 0;
+      for (let i = 0; i < data.length; i++) {
+        sum += Math.abs(data[i]);
+      }
+      return sum / data.length;
     }
 
     detectPitch() {
-        if (!this.isListening) return;
+      if (!this.isListening) return;
 
-        const bufferLength = this.analyser.frequencyBinCount;
-        const dataArray = new Float32Array(bufferLength);
-        this.analyser.getFloatTimeDomainData(dataArray);
+      const bufferLength = this.analyser.frequencyBinCount;
+      const dataArray = new Float32Array(bufferLength);
+      this.analyser.getFloatTimeDomainData(dataArray);
 
-        const amplitude = this.getAmplitude(dataArray);
-        const now = Date.now();
+      const amplitude = this.getAmplitude(dataArray);
+      const now = Date.now();
 
-        if (amplitude > this.minAmplitude) {
-            if (!this.isNoteActive) {
-                this.isNoteActive = true;
-                this.currentNoteStart = now;
-                this.silenceCount = 0;
-            }
-
-            const frequency = this.yinAlgorithm(dataArray);
-            if (frequency && frequency >= this.minFrequency && frequency <= this.maxFrequency) {
-                const note = this.frequencyToNote(frequency);
-                if (note) {
-                    const noteDuration = now - this.currentNoteStart;
-                    if (noteDuration >= this.minNoteDuration && noteDuration <= this.maxNoteDuration) {
-                        const event = new CustomEvent("noteDetected", { detail: { note } });
-                        document.dispatchEvent(event);
-                    }
-                }
-            }
-        } else {
-            if (this.isNoteActive) {
-                this.silenceCount++;
-                if (this.silenceCount >= this.silenceThreshold) {
-                    this.isNoteActive = false;
-                    this.lastNoteTime = now;
-                }
-            }
+      if (amplitude > this.minAmplitude) {
+        if (!this.isNoteActive) {
+          this.isNoteActive = true;
+          this.currentNoteStart = now;
+          this.silenceCount = 0;
         }
 
-        requestAnimationFrame(() => this.detectPitch());
+        const frequency = this.yinAlgorithm(dataArray);
+        if (
+          frequency &&
+          frequency >= this.minFrequency &&
+          frequency <= this.maxFrequency
+        ) {
+          const note = this.frequencyToNote(frequency);
+          if (note) {
+            const noteDuration = now - this.currentNoteStart;
+            if (
+              noteDuration >= this.minNoteDuration &&
+              noteDuration <= this.maxNoteDuration
+            ) {
+              const event = new CustomEvent("noteDetected", {
+                detail: { note },
+              });
+              document.dispatchEvent(event);
+            }
+          }
+        }
+      } else {
+        if (this.isNoteActive) {
+          this.silenceCount++;
+          if (this.silenceCount >= this.silenceThreshold) {
+            this.isNoteActive = false;
+            this.lastNoteTime = now;
+          }
+        }
+      }
+
+      requestAnimationFrame(() => this.detectPitch());
     }
 
     yinAlgorithm(data) {
-        const sampleRate = this.audioContext.sampleRate;
-        const tauMin = Math.floor(sampleRate / this.maxFrequency);
-        const tauMax = Math.floor(sampleRate / this.minFrequency);
+      const sampleRate = this.audioContext.sampleRate;
+      const tauMin = Math.floor(sampleRate / this.maxFrequency);
+      const tauMax = Math.floor(sampleRate / this.minFrequency);
 
-        let bestTau = 0;
-        let bestValue = 1;
+      let bestTau = 0;
+      let bestValue = 1;
 
-        for (let tau = tauMin; tau < tauMax; tau++) {
-            let sum = 0;
-            for (let j = 0; j < data.length - tau; j++) {
-                const diff = data[j] - data[j + tau];
-                sum += diff * diff;
-            }
-
-            const value = sum / (data.length - tau);
-            if (value < bestValue) {
-                bestValue = value;
-                bestTau = tau;
-            }
+      for (let tau = tauMin; tau < tauMax; tau++) {
+        let sum = 0;
+        for (let j = 0; j < data.length - tau; j++) {
+          const diff = data[j] - data[j + tau];
+          sum += diff * diff;
         }
 
-        if (bestValue < 0.1) {
-            return sampleRate / bestTau;
+        const value = sum / (data.length - tau);
+        if (value < bestValue) {
+          bestValue = value;
+          bestTau = tau;
         }
-        return null;
+      }
+
+      if (bestValue < 0.1) {
+        return sampleRate / bestTau;
+      }
+      return null;
     }
 
     frequencyToNote(frequency) {
-        if (frequency <= 0) return null;
+      if (frequency <= 0) return null;
 
-        const noteNum = Math.round(12 * Math.log2(frequency / 440) + 69);
-        const noteName = this.noteNames[noteNum % 12];
-        const octave = Math.floor(noteNum / 12) - 1;
+      const noteNum = Math.round(12 * Math.log2(frequency / 440) + 69);
+      const noteName = this.noteNames[noteNum % 12];
+      const octave = Math.floor(noteNum / 12) - 1;
 
-        return `${noteName}${octave}`;
+      return `${noteName}${octave}`;
     }
-}
+  }
 
-document.addEventListener('alpine:init', () => {
-    Alpine.data('app', () => ({
-        // Initialize from URL parameters
-        init() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const bpmParam = urlParams.get('bpm');
-            if (bpmParam) {
-                this.tabPlayer.bpm = parseInt(bpmParam);
-            }
-            this.initTabPlayer();
-            this.initAudioDetection();
-            this.initCanvas();
+  document.addEventListener("alpine:init", () => {
+    Alpine.data("app", () => ({
+      // Initialize from URL parameters
+      init() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const bpmParam = urlParams.get("bpm");
+        if (bpmParam) {
+          this.tabPlayer.bpm = parseInt(bpmParam);
+        }
+        this.initTabPlayer();
+        this.initAudioDetection();
+        this.initCanvas();
+      },
+
+      // Update BPM in URL when changed
+      updateBpm() {
+        const url = new URL(window.location);
+        url.searchParams.set("bpm", this.tabPlayer.bpm);
+        window.history.replaceState({}, "", url);
+        this.updateBeatDuration();
+      },
+
+      // End practice and save session
+      endPractice() {
+        if (this.tabPlayer.isPlaying) {
+          this.togglePractice();
+        }
+      },
+
+      // Tab Player State
+      tabPlayer: {
+        stringOrder: ["a", "e", "c", "g"],
+        stringLabels: ["A", "E", "C", "G"],
+        beats: [],
+        isPlaying: false,
+        bpm: 40,
+        currentBeat: 0,
+        scrollPosition: 0,
+        animationFrame: null,
+        startTime: null,
+        beatDuration: 500,
+        cellWidth: 56,
+        totalWidth: 0,
+        currentNote: "",
+        currentString: "",
+        currentFret: "",
+        currentStringLabel: "",
+        sessionId: null,
+        noteTracking: {
+          expectedNotes: [],
+          playedNotes: [],
+          noteStates: [],
+          runCount: 0,
+          previousStates: [],
+          lastBeatTime: 0,
         },
-
-        // Update BPM in URL when changed
-        updateBpm() {
-            const url = new URL(window.location);
-            url.searchParams.set('bpm', this.tabPlayer.bpm);
-            window.history.replaceState({}, '', url);
-            this.updateBeatDuration();
+        timingFeedback: {
+          show: false,
+          message: "",
+          type: "",
+          timeout: null,
+          fadeTimeout: null,
+          opacity: 1,
+          transitionStyle: "none",
         },
+      },
 
-        // End practice and save session
-        endPractice() {
-            if (this.tabPlayer.isPlaying) {
-                this.togglePractice();
-            }
-        },
+      // Audio Detection State
+      audioDetection: {
+        isListening: false,
+        detectedNote: "",
+        lastNoteTime: 0,
+      },
 
-        // Tab Player State
-        tabPlayer: {
-            stringOrder: ["a", "e", "c", "g"],
-            stringLabels: ["A", "E", "C", "G"],
-            beats: [],
-            isPlaying: false,
-            bpm: 40,
-            currentBeat: 0,
-            scrollPosition: 0,
-            animationFrame: null,
-            startTime: null,
-            beatDuration: 500,
-            cellWidth: 56,
-            totalWidth: 0,
-            currentNote: "",
-            currentString: "",
-            currentFret: "",
-            currentStringLabel: "",
-            sessionId: null,
-            noteTracking: {
-                expectedNotes: [],
-                playedNotes: [],
-                noteStates: [],
-                runCount: 0,
-                previousStates: [],
-                lastBeatTime: 0,
-            },
-            timingFeedback: {
-                show: false,
-                message: "",
-                type: "",
-                timeout: null,
-                fadeTimeout: null,
-                opacity: 1,
-                transitionStyle: 'none'
-            }
-        },
+      // Audio Detector Instance
+      audioDetector: null,
 
-        // Audio Detection State
-        audioDetection: {
-            isListening: false,
-            detectedNote: "",
-            lastNoteTime: 0,
-        },
+      // Canvas Renderer Instance
+      canvasRenderer: null,
 
-        // Audio Detector Instance
-        audioDetector: null,
+      initTabPlayer() {
+        const originalBeats = JSON.parse("{{ beats_json|escapejs }}");
+        const emptyBeat = { a: "-", e: "-", c: "-", g: "-" };
+        this.tabPlayer.beats = [...Array(4).fill(emptyBeat), ...originalBeats];
 
-        // Canvas Renderer Instance
-        canvasRenderer: null,
-
-        initTabPlayer() {
-            const originalBeats = JSON.parse("{{ beats_json|escapejs }}");
-            const emptyBeat = { a: "-", e: "-", c: "-", g: "-" };
-            this.tabPlayer.beats = [...Array(4).fill(emptyBeat), ...originalBeats];
-
-            this.tabPlayer.noteTracking.expectedNotes = this.tabPlayer.beats.map(
-                (beat) => {
-                    for (const string of this.tabPlayer.stringOrder) {
-                        const val = beat[string];
-                        if (val && val !== "-") {
-                            const fret = parseInt(val, 10);
-                            if (!isNaN(fret) && fret >= 0 && fret < 13) {
-                                return NOTE_MAP[string][fret];
-                            }
-                        }
-                    }
-                    return null;
-                }
-            );
-            this.tabPlayer.noteTracking.playedNotes = new Array(
-                this.tabPlayer.beats.length
-            ).fill(null);
-            this.tabPlayer.noteTracking.noteStates = new Array(
-                this.tabPlayer.beats.length
-            ).fill("missed");
-            this.tabPlayer.noteTracking.previousStates = new Array(
-                this.tabPlayer.beats.length
-            ).fill(null);
-
-            this.updateBeatDuration();
-            this.$watch("tabPlayer.bpm", () => this.updateBeatDuration());
-            this.tabPlayer.totalWidth =
-                this.tabPlayer.beats.length * this.tabPlayer.cellWidth;
-            this.updateCurrentNote();
-        },
-
-        initAudioDetection() {
-            this.audioDetector = new AudioDetector();
-            document.addEventListener("noteDetected", (event) => {
-                this.audioDetection.detectedNote = event.detail.note;
-                this.audioDetection.lastNoteTime = Date.now();
-                this.checkNoteMatch();
-            });
-        },
-
-        initCanvas() {
-            const canvas = document.getElementById('tabCanvas');
-            this.canvasRenderer = new CanvasRenderer(canvas, this.tabPlayer);
-            this.canvasRenderer.draw();
-        },
-
-        checkNoteMatch() {
-            if (!this.tabPlayer.isPlaying) return;
-
-            const currentBeat = this.tabPlayer.currentBeat;
-            const expectedNote =
-                this.tabPlayer.noteTracking.expectedNotes[currentBeat];
-
-            if (!expectedNote) return;
-
-            const playedNote = this.audioDetection.detectedNote;
-            const expectedNoteName = expectedNote.replace(/\d+$/, "");
-            const playedNoteName = playedNote.replace(/\d+$/, "");
-
-            if (
-                !this.tabPlayer.noteTracking.playedNotes[currentBeat] ||
-                (this.tabPlayer.noteTracking.noteStates[currentBeat] !== "correct" &&
-                    playedNoteName === expectedNoteName)
-            ) {
-                this.tabPlayer.noteTracking.playedNotes[currentBeat] = playedNote;
-
-                if (playedNoteName === expectedNoteName) {
-                    this.tabPlayer.noteTracking.noteStates[currentBeat] = "correct";
-
-                    const now = Date.now();
-                    const beatStart = this.tabPlayer.noteTracking.lastBeatTime;
-                    const beatDuration = this.tabPlayer.beatDuration;
-                    const beatMiddle = beatStart + beatDuration / 2;
-                    const timeFromStart = now - beatStart;
-                    const percent = timeFromStart / beatDuration;
-
-                    let timingType = "perfect";
-                    let timingMessage = "Perfect timing!";
-                    if (percent < 0.2) {
-                        timingType = "very-early";
-                        timingMessage = "Very early";
-                    } else if (percent < 0.35) {
-                        timingType = "early";
-                        timingMessage = "Early";
-                    } else if (percent < 0.45) {
-                        timingType = "slightly-early";
-                        timingMessage = "A bit early";
-                    } else if (percent < 0.55) {
-                        timingType = "perfect";
-                        timingMessage = "Perfect timing!";
-                    } else if (percent < 0.65) {
-                        timingType = "slightly-late";
-                        timingMessage = "A bit late";
-                    } else if (percent < 0.8) {
-                        timingType = "late";
-                        timingMessage = "Late";
-                    } else {
-                        timingType = "very-late";
-                        timingMessage = "Very late";
-                    }
-
-                    this.showTimingFeedback(timingMessage, timingType);
-                } else {
-                    this.tabPlayer.noteTracking.noteStates[currentBeat] = "incorrect";
-                }
-            }
-        },
-
-        showTimingFeedback(message, type) {
-            if (this.tabPlayer.timingFeedback.timeout) {
-                clearTimeout(this.tabPlayer.timingFeedback.timeout);
-            }
-            if (this.tabPlayer.timingFeedback.fadeTimeout) {
-                clearTimeout(this.tabPlayer.timingFeedback.fadeTimeout);
-            }
-            this.tabPlayer.timingFeedback.message = message;
-            this.tabPlayer.timingFeedback.type = type;
-            this.tabPlayer.timingFeedback.show = true;
-            this.tabPlayer.timingFeedback.transitionStyle = 'none';
-            this.tabPlayer.timingFeedback.opacity = 1;
-            this.tabPlayer.timingFeedback.fadeTimeout = setTimeout(() => {
-                this.tabPlayer.timingFeedback.transitionStyle = 'opacity 1.7s cubic-bezier(.4,0,.2,1)';
-                this.tabPlayer.timingFeedback.opacity = 0.35;
-            }, 100);
-            this.tabPlayer.timingFeedback.timeout = setTimeout(() => {
-                this.tabPlayer.timingFeedback.show = false;
-                this.tabPlayer.timingFeedback.opacity = 1;
-                this.tabPlayer.timingFeedback.transitionStyle = 'none';
-            }, 1000);
-        },
-
-        updateBeatDuration() {
-            this.tabPlayer.beatDuration = 60000 / this.tabPlayer.bpm;
-            this.tabPlayer.noteTracking.gracePeriod = Math.min(
-                Math.max(200, this.tabPlayer.beatDuration * 0.6),
-                500
-            );
-        },
-
-        togglePractice() {
-            this.tabPlayer.isPlaying = !this.tabPlayer.isPlaying;
-            if (this.tabPlayer.isPlaying) {
-                if (!this.tabPlayer.sessionId) {
-                    this.tabPlayer.sessionId = Date.now();
-                }
-                this.tabPlayer.startTime = null;
-                this.audioDetector.startListening();
-                this.animate();
-            } else {
-                cancelAnimationFrame(this.tabPlayer.animationFrame);
-                this.audioDetector.stopListening();
-            }
-        },
-
-        animate(timestamp) {
-            if (!this.tabPlayer.startTime) this.tabPlayer.startTime = timestamp;
-            const elapsed = timestamp - this.tabPlayer.startTime;
-
-            const totalDuration =
-                this.tabPlayer.beats.length * this.tabPlayer.beatDuration;
-            const positionInSong = elapsed % totalDuration;
-            const beatPosition = positionInSong / this.tabPlayer.beatDuration;
-
-            const newBeat = Math.floor(beatPosition) % this.tabPlayer.beats.length;
-            if (newBeat !== this.tabPlayer.currentBeat) {
-                const previousBeat = this.tabPlayer.currentBeat;
-                if (
-                    previousBeat >= 0 &&
-                    this.tabPlayer.noteTracking.expectedNotes[previousBeat] &&
-                    !this.tabPlayer.noteTracking.playedNotes[previousBeat]
-                ) {
-                    this.tabPlayer.noteTracking.noteStates[previousBeat] = "missed";
-                }
-
-                if (previousBeat >= 0) {
-                    this.logBeatProgress(previousBeat);
-                }
-
-                if (newBeat === 0 && previousBeat === this.tabPlayer.beats.length - 1) {
-                    this.tabPlayer.noteTracking.previousStates = [
-                        ...this.tabPlayer.noteTracking.noteStates,
-                    ];
-                    this.tabPlayer.noteTracking.noteStates = new Array(
-                        this.tabPlayer.beats.length
-                    ).fill("missed");
-                    this.tabPlayer.noteTracking.playedNotes = new Array(
-                        this.tabPlayer.beats.length
-                    ).fill(null);
-                    this.tabPlayer.noteTracking.runCount++;
-                }
-
-                this.tabPlayer.currentBeat = newBeat;
-                this.tabPlayer.noteTracking.lastBeatTime = Date.now();
-                this.updateCurrentNote();
-            }
-
-            const beatProgress = beatPosition - Math.floor(beatPosition);
-            const rawPosition =
-                (this.tabPlayer.currentBeat + beatProgress) *
-                this.tabPlayer.cellWidth;
-            this.tabPlayer.scrollPosition = -(
-                rawPosition % this.tabPlayer.totalWidth
-            );
-
-            this.canvasRenderer.draw();
-
-            if (this.tabPlayer.isPlaying) {
-                this.tabPlayer.animationFrame = requestAnimationFrame((t) =>
-                    this.animate(t)
-                );
-            }
-        },
-
-        logBeatProgress(beatIdx) {
-            const expectedNote = this.tabPlayer.noteTracking.expectedNotes[beatIdx];
-            if (!expectedNote) return;
-            const playedNote = this.tabPlayer.noteTracking.playedNotes[beatIdx];
-            const state = this.tabPlayer.noteTracking.noteStates[beatIdx];
-            const runCount = this.tabPlayer.noteTracking.runCount;
-            const bpm = this.tabPlayer.bpm;
-            const beatsTotal = this.tabPlayer.beats.length;
-            const songTitle = "{{ tab_sheet.title|escapejs }}";
-            const songArtist = "{{ tab_sheet.artist|escapejs }}";
-            const timestamp = Date.now();
-            const sessionId = this.tabPlayer.sessionId;
-
-            let timingDistance = null;
-            let timingCategory = null;
-            if (playedNote && state === "correct") {
-                const beatStart =
-                    this.tabPlayer.noteTracking.lastBeatTime -
-                    this.tabPlayer.beatDuration;
-                const beatMiddle = beatStart + this.tabPlayer.beatDuration / 2;
-                const playedTime = timestamp;
-                timingDistance = playedTime - beatMiddle;
-                const timeFromStart = playedTime - beatStart;
-                const percent = timeFromStart / this.tabPlayer.beatDuration;
-                if (percent < 0.2) timingCategory = "very-early";
-                else if (percent < 0.35) timingCategory = "early";
-                else if (percent < 0.45) timingCategory = "slightly-early";
-                else if (percent < 0.55) timingCategory = "perfect";
-                else if (percent < 0.65) timingCategory = "slightly-late";
-                else if (percent < 0.8) timingCategory = "late";
-                else timingCategory = "very-late";
-            }
-
-            const record = {
-                timestamp,
-                songTitle,
-                songArtist,
-                runCount,
-                beatIdx,
-                beatsTotal,
-                expectedNote,
-                playedNote,
-                state,
-                timingDistance,
-                timingCategory,
-                bpm,
-                sessionId,
-            };
-
-            addUkeProgressRecord(record).catch((e) => {
-                console.error("Failed to log uke progress to IndexedDB", e);
-            });
-        },
-
-        updateCurrentNote() {
-            const beat = this.tabPlayer.beats[this.tabPlayer.currentBeat] || {};
-            let found = false;
+        this.tabPlayer.noteTracking.expectedNotes = this.tabPlayer.beats.map(
+          (beat) => {
             for (const string of this.tabPlayer.stringOrder) {
-                const val = beat[string];
-                if (val && val !== "-") {
-                    const fret = parseInt(val, 10);
-                    if (!isNaN(fret) && fret >= 0 && fret < 13) {
-                        this.tabPlayer.currentNote = NOTE_MAP[string][fret];
-                        this.tabPlayer.currentString = string;
-                        this.tabPlayer.currentFret = fret;
-                        this.tabPlayer.currentStringLabel = STRING_LABELS[string];
-                        found = true;
-                        break;
-                    }
+              const val = beat[string];
+              if (val && val !== "-") {
+                const fret = parseInt(val, 10);
+                if (!isNaN(fret) && fret >= 0 && fret < 13) {
+                  return NOTE_MAP[string][fret];
                 }
+              }
             }
-            if (!found) {
-                this.tabPlayer.currentNote = "";
-                this.tabPlayer.currentString = "";
-                this.tabPlayer.currentFret = "";
-                this.tabPlayer.currentStringLabel = "";
-            }
-        },
+            return null;
+          }
+        );
+        this.tabPlayer.noteTracking.playedNotes = new Array(
+          this.tabPlayer.beats.length
+        ).fill(null);
+        this.tabPlayer.noteTracking.noteStates = new Array(
+          this.tabPlayer.beats.length
+        ).fill("missed");
+        this.tabPlayer.noteTracking.previousStates = new Array(
+          this.tabPlayer.beats.length
+        ).fill(null);
 
-        toggleListening() {
-            if (this.audioDetection.isListening) {
-                this.audioDetector.stopListening();
+        this.updateBeatDuration();
+        this.$watch("tabPlayer.bpm", () => this.updateBeatDuration());
+        this.tabPlayer.totalWidth =
+          this.tabPlayer.beats.length * this.tabPlayer.cellWidth;
+        this.updateCurrentNote();
+      },
+
+      initAudioDetection() {
+        this.audioDetector = new AudioDetector();
+        document.addEventListener("noteDetected", (event) => {
+          this.audioDetection.detectedNote = event.detail.note;
+          this.audioDetection.lastNoteTime = Date.now();
+          this.checkNoteMatch();
+        });
+      },
+
+      initCanvas() {
+        const canvas = document.getElementById("tabCanvas");
+        this.canvasRenderer = new CanvasRenderer(canvas, this.tabPlayer);
+        this.canvasRenderer.draw();
+      },
+
+      checkNoteMatch() {
+        if (!this.tabPlayer.isPlaying) return;
+
+        const currentBeat = this.tabPlayer.currentBeat;
+        const expectedNote =
+          this.tabPlayer.noteTracking.expectedNotes[currentBeat];
+
+        if (!expectedNote) return;
+
+        const playedNote = this.audioDetection.detectedNote;
+        const expectedNoteName = expectedNote.replace(/\d+$/, "");
+        const playedNoteName = playedNote.replace(/\d+$/, "");
+
+        if (
+          !this.tabPlayer.noteTracking.playedNotes[currentBeat] ||
+          (this.tabPlayer.noteTracking.noteStates[currentBeat] !== "correct" &&
+            playedNoteName === expectedNoteName)
+        ) {
+          this.tabPlayer.noteTracking.playedNotes[currentBeat] = playedNote;
+
+          if (playedNoteName === expectedNoteName) {
+            this.tabPlayer.noteTracking.noteStates[currentBeat] = "correct";
+
+            const now = Date.now();
+            const beatStart = this.tabPlayer.noteTracking.lastBeatTime;
+            const beatDuration = this.tabPlayer.beatDuration;
+            const beatMiddle = beatStart + beatDuration / 2;
+            const timeFromStart = now - beatStart;
+            const percent = timeFromStart / beatDuration;
+
+            let timingType = "perfect";
+            let timingMessage = "Perfect timing!";
+            if (percent < 0.2) {
+              timingType = "very-early";
+              timingMessage = "Very early";
+            } else if (percent < 0.35) {
+              timingType = "early";
+              timingMessage = "Early";
+            } else if (percent < 0.45) {
+              timingType = "slightly-early";
+              timingMessage = "A bit early";
+            } else if (percent < 0.55) {
+              timingType = "perfect";
+              timingMessage = "Perfect timing!";
+            } else if (percent < 0.65) {
+              timingType = "slightly-late";
+              timingMessage = "A bit late";
+            } else if (percent < 0.8) {
+              timingType = "late";
+              timingMessage = "Late";
             } else {
-                this.audioDetector.startListening();
+              timingType = "very-late";
+              timingMessage = "Very late";
             }
-            this.audioDetection.isListening = !this.audioDetection.isListening;
-        },
+
+            this.showTimingFeedback(timingMessage, timingType);
+          } else {
+            this.tabPlayer.noteTracking.noteStates[currentBeat] = "incorrect";
+          }
+        }
+      },
+
+      showTimingFeedback(message, type) {
+        if (this.tabPlayer.timingFeedback.timeout) {
+          clearTimeout(this.tabPlayer.timingFeedback.timeout);
+        }
+        if (this.tabPlayer.timingFeedback.fadeTimeout) {
+          clearTimeout(this.tabPlayer.timingFeedback.fadeTimeout);
+        }
+        this.tabPlayer.timingFeedback.message = message;
+        this.tabPlayer.timingFeedback.type = type;
+        this.tabPlayer.timingFeedback.show = true;
+        this.tabPlayer.timingFeedback.transitionStyle = "none";
+        this.tabPlayer.timingFeedback.opacity = 1;
+        this.tabPlayer.timingFeedback.fadeTimeout = setTimeout(() => {
+          this.tabPlayer.timingFeedback.transitionStyle =
+            "opacity 1.7s cubic-bezier(.4,0,.2,1)";
+          this.tabPlayer.timingFeedback.opacity = 0.35;
+        }, 100);
+        this.tabPlayer.timingFeedback.timeout = setTimeout(() => {
+          this.tabPlayer.timingFeedback.show = false;
+          this.tabPlayer.timingFeedback.opacity = 1;
+          this.tabPlayer.timingFeedback.transitionStyle = "none";
+        }, 1000);
+      },
+
+      updateBeatDuration() {
+        this.tabPlayer.beatDuration = 60000 / this.tabPlayer.bpm;
+        this.tabPlayer.noteTracking.gracePeriod = Math.min(
+          Math.max(200, this.tabPlayer.beatDuration * 0.6),
+          500
+        );
+      },
+
+      togglePractice() {
+        this.tabPlayer.isPlaying = !this.tabPlayer.isPlaying;
+        if (this.tabPlayer.isPlaying) {
+          if (!this.tabPlayer.sessionId) {
+            this.tabPlayer.sessionId = Date.now();
+          }
+          this.tabPlayer.startTime = null;
+          this.audioDetector.startListening();
+          this.animate();
+        } else {
+          cancelAnimationFrame(this.tabPlayer.animationFrame);
+          this.audioDetector.stopListening();
+        }
+      },
+
+      animate(timestamp) {
+        if (!this.tabPlayer.startTime) this.tabPlayer.startTime = timestamp;
+        const elapsed = timestamp - this.tabPlayer.startTime;
+
+        const totalDuration =
+          this.tabPlayer.beats.length * this.tabPlayer.beatDuration;
+        const positionInSong = elapsed % totalDuration;
+        const beatPosition = positionInSong / this.tabPlayer.beatDuration;
+
+        const newBeat = Math.floor(beatPosition) % this.tabPlayer.beats.length;
+        if (newBeat !== this.tabPlayer.currentBeat) {
+          const previousBeat = this.tabPlayer.currentBeat;
+          if (
+            previousBeat >= 0 &&
+            this.tabPlayer.noteTracking.expectedNotes[previousBeat] &&
+            !this.tabPlayer.noteTracking.playedNotes[previousBeat]
+          ) {
+            this.tabPlayer.noteTracking.noteStates[previousBeat] = "missed";
+          }
+
+          if (previousBeat >= 0) {
+            this.logBeatProgress(previousBeat);
+          }
+
+          if (
+            newBeat === 0 &&
+            previousBeat === this.tabPlayer.beats.length - 1
+          ) {
+            this.tabPlayer.noteTracking.previousStates = [
+              ...this.tabPlayer.noteTracking.noteStates,
+            ];
+            this.tabPlayer.noteTracking.noteStates = new Array(
+              this.tabPlayer.beats.length
+            ).fill("missed");
+            this.tabPlayer.noteTracking.playedNotes = new Array(
+              this.tabPlayer.beats.length
+            ).fill(null);
+            this.tabPlayer.noteTracking.runCount++;
+          }
+
+          this.tabPlayer.currentBeat = newBeat;
+          this.tabPlayer.noteTracking.lastBeatTime = Date.now();
+          this.updateCurrentNote();
+        }
+
+        const beatProgress = beatPosition - Math.floor(beatPosition);
+        const rawPosition =
+          (this.tabPlayer.currentBeat + beatProgress) *
+          this.tabPlayer.cellWidth;
+        this.tabPlayer.scrollPosition = -(
+          rawPosition % this.tabPlayer.totalWidth
+        );
+
+        this.canvasRenderer.draw();
+
+        if (this.tabPlayer.isPlaying) {
+          this.tabPlayer.animationFrame = requestAnimationFrame((t) =>
+            this.animate(t)
+          );
+        }
+      },
+
+      logBeatProgress(beatIdx) {
+        const expectedNote = this.tabPlayer.noteTracking.expectedNotes[beatIdx];
+        if (!expectedNote) return;
+        const playedNote = this.tabPlayer.noteTracking.playedNotes[beatIdx];
+        const state = this.tabPlayer.noteTracking.noteStates[beatIdx];
+        const runCount = this.tabPlayer.noteTracking.runCount;
+        const bpm = this.tabPlayer.bpm;
+        const beatsTotal = this.tabPlayer.beats.length;
+        const songTitle = "{{ tab_sheet.title|escapejs }}";
+        const songArtist = "{{ tab_sheet.artist|escapejs }}";
+        const timestamp = Date.now();
+        const sessionId = this.tabPlayer.sessionId;
+
+        let timingDistance = null;
+        let timingCategory = null;
+        if (playedNote && state === "correct") {
+          const beatStart =
+            this.tabPlayer.noteTracking.lastBeatTime -
+            this.tabPlayer.beatDuration;
+          const beatMiddle = beatStart + this.tabPlayer.beatDuration / 2;
+          const playedTime = timestamp;
+          timingDistance = playedTime - beatMiddle;
+          const timeFromStart = playedTime - beatStart;
+          const percent = timeFromStart / this.tabPlayer.beatDuration;
+          if (percent < 0.2) timingCategory = "very-early";
+          else if (percent < 0.35) timingCategory = "early";
+          else if (percent < 0.45) timingCategory = "slightly-early";
+          else if (percent < 0.55) timingCategory = "perfect";
+          else if (percent < 0.65) timingCategory = "slightly-late";
+          else if (percent < 0.8) timingCategory = "late";
+          else timingCategory = "very-late";
+        }
+
+        const record = {
+          timestamp,
+          songTitle,
+          songArtist,
+          runCount,
+          beatIdx,
+          beatsTotal,
+          expectedNote,
+          playedNote,
+          state,
+          timingDistance,
+          timingCategory,
+          bpm,
+          sessionId,
+        };
+
+        addUkeProgressRecord(record).catch((e) => {
+          console.error("Failed to log uke progress to IndexedDB", e);
+        });
+      },
+
+      updateCurrentNote() {
+        const beat = this.tabPlayer.beats[this.tabPlayer.currentBeat] || {};
+        let found = false;
+        for (const string of this.tabPlayer.stringOrder) {
+          const val = beat[string];
+          if (val && val !== "-") {
+            const fret = parseInt(val, 10);
+            if (!isNaN(fret) && fret >= 0 && fret < 13) {
+              this.tabPlayer.currentNote = NOTE_MAP[string][fret];
+              this.tabPlayer.currentString = string;
+              this.tabPlayer.currentFret = fret;
+              this.tabPlayer.currentStringLabel = STRING_LABELS[string];
+              found = true;
+              break;
+            }
+          }
+        }
+        if (!found) {
+          this.tabPlayer.currentNote = "";
+          this.tabPlayer.currentString = "";
+          this.tabPlayer.currentFret = "";
+          this.tabPlayer.currentStringLabel = "";
+        }
+      },
+
+      toggleListening() {
+        if (this.audioDetection.isListening) {
+          this.audioDetector.stopListening();
+        } else {
+          this.audioDetector.startListening();
+        }
+        this.audioDetection.isListening = !this.audioDetection.isListening;
+      },
     }));
-});
+  });
 </script>
 
 <style>
-.tab-display-container {
+  .tab-display-container {
     position: relative;
     overflow: hidden;
     margin: 2rem 0;
@@ -838,37 +855,37 @@ document.addEventListener('alpine:init', () => {
     background: #1a1a1a;
     border-radius: 4px;
     height: 200px;
-}
+  }
 
-#tabCanvas {
+  #tabCanvas {
     width: 100%;
     height: 100%;
-}
+  }
 
-.audio-detection-display {
+  .audio-detection-display {
     margin-top: 1rem;
     text-align: center;
-}
+  }
 
-.current-note-display {
+  .current-note-display {
     text-align: center;
     margin-top: 1rem;
     opacity: 0.7;
-}
+  }
 
-.current-note {
+  .current-note {
     font-size: 1.2rem;
     font-weight: 500;
     color: #fff;
-}
+  }
 
-.timing-feedback-wrapper {
+  .timing-feedback-wrapper {
     position: relative;
     height: 2.5rem;
     margin-bottom: 0.5rem;
-}
+  }
 
-.timing-feedback {
+  .timing-feedback {
     position: absolute;
     left: 50%;
     top: 0;
@@ -884,7 +901,7 @@ document.addEventListener('alpine:init', () => {
     z-index: 10;
     text-align: center;
     pointer-events: none;
-    transition: opacity 1.7s cubic-bezier(.4,0,.2,1);
-}
+    transition: opacity 1.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 </style>
-{% endblock %} 
+{% endblock %}

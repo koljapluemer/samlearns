@@ -22,7 +22,6 @@
                     max="300" 
                     x-model="bpm" 
                     step="5"
-                    @input="updateUrl"
                 >
             </div>
             <div class="has-text-centered mt-2">
@@ -59,11 +58,6 @@ document.addEventListener('alpine:init', () => {
             if (bpmParam) {
                 this.bpm = parseInt(bpmParam);
             }
-        },
-        updateUrl() {
-            const url = new URL(window.location);
-            url.searchParams.set('bpm', this.bpm);
-            window.history.replaceState({}, '', url);
         }
     }));
 });

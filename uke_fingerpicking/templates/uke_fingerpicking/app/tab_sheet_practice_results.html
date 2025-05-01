@@ -69,6 +69,33 @@
 {{ tab_sheet_data|json_script:"tab-sheet-data" }}
 
 <script>
+// Constants
+const UKE_DB_NAME = "uke_progress_db";
+const UKE_DB_VERSION = 1;
+const UKE_STORE = "uke_progress";
+
+// IndexedDB helper functions
+function openUkeDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(UKE_DB_NAME, UKE_DB_VERSION);
+        request.onupgradeneeded = function (event) {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains(UKE_STORE)) {
+                db.createObjectStore(UKE_STORE, {
+                    keyPath: "id",
+                    autoIncrement: true,
+                });
+            }
+        };
+        request.onsuccess = function (event) {
+            resolve(event.target.result);
+        };
+        request.onerror = function (event) {
+            reject(event.target.error);
+        };
+    });
+}
+
 document.addEventListener('alpine:init', () => {
     Alpine.data('app', () => ({
         runs: [],
@@ -95,21 +122,62 @@ document.addEventListener('alpine:init', () => {
                 const store = tx.objectStore(UKE_STORE);
                 const tabSheetData = JSON.parse(document.getElementById('tab-sheet-data').textContent);
                 
+                // Get all records
+                const request = store.getAll();
+                const records = await new Promise((resolve, reject) => {
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error);
+                });
+
+                // Filter and group records by run
                 const runs = [];
-                const cursor = await store.openCursor();
-                while (cursor) {
-                    if (cursor.value.tabSheetId === tabSheetData.id && 
-                        cursor.value.sessionId === this.sessionId) {
-                        runs.push(cursor.value);
-                    }
-                    await cursor.continue();
+                let currentRun = null;
+                let currentRunRecords = [];
+
+                records
+                    .filter(record => 
+                        record.songTitle === tabSheetData.title && 
+                        record.sessionId === this.sessionId
+                    )
+                    .sort((a, b) => a.timestamp - b.timestamp)
+                    .forEach(record => {
+                        if (!currentRun || record.runCount !== currentRun.runCount) {
+                            if (currentRun) {
+                                runs.push(this.createRunSummary(currentRunRecords));
+                            }
+                            currentRun = record;
+                            currentRunRecords = [record];
+                        } else {
+                            currentRunRecords.push(record);
+                        }
+                    });
+
+                // Add the last run if there is one
+                if (currentRun) {
+                    runs.push(this.createRunSummary(currentRunRecords));
                 }
-                
-                // Sort runs by timestamp (newest first)
-                this.runs = runs.sort((a, b) => b.timestamp - a.timestamp);
+
+                this.runs = runs;
             } catch (error) {
                 console.error('Failed to load runs:', error);
             }
+        },
+
+        createRunSummary(records) {
+            const totalBeats = records.length;
+            const correct = records.filter(r => r.state === 'correct').length;
+            const incorrect = records.filter(r => r.state === 'incorrect').length;
+            const missed = records.filter(r => r.state === 'missed').length;
+
+            return {
+                timestamp: records[0].timestamp,
+                bpm: records[0].bpm,
+                summary: {
+                    percentCorrect: (correct / totalBeats) * 100,
+                    percentIncorrect: (incorrect / totalBeats) * 100,
+                    percentMissed: (missed / totalBeats) * 100
+                }
+            };
         },
 
         formatDate(timestamp) {
