@@ -107,6 +107,24 @@
             >%</span
           >
         </div>
+        <!-- BPM adjustment feedback -->
+        <div class="bpm-feedback mt-2" x-show="tabPlayer.runSummary.bpmAdjusted">
+          <span :class="{
+            'has-text-success': tabPlayer.runSummary.newBpm > tabPlayer.runSummary.previousBpm,
+            'has-text-danger': tabPlayer.runSummary.newBpm < tabPlayer.runSummary.previousBpm
+          }">
+            <span class="icon">
+              <template x-if="tabPlayer.runSummary.newBpm > tabPlayer.runSummary.previousBpm">
+                {% lucide "arrow-up" size=16 %}
+              </template>
+              <template x-if="tabPlayer.runSummary.newBpm < tabPlayer.runSummary.previousBpm">
+                {% lucide "arrow-down" size=16 %}
+              </template>
+            </span>
+            <span>BPM adjusted to </span>
+            <b x-text="tabPlayer.runSummary.newBpm"></b>
+          </span>
+        </div>
       </div>
     </template>
   </div>
@@ -818,11 +836,77 @@
           (b) => b.state === "incorrect"
         ).length;
         const missed = filtered.filter((b) => b.state === "missed").length;
+
+        // Calculate total mistakes
+        const totalMistakes = incorrect + missed;
+
+        // Store current BPM before adjustment
+        const previousBpm = this.tabPlayer.bpm;
+        let bpmChanged = false;
+
+        // Adjust BPM based on performance
+        if (totalMistakes < 3) {
+          // Increase BPM by 5, but don't exceed 300
+          const newBpm = Math.min(300, this.tabPlayer.bpm + 5);
+          bpmChanged = newBpm !== this.tabPlayer.bpm;
+          this.tabPlayer.bpm = newBpm;
+        } else if (totalMistakes > 3) {
+          // Decrease BPM by 5, but don't go below 40
+          const newBpm = Math.max(40, this.tabPlayer.bpm - 5);
+          bpmChanged = newBpm !== this.tabPlayer.bpm;
+          this.tabPlayer.bpm = newBpm;
+        }
+
         this.tabPlayer.runSummary = {
           percentCorrect: total ? (correct / total) * 100 : 0,
           percentIncorrect: total ? (incorrect / total) * 100 : 0,
           percentMissed: total ? (missed / total) * 100 : 0,
+          bpmAdjusted: totalMistakes !== 3, // Flag to indicate if BPM was adjusted
+          newBpm: this.tabPlayer.bpm,
+          previousBpm: previousBpm
         };
+
+        // If BPM changed, update duration and restart the run
+        if (bpmChanged) {
+          this.updateBeatDuration();
+          this.resetRun();
+        } else {
+          // If BPM didn't change, just reset states as before
+          this.tabPlayer.noteTracking.previousStates = [
+            ...this.tabPlayer.noteTracking.noteStates,
+          ];
+          this.tabPlayer.noteTracking.noteStates = new Array(
+            this.tabPlayer.beats.length
+          ).fill("missed");
+          this.tabPlayer.noteTracking.playedNotes = new Array(
+            this.tabPlayer.beats.length
+          ).fill(null);
+          this.tabPlayer.noteTracking.runCount++;
+        }
+      },
+
+      resetRun() {
+        // Reset animation state
+        this.tabPlayer.startTime = null;
+        this.tabPlayer.currentBeat = 0;
+        this.tabPlayer.scrollPosition = 0;
+
+        // Reset note tracking
+        this.tabPlayer.noteTracking.noteStates = new Array(
+          this.tabPlayer.beats.length
+        ).fill("missed");
+        this.tabPlayer.noteTracking.playedNotes = new Array(
+          this.tabPlayer.beats.length
+        ).fill(null);
+        this.tabPlayer.noteTracking.previousStates = new Array(
+          this.tabPlayer.beats.length
+        ).fill(null);
+        
+        // Update current note display
+        this.updateCurrentNote();
+
+        // Redraw canvas
+        this.canvasRenderer.draw();
       },
 
       logBeatProgress(beatIdx) {
