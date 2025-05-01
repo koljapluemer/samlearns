@@ -144,9 +144,11 @@
       this.tabPlayer = tabPlayer;
       this.cellWidth = 56;
       this.cellHeight = 40;
-      this.stringSpacing = 50;
+      this.stringSpacing = 40;
       this.legendWidth = 40;
+      this.topPadding = 0;
       this.playheadWidth = 2;
+      this.playheadOffset = 50;
       this.colors = {
         background: getComputedStyle(document.documentElement).getPropertyValue('--background').trim(),
         border: getComputedStyle(document.documentElement).getPropertyValue('--border').trim(),
@@ -166,7 +168,7 @@
       window.addEventListener('resize', () => this.resize());
 
       // Set up font
-      this.ctx.font = '16px sans-serif';
+      this.ctx.font = '14px sans-serif';
       this.ctx.textAlign = 'center';
       this.ctx.textBaseline = 'middle';
     }
@@ -189,35 +191,35 @@
       // Draw legend
       this.drawLegend();
 
-      // Draw playhead
-      this.drawPlayhead();
-
       // Draw tab content
       this.drawTabContent();
+
+      // Draw playhead last so it's always on top
+      this.drawPlayhead();
     }
 
     drawLegend() {
       this.ctx.fillStyle = this.colors.text;
       this.ctx.textAlign = 'right';
       this.tabPlayer.stringLabels.forEach((label, index) => {
-        const y = this.legendWidth + index * this.stringSpacing + this.stringSpacing / 2;
+        const y = this.topPadding + index * this.stringSpacing + this.stringSpacing / 2;
         this.ctx.fillText(label, this.legendWidth - 10, y);
       });
       this.ctx.textAlign = 'center';
     }
 
     drawPlayhead() {
-      const x = this.legendWidth + this.playheadWidth / 2;
+      const x = this.legendWidth + this.playheadOffset + this.playheadWidth / 2;
       this.ctx.fillStyle = this.colors.danger;
       this.ctx.fillRect(x, 0, this.playheadWidth, this.canvas.height);
     }
 
     drawTabContent() {
       const scrollX = this.tabPlayer.scrollPosition;
-      const startX = this.legendWidth + this.playheadWidth;
+      const startX = this.legendWidth + this.playheadOffset + this.playheadWidth;
 
       this.tabPlayer.stringOrder.forEach((string, sIndex) => {
-        const y = this.legendWidth + sIndex * this.stringSpacing;
+        const y = this.topPadding + sIndex * this.stringSpacing;
         
         this.tabPlayer.beats.forEach((beat, bIndex) => {
           const x = startX + bIndex * this.cellWidth + scrollX;
@@ -257,13 +259,13 @@
             }
           }
 
-          // Draw cell
+          // Draw cell with reduced height
           this.ctx.fillStyle = bgColor;
-          this.ctx.fillRect(x, y, this.cellWidth, this.stringSpacing);
+          this.ctx.fillRect(x, y, this.cellWidth, this.stringSpacing - 10);
           
           // Draw text
           this.ctx.fillStyle = textColor;
-          this.ctx.fillText(value, x + this.cellWidth / 2, y + this.stringSpacing / 2);
+          this.ctx.fillText(value, x + this.cellWidth / 2, y + (this.stringSpacing - 10) / 2);
         });
       });
     }
@@ -905,7 +907,7 @@
     padding: 1rem;
     background: var(--background);
     border-radius: 4px;
-    height: 250px;
+    height: 200px;
   }
 
   #tabCanvas {
