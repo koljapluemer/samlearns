@@ -62,7 +62,7 @@
     <span x-text="tabPlayer.isPlaying ? 'Pause' : 'Start'"></span>
   </button>
 
-  
+
   <!-- Canvas-based tab visualization -->
   <div class="tab-display-container">
     <canvas id="tabCanvas"></canvas>
@@ -78,19 +78,19 @@
       @click="endPractice"
     >
       <span class="icon"> {% lucide "chart-column" size=20 %} </span>
-      <span>View Results</span>
+      <span>End Session & View Results</span>
     </a>
   </div>
 
-  <span
+  <!-- <span
     class="current-note"
     x-text="audioDetection.detectedNote"
     x-show="audioDetection.detectedNote"
   ></span>
   <div class="current-note-display" x-show="tabPlayer.currentNote">
     <span class="current-note" x-text="tabPlayer.currentNote"></span>
-  </div>
-</div>
+  </div> -->
+<!-- </div> -->
 {% endblock %} {% block extra_js %} 
 {{ beats_json|json_script:"beats-data" }} 
 {{ tab_sheet_data|json_script:"tab-sheet-data" }}

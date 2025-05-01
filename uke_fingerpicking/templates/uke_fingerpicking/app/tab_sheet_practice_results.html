@@ -8,17 +8,6 @@
             <h1 class="title">{{ tab_sheet.title }}</h1>
             <h2 class="subtitle">{{ tab_sheet.artist }}</h2>
         </div>
-        <div class="level-right">
-            <a 
-                :href="`{% url 'uke_fingerpicking:tab_sheet_practice_active' tab_sheet.pk %}?bpm=${bpm}`"
-                class="button is-primary"
-            >
-                <span class="icon">
-                    {% lucide "play" size=20 %}
-                </span>
-                <span>Practice Again</span>
-            </a>
-        </div>
     </div>
 
     <div class="box">
@@ -61,6 +50,27 @@
         <div class="has-text-centered" x-show="runs.length === 0">
             <p class="is-size-5">No runs recorded in this session.</p>
         </div>
+    </div>
+
+    <div class="buttons is-centered mt-6">
+        <a 
+            :href="`{% url 'uke_fingerpicking:tab_sheet_practice_active' tab_sheet.pk %}?bpm=${bpm}`"
+            class="button is-primary is-large"
+        >
+            <span class="icon">
+                {% lucide "play" size=20 %}
+            </span>
+            <span>Practice Again</span>
+        </a>
+        <a 
+            :href="`{% url 'uke_fingerpicking:tab_sheet_practice' tab_sheet.pk %}?bpm=${bpm}`"
+            class="button is-info is-large"
+        >
+            <span class="icon">
+                {% lucide "settings" size=20 %}
+            </span>
+            <span>Adapt BPM</span>
+        </a>
     </div>
 </div>
 {% endblock %}
