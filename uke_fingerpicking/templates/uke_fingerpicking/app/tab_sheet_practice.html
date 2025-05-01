@@ -149,6 +149,8 @@
       this.topPadding = 0;
       this.playheadWidth = 2;
       this.playheadOffset = 50;
+      this.notchHeight = 5; // Height of timing notch
+      this.notchWidth = 2; // Width of timing notch
       this.colors = {
         background: getComputedStyle(document.documentElement).getPropertyValue('--background').trim(),
         border: getComputedStyle(document.documentElement).getPropertyValue('--border').trim(),
@@ -266,8 +268,22 @@
           // Draw text
           this.ctx.fillStyle = textColor;
           this.ctx.fillText(value, x + this.cellWidth / 2, y + (this.stringSpacing - 10) / 2);
+
+          // Draw timing notch at the top of this specific cell
+          this.drawTimingNotch(x + this.cellWidth / 2, y);
         });
       });
+    }
+
+    drawTimingNotch(x, y) {
+      // Draw a small rectangle at the top of the cell
+      this.ctx.fillStyle = this.colors.text;
+      this.ctx.fillRect(
+        x - this.notchWidth / 2,
+        y,  // Start at the cell's top
+        this.notchWidth,
+        this.notchHeight
+      );
     }
   }
 
