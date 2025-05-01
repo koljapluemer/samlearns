@@ -67,46 +67,9 @@
     </div>
   </div>
 
+  <!-- Canvas-based tab visualization -->
   <div class="tab-display-container">
-    <div class="tab-display-wrapper">
-      <!-- Fixed legend and playhead -->
-      <div class="tab-legend">
-        <template x-for="(label, index) in tabPlayer.stringLabels" :key="index">
-          <div class="string-label" x-text="label"></div>
-        </template>
-      </div>
-      <div class="playhead"></div>
-
-      <!-- Scrolling content -->
-      <div
-        class="tab-content"
-        :style="`transform: translateX(${tabPlayer.scrollPosition}px)`"
-      >
-        <template
-          x-for="(string, sIndex) in tabPlayer.stringOrder"
-          :key="sIndex"
-        >
-          <div class="tab-line">
-            <template x-for="(beat, bIndex) in tabPlayer.beats" :key="bIndex">
-              <div
-                class="tab-cell"
-                :class="{
-                                     'is-empty': !beat[string] || beat[string] === '-',
-                                     'is-active': tabPlayer.isPlaying && bIndex === tabPlayer.currentBeat,
-                                     'is-correct': tabPlayer.noteTracking.noteStates[bIndex] === 'correct',
-                                     'is-incorrect': tabPlayer.noteTracking.noteStates[bIndex] === 'incorrect',
-                                     'is-missed': bIndex < tabPlayer.currentBeat && tabPlayer.noteTracking.noteStates[bIndex] === 'missed',
-                                     'is-previous-correct': tabPlayer.noteTracking.previousStates[bIndex] === 'correct' && !tabPlayer.noteTracking.playedNotes[bIndex],
-                                     'is-previous-incorrect': tabPlayer.noteTracking.previousStates[bIndex] === 'incorrect' && !tabPlayer.noteTracking.playedNotes[bIndex],
-                                     'is-previous-missed': tabPlayer.noteTracking.previousStates[bIndex] === 'missed' && !tabPlayer.noteTracking.playedNotes[bIndex]
-                                 }"
-                x-text="beat[string] || '-'"
-              ></div>
-            </template>
-          </div>
-        </template>
-      </div>
-    </div>
+    <canvas id="tabCanvas"></canvas>
   </div>
 
   <!-- Feedback summary below main viz -->
@@ -173,6 +136,139 @@
 </div>
 {% endblock %} {% block extra_js %}
 <script>
+  // Canvas Renderer for Tab Visualization
+  class CanvasRenderer {
+    constructor(canvas, tabPlayer) {
+      this.canvas = canvas;
+      this.ctx = canvas.getContext('2d');
+      this.tabPlayer = tabPlayer;
+      this.cellWidth = 56;
+      this.cellHeight = 40;
+      this.stringSpacing = 50;
+      this.legendWidth = 40;
+      this.playheadWidth = 2;
+      this.colors = {
+        background: getComputedStyle(document.documentElement).getPropertyValue('--background').trim(),
+        border: getComputedStyle(document.documentElement).getPropertyValue('--border').trim(),
+        cellBackground: getComputedStyle(document.documentElement).getPropertyValue('--cell-background').trim(),
+        cellActive: getComputedStyle(document.documentElement).getPropertyValue('--cell-active').trim(),
+        text: getComputedStyle(document.documentElement).getPropertyValue('--text').trim(),
+        success: getComputedStyle(document.documentElement).getPropertyValue('--success').trim(),
+        successWashed: getComputedStyle(document.documentElement).getPropertyValue('--success-washed').trim(),
+        danger: getComputedStyle(document.documentElement).getPropertyValue('--danger').trim(),
+        dangerWashed: getComputedStyle(document.documentElement).getPropertyValue('--danger-washed').trim(),
+        warning: getComputedStyle(document.documentElement).getPropertyValue('--warning').trim(),
+        warningWashed: getComputedStyle(document.documentElement).getPropertyValue('--warning-washed').trim(),
+      };
+
+      // Set up canvas size
+      this.resize();
+      window.addEventListener('resize', () => this.resize());
+
+      // Set up font
+      this.ctx.font = '16px sans-serif';
+      this.ctx.textAlign = 'center';
+      this.ctx.textBaseline = 'middle';
+    }
+
+    resize() {
+      const container = this.canvas.parentElement;
+      const dpr = window.devicePixelRatio || 1;
+      this.canvas.width = container.clientWidth * dpr;
+      this.canvas.height = container.clientHeight * dpr;
+      this.canvas.style.width = `${container.clientWidth}px`;
+      this.canvas.style.height = `${container.clientHeight}px`;
+      this.ctx.scale(dpr, dpr);
+    }
+
+    draw() {
+      // Clear canvas
+      this.ctx.fillStyle = this.colors.background;
+      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+      // Draw legend
+      this.drawLegend();
+
+      // Draw playhead
+      this.drawPlayhead();
+
+      // Draw tab content
+      this.drawTabContent();
+    }
+
+    drawLegend() {
+      this.ctx.fillStyle = this.colors.text;
+      this.ctx.textAlign = 'right';
+      this.tabPlayer.stringLabels.forEach((label, index) => {
+        const y = this.legendWidth + index * this.stringSpacing + this.stringSpacing / 2;
+        this.ctx.fillText(label, this.legendWidth - 10, y);
+      });
+      this.ctx.textAlign = 'center';
+    }
+
+    drawPlayhead() {
+      const x = this.legendWidth + this.playheadWidth / 2;
+      this.ctx.fillStyle = this.colors.danger;
+      this.ctx.fillRect(x, 0, this.playheadWidth, this.canvas.height);
+    }
+
+    drawTabContent() {
+      const scrollX = this.tabPlayer.scrollPosition;
+      const startX = this.legendWidth + this.playheadWidth;
+
+      this.tabPlayer.stringOrder.forEach((string, sIndex) => {
+        const y = this.legendWidth + sIndex * this.stringSpacing;
+        
+        this.tabPlayer.beats.forEach((beat, bIndex) => {
+          const x = startX + bIndex * this.cellWidth + scrollX;
+          const value = beat[string] || '-';
+          
+          if (value === '-') return; // Skip empty cells
+
+          // Determine cell state and color
+          let bgColor = this.colors.cellBackground;
+          let textColor = this.colors.text;
+
+          if (this.tabPlayer.isPlaying && bIndex === this.tabPlayer.currentBeat) {
+            bgColor = this.colors.cellActive;
+          } else {
+            const state = this.tabPlayer.noteTracking.noteStates[bIndex];
+            const prevState = this.tabPlayer.noteTracking.previousStates[bIndex];
+            const played = this.tabPlayer.noteTracking.playedNotes[bIndex];
+
+            if (state === 'correct') {
+              bgColor = this.colors.success;
+              textColor = this.colors.text;
+            } else if (state === 'incorrect') {
+              bgColor = this.colors.danger;
+              textColor = this.colors.text;
+            } else if (state === 'missed' && bIndex < this.tabPlayer.currentBeat) {
+              bgColor = this.colors.warning;
+              textColor = this.colors.text;
+            } else if (prevState === 'correct' && !played) {
+              bgColor = this.colors.successWashed;
+              textColor = this.colors.text;
+            } else if (prevState === 'incorrect' && !played) {
+              bgColor = this.colors.dangerWashed;
+              textColor = this.colors.text;
+            } else if (prevState === 'missed' && !played) {
+              bgColor = this.colors.warningWashed;
+              textColor = this.colors.text;
+            }
+          }
+
+          // Draw cell
+          this.ctx.fillStyle = bgColor;
+          this.ctx.fillRect(x, y, this.cellWidth, this.stringSpacing);
+          
+          // Draw text
+          this.ctx.fillStyle = textColor;
+          this.ctx.fillText(value, x + this.cellWidth / 2, y + this.stringSpacing / 2);
+        });
+      });
+    }
+  }
+
   // Audio Detection
   class AudioDetector {
     constructor() {
@@ -443,9 +539,19 @@
       // Audio Detector Instance
       audioDetector: null,
 
+      // Canvas Renderer Instance
+      canvasRenderer: null,
+
       init() {
         this.initTabPlayer();
         this.initAudioDetection();
+        this.initCanvas();
+      },
+
+      initCanvas() {
+        const canvas = document.getElementById('tabCanvas');
+        this.canvasRenderer = new CanvasRenderer(canvas, this.tabPlayer);
+        this.canvasRenderer.draw();
       },
 
       initTabPlayer() {
@@ -671,6 +777,9 @@
           rawPosition % this.tabPlayer.totalWidth
         );
 
+        // Draw the canvas
+        this.canvasRenderer.draw();
+
         if (this.tabPlayer.isPlaying) {
           this.tabPlayer.animationFrame = requestAnimationFrame((t) =>
             this.animate(t)
@@ -796,107 +905,12 @@
     padding: 1rem;
     background: var(--background);
     border-radius: 4px;
+    height: 250px;
   }
 
-  .tab-display-wrapper {
-    position: relative;
-    display: flex;
-    overflow: hidden;
-  }
-
-  .tab-legend {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding-right: 0.5rem;
-    border-right: 1px solid var(--border);
-    z-index: 2;
-  }
-
-  .string-label {
-    text-align: right;
-    padding: 0.5rem;
-    font-weight: bold;
-    color: var(--text);
-  }
-
-  .playhead {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 3.5rem;
-    width: 2px;
-    background-color: var(--danger);
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  .tab-content {
-    margin-left: 4rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    will-change: transform;
-    transition: transform 0.05s linear;
-  }
-
-  .tab-line {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .tab-cell {
-    flex: 0 0 3rem;
-    height: 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--cell-background);
-    border-radius: 4px;
-    transition: background-color 0.1s linear;
-  }
-
-  .tab-cell.is-empty {
-    visibility: hidden;
-  }
-
-  .tab-cell.is-active {
-    background: var(--cell-active);
-  }
-
-  .tab-cell.is-correct {
-    background: var(--success);
-    color: var(--success-invert);
-  }
-
-  .tab-cell.is-incorrect {
-    background: var(--danger);
-    color: var(--danger-invert);
-  }
-
-  .tab-cell.is-missed {
-    background: var(--warning);
-    color: var(--warning-invert);
-  }
-
-  .tab-cell.is-previous-correct {
-    background: var(--success-washed);
-    color: var(--success-invert);
-  }
-
-  .tab-cell.is-previous-incorrect {
-    background: var(--danger-washed);
-    color: var(--danger-invert);
-  }
-
-  .tab-cell.is-previous-missed {
-    background: var(--warning-washed);
-    color: var(--warning-invert);
+  #tabCanvas {
+    width: 100%;
+    height: 100%;
   }
 
   /* Dark mode support */
