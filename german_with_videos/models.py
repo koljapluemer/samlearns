@@ -99,3 +99,14 @@ class Meaning(models.Model):
 
     def __str__(self):
         return f"{self.word.original_word} - {self.meaning}"
+    
+
+class WordLearningEvent(models.Model):
+    anon_id = models.CharField(max_length=100)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    original_word_string = models.CharField(max_length=100)
+    selected_button = models.CharField(max_length=100)
+    snippet_identifier = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.original_word_string} - {self.selected_button}"

@@ -2,6 +2,7 @@
 {% load lucide %}
 
 {% block german_with_videos_content %}
+    {% csrf_token %}
     <div class="container is-max-widescreen">
         <div class="columns is-centered">
             <div class="column">
@@ -102,52 +103,31 @@
                 currentIndex: 0,
                 showMeanings: false,
                 snippetData: null,
-                db: null,
+                learningEvents: [],
+                anonId: null,
                 
                 async init(wordsData, snippetData) {
                     this.words = wordsData;
                     this.snippetData = snippetData;
-                    await this.initDB();
+                    this.anonId = this.getOrCreateAnonId();
                 },
 
-                async initDB() {
-                    return new Promise((resolve, reject) => {
-                        const request = indexedDB.open('GermanWithVideosLearningDB', 1);
-                        
-                        request.onerror = () => {
-                            console.error('Error opening database');
-                            reject(request.error);
-                        };
-                        
-                        request.onsuccess = () => {
-                            this.db = request.result;
-                            resolve();
-                        };
-                        
-                        request.onupgradeneeded = (event) => {
-                            const db = event.target.result;
-                            if (!db.objectStoreNames.contains('flashcardInteractions')) {
-                                const store = db.createObjectStore('flashcardInteractions', { keyPath: 'id', autoIncrement: true });
-                                store.createIndex('timestamp', 'timestamp', { unique: false });
-                                store.createIndex('word', 'word', { unique: false });
-                            }
-                        };
-                    });
+                getOrCreateAnonId() {
+                    let anonId = localStorage.getItem('german_with_videos_anon_id');
+                    if (!anonId) {
+                        anonId = crypto.randomUUID();
+                        localStorage.setItem('german_with_videos_anon_id', anonId);
+                    }
+                    return anonId;
                 },
 
                 async logInteraction(word, action) {
-                    if (!this.db) return;
-                    
-                    const transaction = this.db.transaction(['flashcardInteractions'], 'readwrite');
-                    const store = transaction.objectStore('flashcardInteractions');
-                    
-                    const interaction = {
-                        timestamp: new Date().toISOString(),
-                        word: word,
-                        action: action
-                    };
-                    
-                    await store.add(interaction);
+                    this.learningEvents.push({
+                        anon_id: this.anonId,
+                        original_word_string: word,
+                        selected_button: action,
+                        snippet_identifier: `${this.snippetData.video.youtube_id}_${this.snippetData.index}`
+                    });
                 },
                 
                 get currentWord() {
@@ -163,6 +143,37 @@
                     await this.logInteraction(this.currentWord.original_word, 'next');
                     this.showMeanings = false;
                     this.currentIndex++;
+                    
+                    if (!this.currentWord) {
+                        await this.saveLearningEvents();
+                    }
+                },
+
+                async saveLearningEvents() {
+                    if (this.learningEvents.length === 0) return;
+                    
+                    try {
+                        const response = await fetch("{% url 'german_with_videos:log_learning_events' %}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                            },
+                            credentials: 'same-origin',
+                            body: JSON.stringify({
+                                events: this.learningEvents
+                            })
+                        });
+                        
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            throw new Error(`Failed to save learning events: ${response.status} ${response.statusText} - ${JSON.stringify(errorData)}`);
+                        }
+                        
+                        this.learningEvents = [];
+                    } catch (error) {
+                        console.error('Error saving learning events:', error);
+                    }
                 }
             }))
         })

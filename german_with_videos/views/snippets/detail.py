@@ -59,7 +59,11 @@ class SnippetDetailView(DetailView):
             'youtube_id': self.object.video.youtube_id,
             'start_time': self.object.start_time,
             'end_time': self.object.end_time,
-            'next_snippet_url': next_snippet.get_absolute_url(mode='practice') if next_snippet else None
+            'next_snippet_url': next_snippet.get_absolute_url(mode='practice') if next_snippet else None,
+            'video': {
+                'youtube_id': self.object.video.youtube_id
+            },
+            'index': self.object.index
         })
         
         return context 

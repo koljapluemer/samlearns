@@ -8,6 +8,7 @@ django-storages==1.14.6
 boto3==1.38.5
 django-environ==0.11.2
 
+djangorestframework==3.16.0
 # lang learning videos
 youtube-transcript-api==1.0.3
 openai==1.76.0
