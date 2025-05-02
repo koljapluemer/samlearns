@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
 from googleapiclient.discovery import build
-from withvideos.models import Video, VideoStatus, Snippet, Word, Meaning, Language, Tag, TagType
+from german_with_videos.models import Video, VideoStatus, Snippet, Word, Meaning, Tag, TagType
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_http_methods
 from django.core.paginator import Paginator
@@ -27,24 +27,15 @@ class WordEntry(BaseModel):
 class WordEntryResponse(BaseModel):
     words: list[WordEntry]
 
-def get_words_with_translations(text: str, language: Language) -> list:
-    """Get words and translations for a given text based on the language"""
-    if language.subtitle_prefix and language.subtitle_prefix.startswith('ar'):
-        prompt = (
-            "You are an expert in Spoken, Egyptian Arabic. "
-            "Extract language learning vocabulary from the following natural language transcript, ignoring proper nouns like restaurant names, "
-            "exclamations such as 'oh', and other non-translatable words. For each extracted word, provide an English translation suitable to learn the word on its own."
-            "Retain correct capitalization and spelling. If a word appears in a declined, conjugated, or plural form, "
-            "add both the occurring and base form as separate entries (e.g. for 'أشجار' and 'شجرة', or 'بناكل' and 'كل'), both including the translation. Return your answer as a structured list of vocab."
-        )
-    else:  # German
-        prompt = (
-            "You are an expert in German. "
-            "Extract language learning vocabulary from the following text, ignoring proper nouns like restaurant names, "
-            "exclamations such as 'oh', and other non-translatable words. For each extracted word, provide an English translation suitable to learn the word on its own."
-            "Retain correct capitalization and spelling. If a word appears in a declined, conjugated, or plural form, "
-            "add both the occurring and base form as separate entries (e.g. for 'Bäume' and 'Baum', or 'Sie lief' and 'laufen'), both including the translation. Return your answer as a structured list of vocab."
-        )
+def get_words_with_translations(text: str) -> list:
+    """Get words and translations for a given text"""
+    prompt = (
+        "You are an expert in German. "
+        "Extract language learning vocabulary from the following text, ignoring proper nouns like restaurant names, "
+        "exclamations such as 'oh', and other non-translatable words. For each extracted word, provide an English translation suitable to learn the word on its own."
+        "Retain correct capitalization and spelling. If a word appears in a declined, conjugated, or plural form, "
+        "add both the occurring and base form as separate entries (e.g. for 'Bäume' and 'Baum', or 'Sie lief' and 'laufen'), both including the translation. Return your answer as a structured list of vocab."
+    )
     try:
         response = client.beta.chat.completions.parse(
             model="gpt-4o-mini",
@@ -66,7 +57,7 @@ def set_frontend(request):
     language_code = request.POST.get('frontend')
     if language_code in [lang.code for lang in Language.objects.all()]:
         request.session['language_code'] = language_code
-    return redirect(request.POST.get('next', 'withvideos:cms:cms_home'))
+    return redirect(request.POST.get('next', 'cms:german_with_videos:cms_home'))
 
 def get_current_language(request):
     """Get the current language from session or default to German"""
@@ -75,30 +66,14 @@ def get_current_language(request):
 @staff_member_required
 @never_cache
 def cms_home(request):
-    """Home view for the CMS"""
-    # Get video statistics for each language
-    languages = Language.objects.all()
-    stats = {}
-    
-    for language in languages:
-        stats[language.code] = {
-            'total_videos': Video.objects.filter(language=language).count(),
-            'needs_review': Video.objects.filter(language=language, status=VideoStatus.NEEDS_REVIEW).count(),
-            'shortlisted': Video.objects.filter(language=language, status=VideoStatus.SHORTLISTED).count(),
-            'longlisted': Video.objects.filter(language=language, status=VideoStatus.LONGLISTED).count(),
-            'not_relevant': Video.objects.filter(language=language, status=VideoStatus.NOT_RELEVANT).count(),
-            'snippets_generated': Video.objects.filter(language=language, status=VideoStatus.SNIPPETS_GENERATED).count(),
-            'snippets_and_translations_generated': Video.objects.filter(language=language, status=VideoStatus.SNIPPETS_AND_TRANSLATIONS_GENERATED).count(),
-            'live': Video.objects.filter(language=language, status=VideoStatus.LIVE).count(),
-            'blacklisted': Video.objects.filter(language=language, status=VideoStatus.BLACKLISTED).count(),
-        }
+    """CMS home page showing overview of video statuses"""
+    status_counts = Video.objects.values('status').annotate(count=models.Count('id'))
+    status_data = {item['status']: item['count'] for item in status_counts}
     
     context = {
-        'stats': stats,
-        'languages': languages
+        'status_data': status_data,
     }
-    
-    return render(request, 'withvideos/cms/cms_home.html', context)
+    return render(request, 'cms/german_with_videos/home.html', context)
 
 @staff_member_required
 def import_channel_videos(request):
@@ -128,7 +103,7 @@ def import_channel_videos(request):
                 
                 if not channel_response.get('items'):
                     context['error'] = f"Channel '@{username}' not found. Please check the username and try again."
-                    return render(request, 'withvideos/cms/import_channel_videos.html', context)
+                    return render(request, 'cms/german_with_videos/import_channel_videos.html', context)
                     
                 channel_id = channel_response['items'][0]['id']['channelId']
                 
@@ -140,7 +115,7 @@ def import_channel_videos(request):
                 
                 if not channel_response.get('items'):
                     context['error'] = f"Channel '@{username}' not found. Please check the username and try again."
-                    return render(request, 'withvideos/cms/import_channel_videos.html', context)
+                    return render(request, 'cms/german_with_videos/import_channel_videos.html', context)
                     
                 uploads_playlist_id = channel_response['items'][0]['contentDetails']['relatedPlaylists']['uploads']
                 
@@ -234,52 +209,29 @@ def import_channel_videos(request):
                 
                 context['error'] = f"An error occurred while importing videos. Details: {error_details}"
         
-        return render(request, 'withvideos/cms/import_channel_videos.html', context)
+        return render(request, 'cms/german_with_videos/import_channel_videos.html', context)
     
     context = {
         'languages': Language.objects.all()
     }
-    return render(request, 'withvideos/cms/import_channel_videos.html', context)
+    return render(request, 'cms/german_with_videos/import_channel_videos.html', context)
 
 @staff_member_required
 @never_cache
 def review_videos(request):
-    """View to review videos that need review"""
-    language_code = request.GET.get('language', 'de')  # Default to German
-    try:
-        language = Language.objects.get(code=language_code)
-    except Language.DoesNotExist:
-        messages.error(request, f"Language with code {language_code} not found.")
-        return redirect('withvideos:cms:cms_home')
+    """Review videos that need attention"""
+    videos = Video.objects.filter(
+        status=VideoStatus.NEEDS_REVIEW
+    ).order_by('-priority', '-added_at')
     
-    # Get first 50 videos that need review, ordered by priority (descending) and youtube_id
-    videos = Video.objects.filter(language=language, status=VideoStatus.NEEDS_REVIEW).order_by('-priority', 'youtube_id')[:50]
-    
-    # Process each video to get available languages
-    for video in videos:
-        # Skip if already checked
-        if video.checked_for_relevant_subtitles:
-            continue
-            
-        try:
-            # Get available languages using youtube_transcript_api
-            available_languages = YouTubeTranscriptApi.list_transcripts(video.youtube_id)
-            video.available_subtitle_languages = [lang.language_code for lang in available_languages]
-            video.checked_for_relevant_subtitles = True
-            video.save()
-        except Exception as e:
-            # If no transcripts available, set empty list
-            video.available_subtitle_languages = []
-            video.checked_for_relevant_subtitles = True  # Mark as checked even if there was an error
-            video.save()
+    paginator = Paginator(videos, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     
     context = {
-        'videos': videos,
-        'language': language,
-        'languages': Language.objects.all()
+        'videos': page_obj,
     }
-    
-    return render(request, 'withvideos/cms/review_videos.html', context)
+    return render(request, 'cms/german_with_videos/review.html', context)
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -298,7 +250,7 @@ def update_video_statuses(request):
                 video.status = bulk_status
                 video.save()
             messages.success(request, f"Successfully updated status for all videos to {bulk_status}.")
-            return redirect('withvideos:cms:review_videos')
+            return redirect('cms:german_with_videos:review_videos')
         
         # Process individual video statuses
         for key, value in post_data.items():
@@ -318,7 +270,7 @@ def update_video_statuses(request):
                 except Video.DoesNotExist:
                     continue
         
-        return redirect('withvideos:cms:review_videos')
+        return redirect('cms:german_with_videos:review_videos')
         
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
@@ -326,40 +278,23 @@ def update_video_statuses(request):
 @staff_member_required
 @never_cache
 def list_all_videos(request):
-    """View to list all videos with their status"""
-    language_code = get_current_language(request)
-    # Get page number and status filter from request
-    page_number = request.GET.get('page', 1)
-    status_filter = request.GET.get('status', '')
-    comment_filter = request.GET.get('comment', '')
+    """List all videos with filtering options"""
+    videos = Video.objects.all().order_by('-added_at')
     
-    # Get all videos ordered by status and youtube_id
-    videos = Video.objects.filter(language__code=language_code)
+    # Filter by status if provided
+    status = request.GET.get('status')
+    if status:
+        videos = videos.filter(status=status)
     
-    # Apply status filter if provided
-    if status_filter:
-        videos = videos.filter(status=status_filter)
-    
-    # Apply comment filter if provided
-    if comment_filter:
-        videos = videos.filter(comment__icontains=comment_filter)
-    
-    videos = videos.order_by('status', 'youtube_id')
-    
-    # Paginate the videos
     paginator = Paginator(videos, 20)
+    page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
     context = {
         'videos': page_obj,
-        'page_obj': page_obj,
-        'status_filter': status_filter,
-        'comment_filter': comment_filter,
         'status_choices': VideoStatus.choices,
-        'language_code': language_code
     }
-    
-    return render(request, 'withvideos/cms/list_all_videos.html', context)
+    return render(request, 'cms/german_with_videos/list.html', context)
 
 @staff_member_required
 @cache_page(60 * 15)  # Cache for 15 minutes
@@ -397,9 +332,9 @@ def video_details(request, youtube_id):
             'video_status_choices': VideoStatus.choices
         }
         
-        return render(request, 'withvideos/cms/video_details.html', context)
+        return render(request, 'cms/german_with_videos/video_details.html', context)
     except Video.DoesNotExist:
-        return render(request, 'withvideos/cms/404.html', {'message': 'Video not found'}, status=404)
+        return render(request, 'cms/german_with_videos/404.html', {'message': 'Video not found'}, status=404)
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -422,7 +357,7 @@ def generate_snippets(request, youtube_id):
                 video.available_subtitle_languages = []
                 video.save()
                 messages.error(request, f"Error fetching available languages: {str(e)}")
-                return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
+                return redirect('cms:german_with_videos:video_details', youtube_id=youtube_id)
         
         # Try to get the transcript in the target language (prefer manual over auto-generated)
         target_transcripts = []
@@ -440,7 +375,7 @@ def generate_snippets(request, youtube_id):
                 if not target_transcripts:
                     print(f"No matching transcripts found for language {video.language.code}")
                     messages.error(request, f"No matching subtitles available for this video.")
-                    return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
+                    return redirect('cms:german_with_videos:video_details', youtube_id=youtube_id)
                 
                 # Prefer manual transcripts over auto-generated ones
                 manual_transcript = next((t for t in target_transcripts if not t.is_generated), None)
@@ -486,7 +421,7 @@ def generate_snippets(request, youtube_id):
         print(f"Unexpected error: {str(e)}")
         messages.error(request, f"An unexpected error occurred: {str(e)}")
     
-    return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
+    return redirect('cms:german_with_videos:video_details', youtube_id=youtube_id)
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -497,7 +432,7 @@ def generate_translations(request, youtube_id):
         
         if not video.snippets.exists():
             messages.error(request, "No snippets available. Please generate snippets first.")
-            return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
+            return redirect('cms:german_with_videos:video_details', youtube_id=youtube_id)
         
         # Delete existing words and meanings
         Word.objects.filter(videos=video).delete()
@@ -505,7 +440,7 @@ def generate_translations(request, youtube_id):
         # Process each snippet
         for snippet in video.snippets.all():
             # Get words and translations for this snippet
-            words_with_translations = get_words_with_translations(snippet.content, video.language)
+            words_with_translations = get_words_with_translations(snippet.content)
             
             # Process each word
             for word_entry in words_with_translations:
@@ -537,7 +472,7 @@ def generate_translations(request, youtube_id):
     except Exception as e:
         messages.error(request, f"Error generating translations: {str(e)}")
     
-    return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
+    return redirect('cms:german_with_videos:video_details', youtube_id=youtube_id)
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -548,7 +483,7 @@ def publish_video(request, youtube_id):
         
         if video.status != VideoStatus.SNIPPETS_AND_TRANSLATIONS_GENERATED:
             messages.error(request, "Video must have snippets and translations generated before publishing.")
-            return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
+            return redirect('cms:german_with_videos:video_details', youtube_id=youtube_id)
         
         video.status = VideoStatus.LIVE
         video.save()
@@ -560,7 +495,7 @@ def publish_video(request, youtube_id):
     except Exception as e:
         messages.error(request, f"Error publishing video: {str(e)}")
     
-    return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
+    return redirect('cms:german_with_videos:video_details', youtube_id=youtube_id)
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -573,7 +508,7 @@ def reset_snippets(request, youtube_id):
                               VideoStatus.SNIPPETS_AND_TRANSLATIONS_GENERATED, 
                               VideoStatus.LIVE]:
             messages.error(request, "Video must have snippets generated to reset them.")
-            return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
+            return redirect('cms:german_with_videos:video_details', youtube_id=youtube_id)
         
         # Delete snippets (this will cascade delete words and meanings)
         video.snippets.all().delete()
@@ -589,7 +524,7 @@ def reset_snippets(request, youtube_id):
     except Exception as e:
         messages.error(request, f"Error resetting snippets: {str(e)}")
     
-    return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
+    return redirect('cms:german_with_videos:video_details', youtube_id=youtube_id)
 
 def extract_youtube_id(url):
     """Extract YouTube video ID from various URL formats."""
@@ -657,7 +592,7 @@ def mark_videos_without_arabic_subtitles(request):
         language_code = request.POST.get('language_code')
         if not language_code:
             messages.error(request, "Language code is required.")
-            return redirect('withvideos:cms:list_all_videos')
+            return redirect('cms:german_with_videos:list_all_videos')
             
         language = Language.objects.get(code=language_code)
         
@@ -689,7 +624,7 @@ def mark_videos_without_arabic_subtitles(request):
     except Exception as e:
         messages.error(request, f"Error marking videos: {str(e)}")
     
-    return redirect('withvideos:cms:list_all_videos')
+    return redirect('cms:german_with_videos:list_all_videos')
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -698,7 +633,7 @@ def generate_snippets_for_all_shortlisted(request):
     language_code = request.POST.get('language_code')
     if not language_code:
         messages.error(request, "Language code is required.")
-        return redirect('withvideos:cms:list_all_videos')
+        return redirect('cms:german_with_videos:list_all_videos')
         
     try:
         language = Language.objects.get(code=language_code)
@@ -780,7 +715,7 @@ def generate_snippets_for_all_shortlisted(request):
     except Exception as e:
         messages.error(request, f"Error processing videos: {str(e)}")
     
-    return redirect('withvideos:cms:list_all_videos')
+    return redirect('cms:german_with_videos:list_all_videos')
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -812,7 +747,7 @@ def generate_translations_for_all_snippets(request):
                 total_words = 0
                 for snippet in video.snippets.all():
                     # Get words and translations for this snippet
-                    words_with_translations = get_words_with_translations(snippet.content, video.language)
+                    words_with_translations = get_words_with_translations(snippet.content)
                     total_words += len(words_with_translations)
                     
                     # Process each word
@@ -853,7 +788,7 @@ def generate_translations_for_all_snippets(request):
     except Exception as e:
         messages.error(request, f"Error processing videos: {str(e)}")
     
-    return redirect('withvideos:cms:list_all_videos')
+    return redirect('cms:german_with_videos:list_all_videos')
 
 @staff_member_required
 def actions(request):
@@ -869,7 +804,7 @@ def actions(request):
         'unchecked_count': unchecked_count,
         'language_code': language_code
     }
-    return render(request, 'withvideos/cms/actions.html', context)
+    return render(request, 'cms/german_with_videos/actions.html', context)
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -909,7 +844,7 @@ def bulk_check_subtitles(request):
     except Exception as e:
         messages.error(request, f"Error checking subtitles: {str(e)}")
     
-    return redirect('withvideos:cms:actions')
+    return redirect('cms:german_with_videos:actions')
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -925,7 +860,7 @@ def blacklist_video(request, youtube_id):
     except Exception as e:
         messages.error(request, f"Error blacklisting video: {str(e)}")
     
-    return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
+    return redirect('cms:german_with_videos:video_details', youtube_id=youtube_id)
 
 @staff_member_required
 def import_playlist_videos(request):
@@ -1089,10 +1024,10 @@ def export_snippets_csv(request, youtube_id):
         
     except Video.DoesNotExist:
         messages.error(request, "Video not found.")
-        return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
+        return redirect('cms:german_with_videos:video_details', youtube_id=youtube_id)
     except Exception as e:
         messages.error(request, f"Error exporting snippets: {str(e)}")
-        return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
+        return redirect('cms:german_with_videos:video_details', youtube_id=youtube_id)
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -1127,7 +1062,7 @@ def update_video_priorities(request):
         messages.error(request, f"Error updating priorities: {str(e)}")
     
     # Redirect back to the list view with the same filters
-    redirect_url = reverse('withvideos:cms:list_all_videos')
+    redirect_url = reverse('cms:german_with_videos:list_all_videos')
     if status_filter:
         redirect_url += f"?status={status_filter}"
     if comment_filter:
@@ -1220,11 +1155,11 @@ def search_videos(request):
                 'languages': Language.objects.all()
             }
         
-        return render(request, 'withvideos/cms/search_videos.html', context)
+        return render(request, 'cms/german_with_videos/search_videos.html', context)
         
     except Language.DoesNotExist:
         messages.error(request, f"Language with code {language_code} not found.")
-        return redirect('withvideos:cms:cms_home')
+        return redirect('cms:german_with_videos:cms_home')
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -1360,7 +1295,7 @@ def enrich_video_metadata(request):
         print(f"Error in enrich_video_metadata: {str(e)}")  # Debug log
         messages.error(request, f"Error enriching video metadata: {str(e)}")
     
-    return redirect('withvideos:cms:actions')
+    return redirect('cms:german_with_videos:actions')
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -1381,7 +1316,7 @@ def reduce_review_priorities(request):
     except Exception as e:
         messages.error(request, f"Error updating priorities: {str(e)}")
     
-    return redirect('withvideos:cms:review_videos')
+    return redirect('cms:german_with_videos:review_videos')
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -1406,7 +1341,7 @@ def publish_videos_with_many_snippets(request):
     except Exception as e:
         messages.error(request, f"Error publishing videos: {str(e)}")
     
-    return redirect('withvideos:cms:actions')
+    return redirect('cms:german_with_videos:actions')
 
 
 @staff_member_required
@@ -1429,7 +1364,7 @@ def update_video_status(request, youtube_id):
     except Exception as e:
         messages.error(request, f"Error updating video status: {str(e)}")
     
-    return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
+    return redirect('cms:german_with_videos:video_details', youtube_id=youtube_id)
 
 @staff_member_required
 def manage_tags(request, tag_id=None):
@@ -1440,7 +1375,7 @@ def manage_tags(request, tag_id=None):
             tag = Tag.objects.get(id=tag_id)
         except Tag.DoesNotExist:
             messages.error(request, "Tag not found.")
-            return redirect('withvideos:cms:manage_tags')
+            return redirect('cms:german_with_videos:manage_tags')
 
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -1448,7 +1383,7 @@ def manage_tags(request, tag_id=None):
 
         if not name:
             messages.error(request, "Tag name is required.")
-            return redirect('withvideos:cms:manage_tags')
+            return redirect('cms:german_with_videos:manage_tags')
 
         try:
             if tag:
@@ -1461,10 +1396,10 @@ def manage_tags(request, tag_id=None):
                 # Create new tag
                 Tag.objects.create(name=name, type=type)
                 messages.success(request, "Tag created successfully.")
-            return redirect('withvideos:cms:manage_tags')
+            return redirect('cms:german_with_videos:manage_tags')
         except Exception as e:
             messages.error(request, f"Error saving tag: {str(e)}")
-            return redirect('withvideos:cms:manage_tags')
+            return redirect('cms:german_with_videos:manage_tags')
 
     # Get all tags for the list
     tags = Tag.objects.all().order_by('name')
@@ -1475,7 +1410,7 @@ def manage_tags(request, tag_id=None):
         'tag_types': TagType.choices
     }
     
-    return render(request, 'withvideos/cms/tag_management.html', context)
+    return render(request, 'cms/german_with_videos/tag_management.html', context)
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -1493,7 +1428,7 @@ def remove_tag(request, youtube_id, tag_id):
     except Exception as e:
         messages.error(request, f"Error removing tag: {str(e)}")
     
-    return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
+    return redirect('cms:german_with_videos:video_details', youtube_id=youtube_id)
 
 @staff_member_required
 @require_http_methods(["POST"])
@@ -1505,7 +1440,7 @@ def add_tag(request, youtube_id):
         
         if not tag_name:
             messages.error(request, "Tag name cannot be empty.")
-            return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
+            return redirect('cms:german_with_videos:video_details', youtube_id=youtube_id)
         
         # Get or create the tag (only manual tags can be created this way)
         tag, created = Tag.objects.get_or_create(
@@ -1526,7 +1461,7 @@ def add_tag(request, youtube_id):
     except Exception as e:
         messages.error(request, f"Error adding tag: {str(e)}")
     
-    return redirect('withvideos:cms:video_details', youtube_id=youtube_id)
+    return redirect('cms:german_with_videos:video_details', youtube_id=youtube_id)
 
 @staff_member_required
 def tag_autocomplete(request):

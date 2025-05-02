@@ -69,7 +69,7 @@ INSTALLED_APPS = [
     'storages',
     'trees_of_germany.apps.TreesOfGermanyConfig',
     'lucide',
-    'withvideos.apps.WithvideosConfig',
+    'german_with_videos.apps.GermanWithVideosConfig',
     'uke_fingerpicking.apps.UkeFingerpickingConfig',
 ]
 
@@ -82,7 +82,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'withvideos.middleware.LanguagePreferenceMiddleware',
 ]
 
 ROOT_URLCONF = 'samlearns.urls'

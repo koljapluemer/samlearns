@@ -1,9 +1,9 @@
 from django.views.generic import DetailView
-from withvideos.models import Video
+from german_with_videos.models import Video
 
 class VideoDetailView(DetailView):
     model = Video
-    template_name = 'withvideos/app/videos/detail.html'
+    template_name = 'german_with_videos/videos/detail.html'
     slug_field = 'youtube_id'
     slug_url_kwarg = 'youtube_id'
     context_object_name = 'video'

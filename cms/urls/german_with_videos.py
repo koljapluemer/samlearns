@@ -1,5 +1,5 @@
 from django.urls import path
-from withvideos.views.cms.cms import (
+from cms.views.german_with_videos.all import (
     cms_home, actions, import_channel_videos, import_playlist_videos,
     bulk_import_videos, review_videos, update_video_statuses, list_all_videos,
     video_details, update_video_status, generate_snippets, generate_translations,
@@ -10,6 +10,8 @@ from withvideos.views.cms.cms import (
     publish_videos_with_many_snippets, manage_tags, remove_tag, add_tag,
     tag_autocomplete
 )
+
+app_name = 'cms'
 
 urlpatterns = [
     path('', cms_home, name='cms_home'),

@@ -1,10 +1,11 @@
-{% extends "withvideos/app/base.html" %} {% block withvideos_content %} 
+{% extends "german_with_videos/base.html" %}
+{% block german_with_videos_content %}
 <h1 class="title is-1 mb-6">Choose a Video to Practice</h1>
 
 <div class="field mb-6" x-data>
   <div class="control">
     <div class="select is-fullwidth">
-      <select x-model="$store.language.current" @change="window.location.href = `/withvideos/videos/${$store.language.current}/`">
+      <select x-model="$store.language.current" @change="window.location.href = `/german_with_videos/videos/${$store.language.current}/`">
         {% for lang in languages %}
           <option value="{{ lang.code }}" {% if lang.code == current_lang %}selected{% endif %}>
             {{ lang.name }}
@@ -19,7 +20,7 @@
   {% for video in videos %}
   <div class="column is-one-quarter">
     <a
-      href="{% url 'withvideos:video_detail' current_lang video.youtube_id %}"
+      href="{% url 'cms:german_with_videos:video_detail' video.youtube_id %}"
       class="card is-flex is-flex-direction-column"
       style="height: 100%"
     >

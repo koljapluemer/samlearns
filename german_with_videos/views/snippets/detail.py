@@ -1,11 +1,11 @@
 from django.views.generic import DetailView
-from withvideos.models import Snippet
+from german_with_videos.models import Snippet
 import json
 from random import shuffle
 
 class SnippetDetailView(DetailView):
     model = Snippet
-    template_name = 'withvideos/snippets/detail.html'
+    template_name = 'german_with_videos/snippets/detail.html'
     context_object_name = 'snippet'
 
     def get_context_data(self, **kwargs):

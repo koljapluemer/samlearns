@@ -1,7 +1,7 @@
-{% extends "withvideos/base.html" %}
+{% extends "german_with_videos/base.html" %}
 {% load lucide %}
 
-{% block withvideos_content %}
+{% block german_with_videos_content %}
     <div class="container is-max-widescreen">
         <div class="columns is-centered">
             <div class="column">
@@ -78,7 +78,7 @@
                                 </template>
                                 
                                 <template x-if="!snippetData.next_snippet_url">
-                                    <a href="{% url 'withvideos:video_detail' snippet.video.youtube_id %}" 
+                                    <a href="{% url 'german_with_videos:video_detail' snippet.video.youtube_id %}" 
                                        class="button is-primary is-large">
                                         <span class="icon">
                                             {% lucide "arrow-left" size=24 %}
