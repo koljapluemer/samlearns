@@ -1,15 +1,29 @@
 from django.urls import path
-from cms.views.german_with_videos.all import (
-    cms_home, actions, import_channel_videos, import_playlist_videos,
-    bulk_import_videos, review_videos, update_video_statuses, list_all_videos,
-    video_details, update_video_status, generate_snippets, generate_translations,
-    publish_video, reset_snippets, export_snippets_csv, mark_videos_without_arabic_subtitles,
-    generate_snippets_for_all_shortlisted, generate_translations_for_all_snippets,
-    bulk_check_subtitles, blacklist_video, update_video_priorities,
-    reduce_review_priorities, search_videos, enrich_video_metadata,
-    publish_videos_with_many_snippets, manage_tags, remove_tag, add_tag,
-    tag_autocomplete
-)
+from cms.views.german_with_videos.pages import cms_home, actions
+from cms.views.german_with_videos.import_channel_videos import import_channel_videos
+from cms.views.german_with_videos.import_playlist_videos import import_playlist_videos
+from cms.views.german_with_videos.bulk_import_videos import bulk_import_videos
+from cms.views.german_with_videos.review_videos import review_videos
+from cms.views.german_with_videos.update_video_statuses import update_video_statuses
+from cms.views.german_with_videos.list_all_videos import list_all_videos
+from cms.views.german_with_videos.video_details import video_details
+from cms.views.german_with_videos.update_video_status import update_video_status
+from cms.views.german_with_videos.generate_snippets import generate_snippets
+from cms.views.german_with_videos.generate_translations import generate_translations
+from cms.views.german_with_videos.publish_video import publish_video
+from cms.views.german_with_videos.reset_snippets import reset_snippets
+from cms.views.german_with_videos.export_snippets_csv import export_snippets_csv
+from cms.views.german_with_videos.mark_videos_without_german_subtitles import mark_videos_without_german_subtitles
+from cms.views.german_with_videos.generate_snippets_for_all_shortlisted import generate_snippets_for_all_shortlisted
+from cms.views.german_with_videos.generate_translations_for_all_snippets import generate_translations_for_all_snippets
+from cms.views.german_with_videos.bulk_check_subtitles import bulk_check_subtitles
+from cms.views.german_with_videos.blacklist_video import blacklist_video
+from cms.views.german_with_videos.update_video_priorities import update_video_priorities
+from cms.views.german_with_videos.reduce_review_priorities import reduce_review_priorities
+from cms.views.german_with_videos.search_videos import search_videos
+from cms.views.german_with_videos.enrich_video_metadata import enrich_video_metadata
+from cms.views.german_with_videos.publish_videos_with_many_snippets import publish_videos_with_many_snippets
+from cms.views.german_with_videos.manage_tags import manage_tags, remove_tag, add_tag, tag_autocomplete
 
 app_name = 'cms'
 
@@ -29,7 +43,7 @@ urlpatterns = [
     path('videos/<str:youtube_id>/publish/', publish_video, name='publish_video'),
     path('videos/<str:youtube_id>/reset-snippets/', reset_snippets, name='reset_snippets'),
     path('videos/<str:youtube_id>/export-snippets/', export_snippets_csv, name='export_snippets_csv'),
-    path('mark-videos-without-arabic/', mark_videos_without_arabic_subtitles, name='mark_videos_without_arabic'),
+    path('mark-videos-without-german-subtitles/', mark_videos_without_german_subtitles, name='mark_videos_without_german_subtitles'),
     path('generate-snippets-all/', generate_snippets_for_all_shortlisted, name='generate_snippets_all'),
     path('generate-translations-all/', generate_translations_for_all_snippets, name='generate_translations_all'),
     path('bulk-check-subtitles/', bulk_check_subtitles, name='bulk_check_subtitles'),
