@@ -12,9 +12,9 @@ def list_all_videos(request):
     videos = Video.objects.all().order_by('-added_at')
     
     # Filter by status if provided
-    status = request.GET.get('status')
-    if status:
-        videos = videos.filter(status=status)
+    status_filter = request.GET.get('status')
+    if status_filter:
+        videos = videos.filter(status=status_filter)
     
     paginator = Paginator(videos, 20)
     page_number = request.GET.get('page')
@@ -23,6 +23,7 @@ def list_all_videos(request):
     context = {
         'videos': page_obj,
         'status_choices': VideoStatus.choices,
+        'status_filter': status_filter,
     }
     return render(request, 'cms/german_with_videos/list.html', context)
 

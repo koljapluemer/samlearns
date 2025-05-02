@@ -2,61 +2,63 @@
 {% load static %}
 
 {% block content %}
-<div class="container mx-auto px-4 py-8">
-    <div class="max-w-4xl mx-auto">
-        <h1 class="text-3xl font-bold mb-8">Tag Management</h1>
+<div class="container">
+    <div class="columns is-centered">
+        <div class="column is-10">
+            <h1 class="title is-2 mb-6">Tag Management</h1>
 
-        <!-- Tag Statistics -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h2 class="text-xl font-semibold mb-4">Tag Statistics</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-gray-50 p-4 rounded-lg">
-                    <h3 class="text-lg font-medium text-gray-700">Total Tags</h3>
-                    <p class="text-3xl font-bold text-blue-600">{{ total_tags }}</p>
-                </div>
-                <div class="bg-gray-50 p-4 rounded-lg">
-                    <h3 class="text-lg font-medium text-gray-700">Tags in Use</h3>
-                    <p class="text-3xl font-bold text-green-600">{{ tags_in_use }}</p>
-                </div>
-                <div class="bg-gray-50 p-4 rounded-lg">
-                    <h3 class="text-lg font-medium text-gray-700">Unused Tags</h3>
-                    <p class="text-3xl font-bold text-red-600">{{ unused_tags }}</p>
+            <!-- Tag Statistics -->
+            <div class="box mb-6">
+                <h2 class="title is-4 mb-4">Tag Statistics</h2>
+                <div class="columns">
+                    <div class="column has-text-centered">
+                        <h3 class="subtitle is-6 has-text-grey">Total Tags</h3>
+                        <p class="title is-3 has-text-link">{{ total_tags }}</p>
+                    </div>
+                    <div class="column has-text-centered">
+                        <h3 class="subtitle is-6 has-text-grey">Tags in Use</h3>
+                        <p class="title is-3 has-text-success">{{ tags_in_use }}</p>
+                    </div>
+                    <div class="column has-text-centered">
+                        <h3 class="subtitle is-6 has-text-grey">Unused Tags</h3>
+                        <p class="title is-3 has-text-danger">{{ unused_tags }}</p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Tag List -->
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-xl font-semibold mb-4">All Tags</h2>
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tag</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Usage Count</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        {% for tag in tags %}
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                    {{ tag.name }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ tag.usage_count }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <button class="text-red-600 hover:text-red-900" onclick="deleteTag('{{ tag.name }}')">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <!-- Tag List -->
+            <div class="box">
+                <h2 class="title is-4 mb-4">All Tags</h2>
+                <div class="table-container">
+                    <table class="table is-fullwidth is-striped">
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Usage Count</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tag in tags %}
+                            <tr>
+                                <td>
+                                    <span class="tag is-link is-light is-medium">
+                                        {{ tag.name }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {{ tag.usage_count }}
+                                </td>
+                                <td>
+                                    <button class="button is-small is-danger is-light" onclick="deleteTag('{{ tag.name }}')">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

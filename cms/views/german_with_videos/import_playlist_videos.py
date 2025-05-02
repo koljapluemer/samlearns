@@ -129,7 +129,7 @@ def import_playlist_videos(request):
                 
                 context['error'] = f"An error occurred while importing videos. Details: {error_details}"
         
-        return render(request, 'import_playlist_videos.html', context)
+        return render(request, 'cms/german_with_videos/import_playlist_videos.html', context)
     
-    return render(request, 'import_playlist_videos.html')
+    return render(request, 'cms/german_with_videos/import_playlist_videos.html')
 

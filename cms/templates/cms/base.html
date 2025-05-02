@@ -1,19 +1,16 @@
-{% extends "base.html" %}
-{% load lucide %}
+{% extends "base.html" %} 
+{% load lucide %} 
+{% block title %}CMS | {% block subtitle %}{% endblock %}{% endblock %}
+{% block name %}CMS{% endblock %} 
 
-{% block body %}
-    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-        <div class="container">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="{% url 'cms:home' %}">
-                    {% lucide "settings" size=24 %}
-                    <span class="ml-2">CMS</span>
-                </a>
-            </div>
-        </div>
-    </nav>
 
-    <div class="container mt-5">
-        {% block cms_content %}{% endblock %}
-    </div>
+{% block navbar %}
+<a class="navbar-item" href="{% url 'cms:home' %}">
+  All CMS 
+</a>
+{% block nav %} {% endblock %}
+{% endblock %} 
+
+{% block main %} 
+{% block cms_content %}{% endblock %}
 {% endblock %}
