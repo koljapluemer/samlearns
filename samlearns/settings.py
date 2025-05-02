@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'storages',
     'lucide',
     # my own stuff
+    'shared',
     'cms',
     'trees_of_germany.apps.TreesOfGermanyConfig',
     'german_with_videos.apps.GermanWithVideosConfig',
@@ -169,15 +170,14 @@ AWS_S3_REGION_NAME = 'auto'
 AWS_S3_ADDRESSING_STYLE = 'virtual'
 
 # Static files configuration
-if DEBUG:
-    STATIC_URL = '/static/'
-    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-else:
-    STATIC_URL = 'https://samlearns.com/'
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
+STATIC_URL = '/static/'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = []
+
+# Media files configuration - using R2
+MEDIA_URL = 'https://samlearns.com/'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

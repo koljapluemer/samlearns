@@ -1,7 +1,5 @@
 from django.db import models
-from django.conf import settings
-from django.contrib.staticfiles.storage import staticfiles_storage
-from django.templatetags.static import static
+
 # Create your models here.
 class TreeSpecies(models.Model):
     latin_name = models.CharField(max_length=255)
@@ -25,5 +23,5 @@ class TreeImage(models.Model):
     def get_usable_url(self):
         if self.is_blacklisted:
             return None
-        # Use staticfiles storage to get the proper URL
-        return staticfiles_storage.url(self.path)
+        # The path is already the full URL path, just prepend the domain
+        return f"https://samlearns.com{self.path}"
