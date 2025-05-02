@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load lucide %}
+
+{% block body %}
+    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="{% url 'withvideos:root' %}" x-data x-init="localStorage.setItem('preferred_lang', '{{ request.resolver_match.kwargs.lang_code|default:'de' }}')">
+                    {% lucide "video" size=24 %}
+                    <span class="ml-2">Video List</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        {% block withvideos_content %}{% endblock %}
+    </div>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('language', {
+                current: localStorage.getItem('preferred_lang') || 'de',
+                set(lang) {
+                    this.current = lang;
+                    localStorage.setItem('preferred_lang', lang);
+                }
+            });
+        });
+    </script>
+{% endblock %}
