@@ -1,9 +1,0 @@
-rockcreekpark
-washingtondc
-nature
-lifeonearth
-plant
-angiosperms
-carpinusbetulus
-taxonomy:binomial=carpinusbetulus
-betulaceae

@@ -1,46 +1,14 @@
 {% extends "base.html" %}
 {% load lucide %}
+{% block title %}Uke Fingerpicking | {% block subtitle %}{% endblock %}{% endblock %} 
+{% block name %}Uke Fingerpicking{% endblock %} 
+{% block navbar %}
+<a class="navbar-item" href="{% url 'uke_fingerpicking:tab_sheet_list' %}">
+    {% lucide "music" size=24 %}
+    <span class="ml-2">Tab Sheets</span>
+</a>
+{% endblock %} 
 
-{% block extra_js %}
-<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-{% endblock %}
-
-{% block body %}
-    {% block nav %}
-    <header class="is-link p-4">
-        <div class="columns is-vcentered is-justify-content-space-between">
-            <div class="column is-narrow">
-                <a href="{% url 'uke_fingerpicking:tab_sheet_list' %}" class="is-size-4 has-text-white">
-                    Uke Fingerpicking
-                </a>
-            </div>
-            <div class="column is-narrow">
-                <div class="columns is-vcentered is-2">
-                    <div class="column is-narrow">
-                        <a href="{% url 'uke_fingerpicking:tab_sheet_list' %}" class="button is-link is-light">
-                            <span class="icon">
-                                {% lucide "music" size=20 %}
-                            </span>
-                            <span>Tab Sheets</span>
-                        </a>
-                    </div>
-                    {% if user.is_authenticated and user.is_superuser %}
-                    <div class="column is-narrow">
-                        <a href="{% url 'uke_fingerpicking_cms:tab_sheet_list' %}" class="button is-link is-light">
-                            <span class="icon">
-                                {% lucide "settings" size=20 %}
-                            </span>
-                            <span>Manage</span>
-                        </a>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </header>
-    {% endblock %}
-
-    <div class="container mt-4">
-        {% block content %}{% endblock %}
-    </div>
+{% block main %}
+{% block content %}{% endblock %}
 {% endblock %}

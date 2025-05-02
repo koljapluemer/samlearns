@@ -1,6 +1,0 @@
-tree
-larix
-larixdecidua
-smrekovec
-larch
-flower

@@ -1,9 +1,0 @@
-botany
-germanywest
-natureprints
-pictorialworks
-regensburg
-harvarduniversitybotanylibraries
-bhl:page=59790921
-dc:identifier=httpsbiodiversitylibraryorgpage59790921
-taxonomy:binomial=prunuspadus

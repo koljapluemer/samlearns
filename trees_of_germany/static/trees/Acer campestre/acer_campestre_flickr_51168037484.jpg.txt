@@ -1,5 +1,0 @@
-field
-maple
-acer
-campestre
-taxonomy:binomial=acercampestre

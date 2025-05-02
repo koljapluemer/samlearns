@@ -1,4 +1,5 @@
-{% extends "uke_fingerpicking/base.html" %} {% load lucide %} 
+{% extends "uke_fingerpicking/base.html" %}
+{% block subtitle %}{{ tab_sheet.title }}: Practice{% endblock %}
 {% block content %}
 <div class="container" x-data="app()">
   <div class="level">

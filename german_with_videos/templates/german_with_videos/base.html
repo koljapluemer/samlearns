@@ -1,20 +1,19 @@
-{% extends "base.html" %}
-{% load lucide %}
+{% extends "base.html" %} 
+{% load lucide %} 
+{% block title %}German with Videos | {% block subtitle %}{% endblock %}{% endblock %} 
+{% block name %}German with Videos{% endblock %} 
+{% block navbar %}
+<a
+  class="navbar-item"
+  href="{% url 'german_with_videos:video_list' %}"
+  x-data
+  x-init="localStorage.setItem('preferred_lang', '{{ request.resolver_match.kwargs.lang_code|default:'de' }}')"
+>
+  {% lucide "video" size=24 %}
+  <span class="ml-2">Video List</span>
+</a>
 
-{% block body %}
-    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
-        <div class="container">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="{% url 'german_with_videos:video_list' %}" x-data x-init="localStorage.setItem('preferred_lang', '{{ request.resolver_match.kwargs.lang_code|default:'de' }}')">
-                    {% lucide "video" size=24 %}
-                    <span class="ml-2">Video List</span>
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container mt-5">
-        {% block german_with_videos_content %}{% endblock %}
-    </div>
-
+{% endblock %} 
+{% block main %} 
+{% block german_with_videos_content %}{% endblock %}
 {% endblock %}

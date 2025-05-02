@@ -1,9 +1,0 @@
-botany
-germanywest
-natureprints
-pictorialworks
-regensburg
-harvarduniversitybotanylibraries
-bhl:page=59790718
-dc:identifier=httpsbiodiversitylibraryorgpage59790718
-taxonomy:binomial=carpinusbetulus

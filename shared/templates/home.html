@@ -1,56 +1,36 @@
-{% extends 'base.html' %}
-
-{% block title %}Welcome to Sam Learns{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} 
+{% block title %}Welcome{% endblock %}
+{% block name %}Overview{% endblock %} 
+{% block main %}
 <section class="hero is-primary">
-    <div class="hero-body">
-        <div class="container">
-            <h1 class="title">
-                Welcome to Sam Learns
-            </h1>
-            <h2 class="subtitle">
-                Your personal learning platform
-            </h2>
-        </div>
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Welcome to Sam Learns</h1>
+      <h2 class="subtitle">Your personal learning platform</h2>
     </div>
+  </div>
 </section>
 
 <section class="section">
-    <div class="container">
-        <div class="columns is-multiline">
-            {% for app in learning_apps %}
-            <div class="column is-one-third">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="media">
-                            <div class="media-left">
-                                <span class="icon is-large">
-                                    <i data-lucide="{{ app.icon }}" class="icon"></i>
-                                </span>
-                            </div>
-                            <div class="media-content">
-                                <p class="title is-4">{{ app.name }}</p>
-                            </div>
-                        </div>
-                        <div class="content">
-                            {{ app.description }}
-                            <br>
-                            <a href="{{ app.url }}" class="button is-primary is-outlined mt-4">
-                                Start Learning
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+  <div class="container">
+    <div class="columns is-multiline">
+      {% for app in learning_apps %}
+      <div class="column is-12-mobile is-6-tablet is-4-desktop is-3-widescreen">
+        <div class="card is-flex is-flex-direction-column" style="height: 100%; min-height: 320px;">
+          <div class="card-content has-text-centered" style="flex: 1 1 auto;">
+            <span class="icon is-large has-text-primary mb-3">
+              <i data-lucide="{{ app.icon }}" class="icon"></i>
+            </span>
+            <p class="title is-5 mb-2">{{ app.name }}</p>
+            <p class="content mb-0">{{ app.description }}</p>
+          </div>
+          <footer class="card-footer" style="margin-top: auto;">
+            <a href="{{ app.url }}" class="card-footer-item has-text-primary">Start Learning</a>
+          </footer>
         </div>
+      </div>
+      {% endfor %}
     </div>
+  </div>
 </section>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    lucide.createIcons();
-</script>
 {% endblock %}

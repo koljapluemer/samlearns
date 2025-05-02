@@ -173,7 +173,9 @@ AWS_S3_ADDRESSING_STYLE = 'virtual'
 STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = []
+STATICFILES_DIRS = [
+    BASE_DIR / 'shared/static',
+]
 
 # Media files configuration - using R2
 MEDIA_URL = 'https://samlearns.com/'

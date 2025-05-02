@@ -1,22 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Sam Learns{% endblock %}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@latest/css/bulma.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    {% block extra_css %}{% endblock %}
-</head>
-<body>
-    Sam Learns
-    {% block body %}
-    <div class="container">
-        {% block content %}{% endblock %}
-    </div>
-    {% endblock %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sam Learns | {% block title %} {% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@latest/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body>
+    <nav class="navbar" role="navigation" aria-label="main navigation" x-data="{ isOpen: false }">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+            {% load static %}
+            <img src="{% static 'images/logo.webp' %}" alt="Sam Learns" />
+            
+            {% block name %} Test{% endblock %}
+        </a>
 
+        <a
+          role="button"
+          class="navbar-burger"
+          aria-label="menu"
+          aria-expanded="false"
+          :class="{ 'is-active': isOpen }"
+          @click="isOpen = !isOpen"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+
+      <div id="navbarBasicExample" class="navbar-menu" :class="{ 'is-active': isOpen }">
+        <div class="navbar-end">
+          {% block navbar %}Test{% endblock %}
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">{% block main %}Main{% endblock %}</div>
     {% block extra_js %}{% endblock %}
-</body>
-</html> 
+  </body>
+</html>

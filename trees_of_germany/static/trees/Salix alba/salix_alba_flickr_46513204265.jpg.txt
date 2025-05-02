@@ -1,6 +1,0 @@
-hwcp
-white
-willow
-catkin
-salix
-alba

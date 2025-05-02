@@ -1,4 +1,6 @@
-{% extends "german_with_videos/base.html" %} {% load lucide %} 
+{% extends "german_with_videos/base.html" %} 
+{% load lucide %}
+{% block subtitle %}{{ video.title|default:video.youtube_title }}{% endblock %}
 {% block german_with_videos_content %}
 <div class="container has-text-centered">
   <div class="columns is-centered">

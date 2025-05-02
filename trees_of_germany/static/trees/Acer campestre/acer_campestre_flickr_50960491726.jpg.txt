@@ -1,7 +1,0 @@
-austria
-shrubs
-trees
-harvarduniversitybotanylibraries
-bhl:page=42928163
-dc:identifier=httpsbiodiversitylibraryorgpage42928163
-taxonomy:binomial=acercampestre

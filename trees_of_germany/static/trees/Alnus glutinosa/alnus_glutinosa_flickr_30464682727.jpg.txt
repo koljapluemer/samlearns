@@ -1,5 +1,0 @@
-macro
-alder
-alnusglutinosa
-catkin
-cone
