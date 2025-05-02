@@ -51,19 +51,6 @@ def get_words_with_translations(text: str) -> list:
         return []
 
 @staff_member_required
-@require_http_methods(["POST"])
-def set_frontend(request):
-    """Set the language in the session"""
-    language_code = request.POST.get('frontend')
-    if language_code in [lang.code for lang in Language.objects.all()]:
-        request.session['language_code'] = language_code
-    return redirect(request.POST.get('next', 'cms:german_with_videos:cms_home'))
-
-def get_current_language(request):
-    """Get the current language from session or default to German"""
-    return request.session.get('language_code', 'de')
-
-@staff_member_required
 @never_cache
 def cms_home(request):
     """CMS home page showing overview of video statuses"""
@@ -80,13 +67,11 @@ def import_channel_videos(request):
     """View to import videos from a YouTube channel"""
     if request.method == 'POST':
         username = request.POST.get('channel_id')
-        language_code = request.POST.get('language_code')
         import_all = request.POST.get('import_all') == 'true'
         context = {'channel_id': username}
         
-        if username and language_code:
+        if username:
             try:
-                language = Language.objects.get(code=language_code)
                 youtube = build('youtube', 'v3', developerKey=settings.YOUTUBE_API_KEY)
                 
                 # Remove @ if present
@@ -129,11 +114,10 @@ def import_channel_videos(request):
                 total_videos = playlist_response['items'][0]['contentDetails']['itemCount']
                 
                 # Get existing video IDs from our database
-                existing_video_ids = set(Video.objects.filter(language=language).values_list('youtube_id', flat=True))
+                existing_video_ids = set(Video.objects.values_list('youtube_id', flat=True))
                 
                 # Get the most recent video ID we've processed for this channel
                 last_processed_video = Video.objects.filter(
-                    language=language,
                     comment__startswith=f'Imported from channel {username}'
                 ).order_by('-youtube_id').first()
                 
@@ -168,7 +152,6 @@ def import_channel_videos(request):
                         if video_id not in existing_video_ids:
                             Video.objects.get_or_create(
                                 youtube_id=video_id,
-                                language=language,
                                 defaults={
                                     'status': VideoStatus.NEEDS_REVIEW,
                                     'comment': f'Imported from channel {username}',
@@ -211,10 +194,7 @@ def import_channel_videos(request):
         
         return render(request, 'cms/german_with_videos/import_channel_videos.html', context)
     
-    context = {
-        'languages': Language.objects.all()
-    }
-    return render(request, 'cms/german_with_videos/import_channel_videos.html', context)
+    return render(request, 'cms/german_with_videos/import_channel_videos.html')
 
 @staff_member_required
 @never_cache
@@ -301,7 +281,7 @@ def list_all_videos(request):
 def video_details(request, youtube_id):
     """View to show details of a specific video"""
     try:
-        video = Video.objects.select_related('language').prefetch_related(
+        video = Video.objects.prefetch_related(
             'tags',
             'snippets',
             'words',
@@ -543,7 +523,6 @@ def extract_youtube_id(url):
 @staff_member_required
 def bulk_import_videos(request):
     """View for bulk importing YouTube videos."""
-    language_code = get_current_language(request)
     if request.method == 'POST':
         youtube_links = request.POST.get('youtube_links', '').strip()
         if not youtube_links:
@@ -567,7 +546,6 @@ def bulk_import_videos(request):
             try:
                 Video.objects.get_or_create(
                     youtube_id=video_id,
-                    language=Language.objects.get(code=language_code),
                     defaults={'status': VideoStatus.NEEDS_REVIEW, 'comment': 'bulk imported'}
                 )
                 successful_imports += 1
@@ -589,16 +567,8 @@ def bulk_import_videos(request):
 def mark_videos_without_arabic_subtitles(request):
     """View to mark videos without target language subtitles as not relevant"""
     try:
-        language_code = request.POST.get('language_code')
-        if not language_code:
-            messages.error(request, "Language code is required.")
-            return redirect('cms:german_with_videos:list_all_videos')
-            
-        language = Language.objects.get(code=language_code)
-        
-        # Get videos for the current language that haven't been checked yet
+        # Get all videos that haven't been checked for subtitles and aren't marked as not relevant
         videos = Video.objects.filter(
-            language=language,
             checked_for_relevant_subtitles=False
         ).exclude(
             status=VideoStatus.NOT_RELEVANT
@@ -607,20 +577,16 @@ def mark_videos_without_arabic_subtitles(request):
         marked_count = 0
         
         for video in videos:
-            # Check if video has target language subtitles
-            has_target_language = False
-            if language.subtitle_prefix:
-                has_target_language = any(lang.startswith(language.subtitle_prefix) for lang in video.available_subtitle_languages)
+            # Check if video has subtitles
+            has_subtitles = bool(video.available_subtitle_languages)
             
-            if not has_target_language:
+            if not has_subtitles:
                 video.status = VideoStatus.NOT_RELEVANT
                 video.checked_for_relevant_subtitles = True
                 video.save()
                 marked_count += 1
         
-        messages.success(request, f"Successfully marked {marked_count} videos without {language.name} subtitles as not relevant.")
-    except Language.DoesNotExist:
-        messages.error(request, f"Language with code {language_code} not found.")
+        messages.success(request, f"Successfully marked {marked_count} videos without subtitles as not relevant.")
     except Exception as e:
         messages.error(request, f"Error marking videos: {str(e)}")
     
@@ -630,15 +596,9 @@ def mark_videos_without_arabic_subtitles(request):
 @require_http_methods(["POST"])
 def generate_snippets_for_all_shortlisted(request):
     """View to generate snippets for all shortlisted videos"""
-    language_code = request.POST.get('language_code')
-    if not language_code:
-        messages.error(request, "Language code is required.")
-        return redirect('cms:german_with_videos:list_all_videos')
-        
     try:
-        language = Language.objects.get(code=language_code)
-        # Get all shortlisted videos for the current language
-        videos = Video.objects.filter(language=language, status=VideoStatus.SHORTLISTED)
+        # Get all shortlisted videos
+        videos = Video.objects.filter(status=VideoStatus.SHORTLISTED)
         processed_count = 0
         error_count = 0
         no_subtitles_count = 0
@@ -656,43 +616,33 @@ def generate_snippets_for_all_shortlisted(request):
                         video.available_subtitle_languages = []
                         video.save()
                 
-                # Try to get the transcript in the target language
-                target_transcripts = []
+                # Try to get the transcript
                 if video.available_subtitle_languages:
                     try:
                         transcript_list = YouTubeTranscriptApi.list_transcripts(video.youtube_id)
                         
-                        for transcript in transcript_list:
-                            if language.subtitle_prefix and transcript.language_code.startswith(language.subtitle_prefix):
-                                target_transcripts.append(transcript)
+                        # Get the first available transcript
+                        transcript = transcript_list[0]
                         
-                        if target_transcripts:
-                            # Prefer manual transcripts over auto-generated ones
-                            manual_transcript = next((t for t in target_transcripts if not t.is_generated), None)
-                            transcript = manual_transcript or target_transcripts[0]
-                            
-                            transcript_data = transcript.fetch()
-                            
-                            # Delete existing snippets
-                            video.snippets.all().delete()
-                            
-                            # Create new snippets
-                            for index, segment in enumerate(transcript_data):
-                                Snippet.objects.create(
-                                    video=video,
-                                    index=index,
-                                    content=segment.text,
-                                    start=segment.start,
-                                    duration=segment.duration
-                                )
-                            
-                            # Update video status
-                            video.status = VideoStatus.SNIPPETS_GENERATED
-                            video.save()
-                            processed_count += 1
-                        else:
-                            no_subtitles_count += 1
-                            error_videos.append(f"{video.youtube_id} (No {language.name} subtitles)")
+                        transcript_data = transcript.fetch()
+                        
+                        # Delete existing snippets
+                        video.snippets.all().delete()
+                        
+                        # Create new snippets
+                        for index, segment in enumerate(transcript_data):
+                            Snippet.objects.create(
+                                video=video,
+                                index=index,
+                                content=segment.text,
+                                start=segment.start,
+                                duration=segment.duration
+                            )
+                        
+                        # Update video status
+                        video.status = VideoStatus.SNIPPETS_GENERATED
+                        video.save()
+                        processed_count += 1
                     except Exception as e:
                         error_count += 1
                         error_videos.append(f"{video.youtube_id} (Error: {str(e)})")
@@ -706,12 +656,10 @@ def generate_snippets_for_all_shortlisted(request):
         if processed_count > 0:
             messages.success(request, f"Successfully generated snippets for {processed_count} videos.")
         if no_subtitles_count > 0:
-            messages.warning(request, f"{no_subtitles_count} videos had no {language.name} subtitles available.")
+            messages.warning(request, f"{no_subtitles_count} videos had no subtitles available.")
         if error_count > 0:
             messages.error(request, f"Failed to process {error_count} videos: {', '.join(error_videos)}")
             
-    except Language.DoesNotExist:
-        messages.error(request, f"Language with code {language_code} not found.")
     except Exception as e:
         messages.error(request, f"Error processing videos: {str(e)}")
     
@@ -721,13 +669,9 @@ def generate_snippets_for_all_shortlisted(request):
 @require_http_methods(["POST"])
 def generate_translations_for_all_snippets(request):
     """View to generate translations for all videos with snippets"""
-    language_code = get_current_language(request)
     try:
-        # Get all videos with snippets generated for the current language
-        videos = Video.objects.filter(
-            language__code=language_code,
-            status=VideoStatus.SNIPPETS_GENERATED
-        )
+        # Get all videos with snippets generated
+        videos = Video.objects.filter(status=VideoStatus.SNIPPETS_GENERATED)
         processed_count = 0
         error_count = 0
         no_snippets_count = 0
@@ -793,16 +737,13 @@ def generate_translations_for_all_snippets(request):
 @staff_member_required
 def actions(request):
     """View for the actions page"""
-    language_code = get_current_language(request)
     unchecked_count = Video.objects.filter(
-        language__code=language_code,
         checked_for_relevant_subtitles=False
     ).exclude(
         status=VideoStatus.NOT_RELEVANT
     ).count()
     context = {
-        'unchecked_count': unchecked_count,
-        'language_code': language_code
+        'unchecked_count': unchecked_count
     }
     return render(request, 'cms/german_with_videos/actions.html', context)
 
@@ -811,7 +752,7 @@ def actions(request):
 def bulk_check_subtitles(request):
     """View to check subtitles for all videos that haven't been checked yet"""
     try:
-        # Get all videos that haven't been checked for Arabic subtitles and aren't marked as not relevant
+        # Get all videos that haven't been checked for subtitles and aren't marked as not relevant
         videos = Video.objects.filter(
             checked_for_relevant_subtitles=False
         ).exclude(
@@ -865,7 +806,6 @@ def blacklist_video(request, youtube_id):
 @staff_member_required
 def import_playlist_videos(request):
     """View to import videos from a YouTube playlist"""
-    language_code = get_current_language(request)
     if request.method == 'POST':
         playlist_url = request.POST.get('playlist_url')
         import_all = request.POST.get('import_all') == 'true'
@@ -908,11 +848,10 @@ def import_playlist_videos(request):
                 total_videos = playlist_items_response['pageInfo']['totalResults']
                 
                 # Get existing video IDs from our database
-                existing_video_ids = set(Video.objects.filter(language__code=language_code).values_list('youtube_id', flat=True))
+                existing_video_ids = set(Video.objects.values_list('youtube_id', flat=True))
                 
                 # Get the most recent video ID we've processed for this playlist
                 last_processed_video = Video.objects.filter(
-                    language__code=language_code,
                     comment__startswith=f'Imported from playlist {playlist_id}'
                 ).order_by('-youtube_id').first()
                 
@@ -947,7 +886,6 @@ def import_playlist_videos(request):
                         if video_id not in existing_video_ids:
                             Video.objects.get_or_create(
                                 youtube_id=video_id,
-                                language=Language.objects.get(code=language_code),
                                 defaults={
                                     'status': VideoStatus.NEEDS_REVIEW,
                                     'comment': f'Imported from playlist {playlist_id}: {playlist_title}',
@@ -1037,10 +975,9 @@ def update_video_priorities(request):
         # Get the current filter parameters
         status_filter = request.POST.get('status_filter', '')
         comment_filter = request.POST.get('comment_filter', '')
-        language_code = get_current_language(request)
         
-        # Get all videos matching the current filter
-        videos = Video.objects.filter(language__code=language_code)
+        # Get all videos
+        videos = Video.objects.all()
         
         if status_filter:
             videos = videos.filter(status=status_filter)
@@ -1073,108 +1010,82 @@ def update_video_priorities(request):
 @staff_member_required
 def search_videos(request):
     """View to search YouTube videos and automatically import them"""
-    language_code = request.GET.get('language', 'de')  # Default to German
     search_query = request.GET.get('q', '')
     
-    try:
-        language = Language.objects.get(code=language_code)
-        
-        # Set country and language based on language
-        if language.subtitle_prefix and language.subtitle_prefix.startswith('ar'):
-            region_code = 'EG'
-            language_code = 'ar'
-        else:  # German
-            region_code = 'DE'
-            language_code = 'de'
-        
-        if search_query:
-            try:
-                youtube = build('youtube', 'v3', developerKey=settings.YOUTUBE_API_KEY)
-                
-                # Get existing video IDs to exclude
-                existing_video_ids = set(Video.objects.filter(language=language).values_list('youtube_id', flat=True))
-                
-                # Get the last page token used for this search query
-                last_page_token = request.session.get(f'last_page_token_{search_query}', '')
-                
-                # Search for videos with captions
-                search_response = youtube.search().list(
-                    q=search_query,
-                    part='id,snippet',
-                    type='video',
-                    maxResults=10,
-                    regionCode=region_code,
-                    relevanceLanguage=language_code,
-                    pageToken=last_page_token,
-                    videoCaption='any'  # Only include videos with captions
-                ).execute()
-                
-                # Store the next page token for future searches
-                next_page_token = search_response.get('nextPageToken')
-                if next_page_token:
-                    request.session[f'last_page_token_{search_query}'] = next_page_token
-                else:
-                    # If no more pages, reset to start from beginning
-                    request.session[f'last_page_token_{search_query}'] = ''
-                
-                # Get or create tag for this search query
-                tag, _ = Tag.objects.get_or_create(name=search_query.lower())
-                
-                imported_count = 0
-                for item in search_response.get('items', []):
-                    video_id = item['id']['videoId']
-                    if video_id not in existing_video_ids:
-                        video = Video.objects.create(
-                            youtube_id=video_id,
-                            language=language,
-                            status=VideoStatus.NEEDS_REVIEW,
-                            comment=f'Imported from search: {search_query}',
-                            youtube_title=item['snippet']['title']
-                        )
-                        # Add the tag to the video
-                        video.tags.add(tag)
-                        imported_count += 1
-                
-                context = {
-                    'search_query': search_query,
-                    'imported_count': imported_count,
-                    'language': language,
-                    'languages': Language.objects.all()
-                }
-                
-            except Exception as e:
-                context = {
-                    'error': str(e),
-                    'search_query': search_query,
-                    'language': language,
-                    'languages': Language.objects.all()
-                }
-        else:
+    if search_query:
+        try:
+            youtube = build('youtube', 'v3', developerKey=settings.YOUTUBE_API_KEY)
+            
+            # Get existing video IDs to exclude
+            existing_video_ids = set(Video.objects.values_list('youtube_id', flat=True))
+            
+            # Get the last page token used for this search query
+            last_page_token = request.session.get(f'last_page_token_{search_query}', '')
+            
+            # Search for videos with captions
+            search_response = youtube.search().list(
+                q=search_query,
+                part='id,snippet',
+                type='video',
+                maxResults=10,
+                regionCode='DE',
+                relevanceLanguage='de',
+                pageToken=last_page_token,
+                videoCaption='any'  # Only include videos with captions
+            ).execute()
+            
+            # Store the next page token for future searches
+            next_page_token = search_response.get('nextPageToken')
+            if next_page_token:
+                request.session[f'last_page_token_{search_query}'] = next_page_token
+            else:
+                # If no more pages, reset to start from beginning
+                request.session[f'last_page_token_{search_query}'] = ''
+            
+            # Get or create tag for this search query
+            tag, _ = Tag.objects.get_or_create(name=search_query.lower())
+            
+            imported_count = 0
+            for item in search_response.get('items', []):
+                video_id = item['id']['videoId']
+                if video_id not in existing_video_ids:
+                    video = Video.objects.create(
+                        youtube_id=video_id,
+                        status=VideoStatus.NEEDS_REVIEW,
+                        comment=f'Imported from search: {search_query}',
+                        youtube_title=item['snippet']['title']
+                    )
+                    # Add the tag to the video
+                    video.tags.add(tag)
+                    imported_count += 1
+            
             context = {
-                'language': language,
-                'languages': Language.objects.all()
+                'search_query': search_query,
+                'imported_count': imported_count
             }
-        
-        return render(request, 'cms/german_with_videos/search_videos.html', context)
-        
-    except Language.DoesNotExist:
-        messages.error(request, f"Language with code {language_code} not found.")
-        return redirect('cms:german_with_videos:cms_home')
+            
+        except Exception as e:
+            context = {
+                'error': str(e),
+                'search_query': search_query
+            }
+    else:
+        context = {}
+    
+    return render(request, 'cms/german_with_videos/search_videos.html', context)
 
 @staff_member_required
 @require_http_methods(["POST"])
 def enrich_video_metadata(request):
     """View to enrich video metadata using YouTube API"""
     print("Starting enrich_video_metadata view")  # Debug log
-    language_code = get_current_language(request)
     try:
-        print(f"Building YouTube API client for language: {language_code}")  # Debug log
+        print("Building YouTube API client")  # Debug log
         youtube = build('youtube', 'v3', developerKey=settings.YOUTUBE_API_KEY)
         
         # Get videos that are either live OR have snippets and translations generated
         # AND don't have a title set yet (to avoid unnecessary API calls)
         videos = Video.objects.filter(
-            language__code=language_code,
             status__in=[VideoStatus.LIVE, VideoStatus.SNIPPETS_AND_TRANSLATIONS_GENERATED],
             youtube_title__isnull=True
         )
@@ -1277,7 +1188,6 @@ def enrich_video_metadata(request):
         
         # Get count of videos that were skipped because they already had titles
         skipped_count = Video.objects.filter(
-            language__code=language_code,
             status__in=[VideoStatus.LIVE, VideoStatus.SNIPPETS_AND_TRANSLATIONS_GENERATED],
             youtube_title__isnull=False
         ).count()
@@ -1302,10 +1212,8 @@ def enrich_video_metadata(request):
 def reduce_review_priorities(request):
     """View to reduce priority for all videos on the current review page"""
     try:
-        language_code = get_current_language(request)
         # Get the first 50 videos that need review, ordered by priority (descending) and youtube_id
         video_ids = Video.objects.filter(
-            language__code=language_code,
             status=VideoStatus.NEEDS_REVIEW
         ).order_by('-priority', 'youtube_id')[:50].values_list('id', flat=True)
         
@@ -1323,10 +1231,8 @@ def reduce_review_priorities(request):
 def publish_videos_with_many_snippets(request):
     """View to publish videos that have more than 5 snippets and are ready for publishing"""
     try:
-        language_code = get_current_language(request)
         # Get videos with more than 5 snippets and status SNIPPETS_AND_TRANSLATIONS_GENERATED
         videos = Video.objects.filter(
-            language__code=language_code,
             status=VideoStatus.SNIPPETS_AND_TRANSLATIONS_GENERATED
         ).annotate(
             snippet_count=models.Count('snippets')
@@ -1342,7 +1248,6 @@ def publish_videos_with_many_snippets(request):
         messages.error(request, f"Error publishing videos: {str(e)}")
     
     return redirect('cms:german_with_videos:actions')
-
 
 @staff_member_required
 @require_http_methods(["POST"])

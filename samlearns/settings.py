@@ -66,9 +66,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize' ,
     'storages',
-    'trees_of_germany.apps.TreesOfGermanyConfig',
     'lucide',
+    # my own stuff
+    'cms',
+    'trees_of_germany.apps.TreesOfGermanyConfig',
     'german_with_videos.apps.GermanWithVideosConfig',
     'uke_fingerpicking.apps.UkeFingerpickingConfig',
 ]

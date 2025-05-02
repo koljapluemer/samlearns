@@ -5,7 +5,7 @@ from cms.views.german_with_videos.all import (
     video_details, update_video_status, generate_snippets, generate_translations,
     publish_video, reset_snippets, export_snippets_csv, mark_videos_without_arabic_subtitles,
     generate_snippets_for_all_shortlisted, generate_translations_for_all_snippets,
-    bulk_check_subtitles, blacklist_video, set_frontend, update_video_priorities,
+    bulk_check_subtitles, blacklist_video, update_video_priorities,
     reduce_review_priorities, search_videos, enrich_video_metadata,
     publish_videos_with_many_snippets, manage_tags, remove_tag, add_tag,
     tag_autocomplete
@@ -34,7 +34,6 @@ urlpatterns = [
     path('generate-translations-all/', generate_translations_for_all_snippets, name='generate_translations_all'),
     path('bulk-check-subtitles/', bulk_check_subtitles, name='bulk_check_subtitles'),
     path('video/<str:youtube_id>/blacklist/', blacklist_video, name='blacklist_video'),
-    path('set-frontend/', set_frontend, name='set_frontend'),
     path('update-priorities/', update_video_priorities, name='update_video_priorities'),
     path('reduce-review-priorities/', reduce_review_priorities, name='reduce_review_priorities'),
     path('search/', search_videos, name='search_videos'),

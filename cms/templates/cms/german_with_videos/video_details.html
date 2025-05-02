@@ -19,7 +19,7 @@
                 <span class="text-sm text-gray-500">(Priority: {{ video.priority }})</span>
             </div>
             <div>
-                {% include "includes/video_status.html" %}
+                {% include "cms/german_with_videos/includes/video_status.html" %}
             </div>
         </div>
 
@@ -199,7 +199,6 @@
 
                     {% if video.status != 'blacklisted' %}
                         <form action="{% url 'cms:german_with_videos:blacklist_video' video.youtube_id %}" method="post">
-                        <form action="{% url 'blacklist_video' video.youtube_id %}" method="post">
                             {% csrf_token %}
                             <button type="submit" class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded">
                                 Blacklist Video
