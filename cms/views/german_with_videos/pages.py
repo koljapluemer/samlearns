@@ -23,10 +23,28 @@ def actions(request):
 @never_cache
 def cms_home(request):
     """CMS home page showing overview of video statuses"""
-    status_counts = Video.objects.values('status').annotate(count=models.Count('id'))
-    status_data = {item['status']: item['count'] for item in status_counts}
+    # Get total count of all videos
+    total_videos = Video.objects.count()
+    
+    # Get counts for each status
+    needs_review = Video.objects.filter(status=VideoStatus.NEEDS_REVIEW).count()
+    shortlisted = Video.objects.filter(status=VideoStatus.SHORTLISTED).count()
+    longlisted = Video.objects.filter(status=VideoStatus.LONGLISTED).count()
+    not_relevant = Video.objects.filter(status=VideoStatus.NOT_RELEVANT).count()
+    snippets_generated = Video.objects.filter(status=VideoStatus.SNIPPETS_GENERATED).count()
+    snippets_and_translations_generated = Video.objects.filter(status=VideoStatus.SNIPPETS_AND_TRANSLATIONS_GENERATED).count()
+    live = Video.objects.filter(status=VideoStatus.LIVE).count()
+    blacklisted = Video.objects.filter(status=VideoStatus.BLACKLISTED).count()
     
     context = {
-        'status_data': status_data,
+        'total_videos': total_videos,
+        'needs_review': needs_review,
+        'shortlisted': shortlisted,
+        'longlisted': longlisted,
+        'not_relevant': not_relevant,
+        'snippets_generated': snippets_generated,
+        'snippets_and_translations_generated': snippets_and_translations_generated,
+        'live': live,
+        'blacklisted': blacklisted,
     }
     return render(request, 'cms/german_with_videos/home.html', context)

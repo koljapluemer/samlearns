@@ -36,7 +36,9 @@ def generate_snippets_for_all_shortlisted(request):
                         transcript_list = YouTubeTranscriptApi.list_transcripts(video.youtube_id)
                         
                         # Get the first available transcript
-                        transcript = transcript_list[0]
+                        transcript = next(iter(transcript_list), None)
+                        if not transcript:
+                            raise Exception("No transcripts found")
                         
                         transcript_data = transcript.fetch()
                         
