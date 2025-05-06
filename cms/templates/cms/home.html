@@ -2,34 +2,7 @@
 
 
 {% block cms_content %}
-<div class="content">
-    <h1 class="title is-1">Content Management System</h1>
-    
-    <div class="columns mt-6">
-        <div class="column is-6">
-            <div class="card">
-                <div class="card-content">
-                    <div class="media">
-                        <div class="media-left">
-                            <span class="icon is-large">
-                                {% load lucide %}
-                                {% lucide "video" size=32 %}
-                            </span>
-                        </div>
-                        <div class="media-content">
-                            <p class="title is-4">German with Videos</p>
-                            <p class="subtitle is-6">Manage videos, snippets, and translations</p>
-                        </div>
-                    </div>
-                    
-                    <div class="content mt-4">
-                        <a href="{% url 'cms:german_with_videos:cms_home' %}" class="button is-primary">
-                            Go to German with Videos CMS
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
+Welcome to the CMS.
+
 {% endblock %}

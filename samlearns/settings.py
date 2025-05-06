@@ -74,7 +74,6 @@ INSTALLED_APPS = [
     'shared',
     'cms',
     'trees_of_germany.apps.TreesOfGermanyConfig',
-    'german_with_videos.apps.GermanWithVideosConfig',
     'uke_fingerpicking.apps.UkeFingerpickingConfig',
 ]
 

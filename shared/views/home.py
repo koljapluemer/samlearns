@@ -13,12 +13,6 @@ class HomeView(TemplateView):
                 'icon': 'tree'
             },
             {
-                'name': 'German with Videos',
-                'url': '/german-with-videos/',
-                'description': 'Learn German through video content',
-                'icon': 'video'
-            },
-            {
                 'name': 'Uke Fingerpicking',
                 'url': '/uke-fingerpicking/',
                 'description': 'Learn ukulele fingerpicking techniques',
