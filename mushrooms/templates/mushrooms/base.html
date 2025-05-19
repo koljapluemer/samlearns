@@ -1,0 +1,72 @@
+{% extends "base.html" %} 
+
+{% block title %}Mushrooms{% endblock %}
+{% block name %}Mushrooms{% endblock %} 
+
+{% block navbar %}
+<a class="navbar-item" href="{% url 'mushrooms:learn' %}">
+  <span class="icon">
+    <i class="fas fa-mushroom"></i>
+  </span>
+  <span>Learn Mushrooms</span>
+</a>
+<div class="navbar-item">
+  <button class="button is-light" onclick="downloadLearningData()">
+    <span class="icon">
+      <i class="fas fa-download"></i>
+    </span>
+    <span>Download Learning Data</span>
+  </button>
+</div>
+{% endblock %} 
+
+{% block main %} 
+{% block content %} 
+{% endblock %}
+
+<script>
+  async function downloadLearningData() {
+    // Open the database
+    const dbRequest = indexedDB.open("MushroomLearningDB", 1);
+
+    dbRequest.onerror = (event) => {
+      console.error("Error opening database:", event.target.error);
+      alert("Could not access learning data.");
+    };
+
+    dbRequest.onsuccess = async (event) => {
+      const db = event.target.result;
+      const transaction = db.transaction(["learningEvents"], "readonly");
+      const store = transaction.objectStore("learningEvents");
+
+      // Get all records
+      const request = store.getAll();
+
+      request.onerror = (event) => {
+        console.error("Error fetching data:", event.target.error);
+        alert("Could not fetch learning data.");
+      };
+
+      request.onsuccess = (event) => {
+        const data = event.target.result;
+
+        // Create and download the JSON file
+        const blob = new Blob([JSON.stringify(data, null, 2)], {
+          type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `mushroom-learning-data-${
+          new Date().toISOString().split("T")[0]
+        }.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      };
+    };
+  }
+</script>
+
+{% endblock %}

@@ -1,0 +1,133 @@
+{% extends "mushrooms/base.html" %}
+{% load lucide %}
+
+{% block content %}
+{# Pass data safely to JavaScript #}
+{{ species_options|json_script:"species-options" }}
+{{ mushroom_image.id|json_script:"mushroom-image-id" }}
+{{ correct_species.id|json_script:"correct-species-id" }}
+
+<div class="columns is-centered">
+    <div class="column is-half-desktop is-full-mobile is-full-tablet">
+        <div class="box" x-data="{ 
+            selectedButtons: new Set(),
+            correctSpeciesId: JSON.parse(document.getElementById('correct-species-id').textContent),
+            pageLoadTime: Date.now(),
+            clickCount: 0,
+            db: null,
+            speciesOptions: JSON.parse(document.getElementById('species-options').textContent),
+            mushroomImageId: JSON.parse(document.getElementById('mushroom-image-id').textContent),
+            foundCorrectAnswer: false,
+            isTouch: false,
+
+            initDB() {
+                const request = indexedDB.open('MushroomLearningDB', 1);
+                
+                request.onerror = (event) => {
+                    console.error('Database error:', event.target.error);
+                };
+
+                request.onupgradeneeded = (event) => {
+                    const db = event.target.result;
+                    if (!db.objectStoreNames.contains('learningEvents')) {
+                        db.createObjectStore('learningEvents', { autoIncrement: true });
+                    }
+                };
+
+                request.onsuccess = (event) => {
+                    this.db = event.target.result;
+                };
+            },
+
+            checkTouchSupport() {
+                // Check for touch capability
+                this.isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+            },
+
+            logLearningEvent(speciesId) {
+                this.clickCount++;
+                const timeElapsed = Date.now() - this.pageLoadTime;
+                
+                const eventData = {
+                    timestamp: new Date().toISOString(),
+                    selectedSpecies: this.speciesOptions.find(s => s.id === speciesId).latin_name,
+                    availableOptions: this.speciesOptions.map(s => s.latin_name),
+                    wasCorrect: speciesId === this.correctSpeciesId,
+                    timeElapsedMs: timeElapsed,
+                    imageId: this.mushroomImageId,
+                    clickNumber: this.clickCount,
+                };
+
+                const transaction = this.db.transaction(['learningEvents'], 'readwrite');
+                const store = transaction.objectStore('learningEvents');
+                store.add(eventData);
+            },
+
+            handleClick(speciesId) {
+                if (this.foundCorrectAnswer) return; // Only prevent if correct answer was found
+                this.selectedButtons.add(speciesId);
+                this.logLearningEvent(speciesId);
+                if (speciesId === this.correctSpeciesId) {
+                    this.foundCorrectAnswer = true;
+                    setTimeout(() => window.location.reload(), 1000);
+                }
+            },
+
+            handleKeyPress(event) {
+                if (this.foundCorrectAnswer) return; // Only prevent if correct answer was found
+                const buttons = Array.from(document.querySelectorAll('.species-option'));
+                if (event.key === 'ArrowLeft' && buttons[0]) {
+                    this.handleClick(parseInt(buttons[0].getAttribute('data-species-id')));
+                } else if (event.key === 'ArrowRight' && buttons[1]) {
+                    this.handleClick(parseInt(buttons[1].getAttribute('data-species-id')));
+                }
+            }
+        }" 
+        x-init="
+            initDB();
+            checkTouchSupport();
+            window.addEventListener('keydown', (e) => handleKeyPress(e));
+            $cleanup = () => window.removeEventListener('keydown', handleKeyPress);
+        ">
+            <div class="buttons is-centered mb-4">
+                {% for species in species_options %}
+                <button 
+                    class="button species-option is-large is-normal-mobile"
+                    :class="{ 
+                        'is-light': selectedButtons.has({{ species.id }}) && {{ species.id }} !== correctSpeciesId,
+                        'is-success': selectedButtons.has({{ species.id }}) && {{ species.id }} === correctSpeciesId 
+                    }"
+                    :disabled="selectedButtons.has({{ species.id }}) && {{ species.id }} !== correctSpeciesId"
+                    @click="handleClick({{ species.id }})"
+                    data-species-id="{{ species.id }}"
+                >
+                    <div class="has-text-centered">
+                        <div class="is-size-4 is-size-5-mobile">{{ species.german_name }}</div>
+                        <div class="is-size-6 is-size-7-mobile has-text-grey">{{ species.latin_name }}</div>
+                        <div class="is-size-6 is-size-7-mobile has-text-grey">{{ species.english_name }}</div>
+                        <div class="is-size-7 has-text-grey mt-2" x-show="!isTouch">
+                            {% if forloop.first %}
+                            {% lucide "arrow-left" size=16 %}
+                            {% else %}
+                            {% lucide "arrow-right" size=16 %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </button>
+                {% endfor %}
+            </div>
+
+            <div class="image-container" style="position: relative; width: min(524px, 100%); margin: 0 auto;">
+                <img src="{{ mushroom_image.get_usable_url }}" alt="Mushroom to identify" style="width: 100%; height: auto; display: block;">
+                {% if mushroom_image.credit_user_name and mushroom_image.credit_url %}
+                <div style="position: absolute; bottom: 0; right: 0; background: rgba(0,0,0,0.5); padding: 0.25rem 0.5rem; border-radius: 4px 0 0 0;">
+                    <a href="{{ mushroom_image.credit_url }}" target="_blank" rel="noopener noreferrer" class="has-text-white is-size-7">
+                        © {{ mushroom_image.credit_user_name }}
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

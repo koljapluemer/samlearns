@@ -13,6 +13,12 @@ class HomeView(TemplateView):
                 'icon': 'tree'
             },
             {
+                'name': 'Mushrooms',
+                'url': '/mushrooms/',
+                'description': 'Learn about different mushroom species',
+                'icon': 'mushroom'
+            },
+            {
                 'name': 'Uke Fingerpicking',
                 'url': '/uke-fingerpicking/',
                 'description': 'Learn ukulele fingerpicking techniques',

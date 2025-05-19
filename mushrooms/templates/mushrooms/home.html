@@ -1,0 +1,30 @@
+{% extends "mushrooms/base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="hero is-primary mt-3">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title is-1 has-text-centered">
+                    Ready to learn mushrooms?
+                </h1>
+                <h2 class="subtitle has-text-centered mt-5">
+                    Learn to identify mushrooms
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="section mt-5">
+        <div class="container">
+            <div class="content has-text-centered">
+               <a href="{% url 'mushrooms:learn' %}" class="button is-primary is-large">
+                    <span class="icon">
+                        <i class="fas fa-mushroom"></i>
+                    </span>
+                    <span>Start Learning</span>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %} 

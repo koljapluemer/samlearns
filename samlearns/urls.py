@@ -6,5 +6,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('cms/', include('cms.urls')),
     path('trees-of-germany/', include('trees_of_germany.urls')),
+    path('mushrooms/', include('mushrooms.urls')),
     path('uke-fingerpicking/', include('uke_fingerpicking.urls')),
 ]

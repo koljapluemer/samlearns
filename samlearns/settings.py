@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     'cms',
     'trees_of_germany.apps.TreesOfGermanyConfig',
     'uke_fingerpicking.apps.UkeFingerpickingConfig',
+    'mushrooms.apps.MushroomsConfig',
 ]
 
 MIDDLEWARE = [
