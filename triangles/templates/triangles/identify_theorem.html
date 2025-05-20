@@ -60,7 +60,9 @@
                                     @click="handleClick('{{ option.id }}', $el)"
                                     style="width: 100%; text-align: left; white-space: normal; height: 100%; display: flex; flex-direction: column; align-items: flex-start;">
                                 <span class="is-block has-text-weight-bold is-size-4">{{ option.title }}</span>
+                                {% if option.explanation %}
                                 <span class="is-block is-size-7 has-text-grey" style="white-space: normal; word-break: break-word;">{{ option.explanation }}</span>
+                                {% endif %}
                             </button>
                         </form>
                     </div>

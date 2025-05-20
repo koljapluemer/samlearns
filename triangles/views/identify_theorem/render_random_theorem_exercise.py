@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import random
-from triangles.models import Topic
+from triangles.models import Topic, TopicProgress
 from triangles.interactors.triangle_gen.generate_sss_triangle import generate_sss_triangle
 from triangles.interactors.triangle_gen.generate_ssw_triangle import generate_ssw_triangle
 from triangles.interactors.triangle_gen.generate_sws_triangle import generate_sws_triangle
@@ -16,6 +16,10 @@ def render_random_theorem_exercise(request):
     # Randomly choose a theorem topic
     theorem_topic = random.choice(list(congruence_theorems))
     theorem_type = theorem_topic.name.lower()
+    
+    # Get user's progress for this topic
+    topic_progress = TopicProgress.objects.filter(user=request.user, topic=theorem_topic).first()
+    show_explanations = not topic_progress or topic_progress.streak <= 5
     
     # Generate triangles based on the chosen theorem
     if theorem_type == 'sss':
@@ -33,8 +37,6 @@ def render_random_theorem_exercise(request):
     else:
         raise ValueError(f"Unknown theorem type: {theorem_type}")
     
-    
-    
     # Hardcoded German explanations
     raw_options = [
         {'id': 'sws', 'label': 'Kongruenzsatz sws: Zwei Seiten haben die gleiche Länge, und der eingeschlossene Winkel ist gleich groß.'},
@@ -51,7 +53,7 @@ def render_random_theorem_exercise(request):
         theorem_options.append({
             'id': opt['id'],
             'title': title.strip(),
-            'explanation': explanation.strip(),
+            'explanation': explanation.strip() if show_explanations else '',
         })
     
     context = {
