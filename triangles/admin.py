@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Distractor, Topic, ClozeTemplate, ImageExerciseTemplate, TopicProgress, ClozeTemplateGapProgress, ImageExerciseProgress, LearningEvent
+from .models import Distractor, Topic, ClozeTemplate, ImageExerciseTemplate, TopicProgress, ClozeTemplateGapProgress, LearningEvent
 
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
@@ -40,11 +40,6 @@ class ClozeTemplateGapProgressAdmin(admin.ModelAdmin):
     list_filter = ('template__topic', 'user')
     search_fields = ('user__username', 'template__topic__name')
 
-@admin.register(ImageExerciseProgress)
-class ImageExerciseProgressAdmin(admin.ModelAdmin):
-    list_display = ('user', 'template', 'streak')
-    list_filter = ('template__topic', 'user')
-    search_fields = ('user__username', 'template__topic__name')
 
 @admin.register(Distractor)
 class DistractorAdmin(admin.ModelAdmin):

@@ -56,16 +56,6 @@ class ClozeTemplateGapProgress(models.Model):
     def __str__(self):
         return f"{self.user.username}'s progress in {self.template} gap {self.gap_index}"
 
-class ImageExerciseProgress(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='image_exercise_progress')
-    template = models.ForeignKey(ImageExerciseTemplate, on_delete=models.CASCADE, related_name='user_progress')
-    streak = models.PositiveIntegerField(default=0)
-
-    class Meta:
-        unique_together = ['user', 'template']
-
-    def __str__(self):
-        return f"{self.user.username}'s progress in {self.template}"
 
 class Distractor(models.Model):
     content = models.TextField()
@@ -80,13 +70,7 @@ class LearningEvent(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='learning_events')
     timestamp = models.DateTimeField(auto_now_add=True)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='learning_events')
-    image_exercise_template = models.ForeignKey(
-        ImageExerciseTemplate, 
-        on_delete=models.SET_NULL, 
-        null=True, 
-        blank=True,
-        related_name='learning_events'
-    )
+    exercise_type = models.CharField(max_length=255, help_text="The type of exercise that was completed")
     cloze_template = models.ForeignKey(
         ClozeTemplate, 
         on_delete=models.SET_NULL, 

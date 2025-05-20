@@ -6,6 +6,7 @@
         <div class="column is-8">
             <div>
                 <h1 class="title has-text-centered">Woran kannst du erkennen, dass die beiden Dreiecke kongruent sind?</h1>
+                <script>console.log('correct_theorem from backend:', '{{ correct_theorem }}');</script>
                 
                 <div class="columns is-centered mb-6 has-background-light">
                     <div class="column is-6">
@@ -26,15 +27,46 @@
                     </div>
                 </div>
 
-                <div class="columns is-multiline is-centered is-flex is-align-items-stretch">
+                <div class="columns is-multiline is-centered is-flex is-align-items-stretch"
+                     x-data="{
+                        correct: '{{ correct_theorem }}',
+                        selected: new Set(),
+                        foundCorrect: false,
+                        wasFirstTry: true,
+                        nextUrl: '{% url 'triangles:identify_theorem' %}',
+                        handleClick(id, btn) {
+                            console.log('Clicked:', id, 'Correct:', this.correct);
+                            if (this.foundCorrect || this.selected.has(id)) return;
+                            if (id === this.correct) {
+                                this.foundCorrect = true;
+                                btn.classList.add('is-success');
+                                setTimeout(() => {
+                                    fetch('{% url 'triangles:identify_theorem_submit' %}', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                                        body: new URLSearchParams({
+                                            selected_theorem: id,
+                                            correct_theorem: this.correct,
+                                            result: this.wasFirstTry ? 'correct' : 'incorrect'
+                                        })
+                                    }).then(() => {
+                                        window.location.href = this.nextUrl;
+                                    });
+                                }, 200);
+                            } else {
+                                this.selected.add(id);
+                                btn.disabled = true;
+                                this.wasFirstTry = false;
+                            }
+                        }
+                    }">
                     {% for option in theorem_options %}
                     <div class="column is-6 is-flex is-align-items-stretch">
-                        <form method="post" style="margin-bottom: 0; width: 100%;">
-                            <button type="button" class="button is-large box has-shadow theorem-option mb-5" 
-                                    data-theorem="{{ option.id }}"
-                                    hx-post="{% url 'triangles:identify_theorem_submit' %}"
-                                    hx-vals='{"selected_theorem": "{{ option.id }}", "correct_theorem": "{{ correct_theorem }}"}'
-                                    hx-target="#result-message"
+                        <form method="post" style="margin-bottom: 0; width: 100%;" @submit.prevent>
+                            <button type="button" class="button is-large box has-shadow theorem-option mb-5"
+                                    :class="{ 'is-success': foundCorrect && '{{ option.id }}' === correct, 'is-light': selected.has('{{ option.id }}') && '{{ option.id }}' !== correct }"
+                                    :disabled="foundCorrect || selected.has('{{ option.id }}')"
+                                    @click="handleClick('{{ option.id }}', $el)"
                                     style="width: 100%; text-align: left; white-space: normal; height: 100%; display: flex; flex-direction: column; align-items: flex-start;">
                                 <span class="is-block has-text-weight-bold is-size-4">{{ option.title }}</span>
                                 <span class="is-block is-size-7 has-text-grey" style="white-space: normal; word-break: break-word;">{{ option.explanation }}</span>
@@ -43,8 +75,6 @@
                     </div>
                     {% endfor %}
                 </div>
-
-                <div id="result-message" class="has-text-centered mt-4"></div>
             </div>
         </div>
     </div>

@@ -29,6 +29,39 @@ def angle_arc_points(vx, vy, v1x, v1y, v2x, v2y, radius):
     p2x, p2y = vx + u2x*radius, vy + u2y*radius
     return p1x, p1y, p2x, p2y
 
+def canonical_triangle_points(side1, side2, angle):
+    # Returns canonical triangle points (ax, ay), (bx, by), (cx, cy)
+    ax, ay = 0, 0
+    bx, by = side1, 0
+    angle_rad = math.radians(angle)
+    cx = side2 * math.cos(angle_rad)
+    cy = side2 * math.sin(angle_rad)
+    return (ax, ay), (bx, by), (cx, cy)
+
+def rotate_and_scale_points(points, rotation, margin=30, viewbox_size=200):
+    # Rotate around centroid, then scale and translate to fit in viewBox
+    def rotate_point(x, y, angle_deg, cx=0, cy=0):
+        angle_rad = math.radians(angle_deg)
+        x0, y0 = x - cx, y - cy
+        xr = x0 * math.cos(angle_rad) - y0 * math.sin(angle_rad)
+        yr = x0 * math.sin(angle_rad) + y0 * math.cos(angle_rad)
+        return xr + cx, yr + cy
+    centroid_x = sum(x for x, y in points) / 3
+    centroid_y = sum(y for x, y in points) / 3
+    rotated_points = [rotate_point(x, y, rotation, centroid_x, centroid_y) for x, y in points]
+    min_x = min(x for x, y in rotated_points)
+    max_x = max(x for x, y in rotated_points)
+    min_y = min(y for x, y in rotated_points)
+    max_y = max(y for x, y in rotated_points)
+    width = max_x - min_x
+    height = max_y - min_y
+    scale = min((viewbox_size - 2 * margin) / width, (viewbox_size - 2 * margin) / height)
+    def transform_point(x, y):
+        x = (x - min_x) * scale + margin
+        y = (y - min_y) * scale + margin
+        return x, y
+    return [transform_point(*pt) for pt in rotated_points]
+
 def generate_svg_triangle(side1, side2, side3, angle, rotation, theorem_type):
     # Step 1: Canonical triangle points (unrotated)
     ax, ay = 0, 0

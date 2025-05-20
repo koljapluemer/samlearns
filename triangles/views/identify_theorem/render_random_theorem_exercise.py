@@ -19,15 +19,21 @@ def render_random_theorem_exercise(request):
     
     # Generate triangles based on the chosen theorem
     if theorem_type == 'sss':
+        print("Generating SSS triangle")
         triangle_data = generate_sss_triangle()
     elif theorem_type == 'ssw':
+        print("Generating SSW triangle")
         triangle_data = generate_ssw_triangle()
     elif theorem_type == 'sws':
+        print("Generating SWS triangle")
         triangle_data = generate_sws_triangle()
     elif theorem_type == 'wsw':
+        print("Generating WSW triangle")
         triangle_data = generate_wsw_triangle()
     else:
         raise ValueError(f"Unknown theorem type: {theorem_type}")
+    
+    
     
     # Hardcoded German explanations
     raw_options = [
