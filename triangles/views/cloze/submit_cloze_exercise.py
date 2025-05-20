@@ -2,13 +2,19 @@ from guest_user.decorators import allow_guest_user
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import redirect
+from django.contrib import messages
 import json
+import random
 
 from triangles.models import ClozeTemplate, Topic, TopicProgress, ClozeTemplateGapProgress, LearningEvent, Distractor
 
-
-
-
+POSITIVE_MESSAGES = [
+    'Sehr gut!',
+    'Stark!',
+    'Super gemacht!',
+    'Perfekt!',
+    'Ausgezeichnet!'
+]
 
 @csrf_exempt  # since only guest users, and for JS POST
 @allow_guest_user
@@ -34,6 +40,7 @@ def submit_cloze_exercise(request):
     if result == 'correct':
         topic_progress.streak += 1
         gap_progress.streak += 1
+        messages.success(request, random.choice(POSITIVE_MESSAGES))
     else:
         topic_progress.streak = 0
         gap_progress.streak = 0

@@ -3,7 +3,18 @@ from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
+from django.contrib import messages
+import random
+
 from triangles.models import Topic, TopicProgress, LearningEvent
+
+POSITIVE_MESSAGES = [
+    'Sehr gut!',
+    'Stark!',
+    'Super gemacht!',
+    'Perfekt!',
+    'Ausgezeichnet!'
+]
 
 @csrf_exempt  # for JS POST
 @login_required
@@ -25,6 +36,7 @@ def submit_theorem_answer(request):
         topic_progress, _ = TopicProgress.objects.get_or_create(user=user, topic=topic)
         if result == 'correct':
             topic_progress.streak += 1
+            messages.success(request, random.choice(POSITIVE_MESSAGES))
         else:
             topic_progress.streak = 0
         topic_progress.save()

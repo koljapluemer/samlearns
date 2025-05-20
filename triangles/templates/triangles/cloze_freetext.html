@@ -24,6 +24,16 @@
                       cooldownRemaining: 0,
                       cooldownInterval: null,
                       inputClass: '',
+                      positiveMessages: [
+                          'Sehr gut!',
+                          'Stark!',
+                          'Super gemacht!',
+                          'Perfekt!',
+                          'Ausgezeichnet!'
+                      ],
+                      getRandomPositiveMessage() {
+                          return this.positiveMessages[Math.floor(Math.random() * this.positiveMessages.length)];
+                      },
                       startCooldown(duration) {
                           this.cooldownRemaining = duration;
                           const startTime = Date.now();

@@ -45,9 +45,20 @@
     </nav>
 
     {% if messages %}
-    <div class="container mx-auto px-4 py-4">
+    <div x-data="{ 
+           init() {
+             setTimeout(() => {
+               this.$el.style.opacity = '0';
+               setTimeout(() => this.$el.remove(), 300);
+             }, 3000);
+           }
+         }"
+         x-init="init"
+         style="position: fixed; top: 1.5rem; right: 1.5rem; z-index: 1000; width: 350px; opacity: 1; transition: opacity 0.3s ease-out;">
       {% for message in messages %}
-        <div class="p-4 mb-4 text-sm rounded-lg {% if message.tags == 'error' %}bg-red-100 text-red-700{% elif message.tags == 'success' %}bg-green-100 text-green-700{% elif message.tags == 'warning' %}bg-yellow-100 text-yellow-700{% else %}bg-blue-100 text-blue-700{% endif %}" role="alert">
+        <div class="notification {% if message.tags == 'error' %}is-danger{% elif message.tags == 'success' %}is-success{% elif message.tags == 'warning' %}is-warning{% else %}is-info{% endif %}"
+             style="margin-bottom: 1rem;">
+          <button class="delete" onclick="this.parentElement.style.display='none'"></button>
           {{ message }}
         </div>
       {% endfor %}

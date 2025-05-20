@@ -6,7 +6,6 @@
         <div class="column is-8">
             <div>
                 <h1 class="title has-text-centered">Woran kannst du erkennen, dass die beiden Dreiecke kongruent sind?</h1>
-                <script>console.log('correct_theorem from backend:', '{{ correct_theorem }}');</script>
                 
                 <div class="columns is-centered mb-6 has-background-light">
                     <div class="column is-6">
@@ -34,7 +33,6 @@
                         foundCorrect: false,
                         wasFirstTry: true,
                         handleClick(id, btn) {
-                            console.log('Clicked:', id, 'Correct:', this.correct);
                             if (this.foundCorrect || this.selected.has(id)) return;
                             if (id === this.correct) {
                                 this.foundCorrect = true;
