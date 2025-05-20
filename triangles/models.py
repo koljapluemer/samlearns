@@ -56,6 +56,15 @@ class ImageExerciseProgress(models.Model):
     def __str__(self):
         return f"{self.user.username}'s progress in {self.template}"
 
+class Distractor(models.Model):
+    content = models.TextField()
+    
+    class Meta:
+        unique_together = ['content']
+
+    def __str__(self):
+        return self.content
+
 class LearningEvent(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='learning_events')
     timestamp = models.DateTimeField(auto_now_add=True)

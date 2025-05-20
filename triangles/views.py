@@ -1,9 +1,16 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from guest_user.decorators import allow_guest_user
+import string
 
 from triangles.models import ClozeTemplate
 from triangles.utils import get_due_topic, get_due_gap_index_for_cloze_template
+
+def clean_word(word):
+    """Remove non-alphanumeric characters from the beginning and end of the word."""
+    # Remove punctuation and whitespace from both ends
+    cleaned = word.strip(string.punctuation + string.whitespace)
+    return cleaned
 
 @allow_guest_user
 def render_cloze_exercise(request, template_id, gap_index, level):
@@ -15,6 +22,15 @@ def render_cloze_exercise(request, template_id, gap_index, level):
     words = template.content.split()
     words[gap_index] = "_____"
     cloze_text = " ".join(words)
+    
+    if request.method == 'POST':
+        user_answer = clean_word(request.POST.get('answer', ''))
+        correct_word = clean_word(words[gap_index])
+        
+        if user_answer == correct_word:
+            messages.success(request, "Correct!")
+        else:
+            messages.error(request, f"Wrong! The correct answer was: {correct_word}")
     
     context = {
         'cloze_text': cloze_text,
