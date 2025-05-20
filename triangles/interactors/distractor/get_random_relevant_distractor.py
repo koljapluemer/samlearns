@@ -1,6 +1,6 @@
 import random
-from triangles.interactors.distractor import get_all_uppercase_distractors
-from triangles.interactors.distractor import get_all_lowercase_distractors
+from triangles.interactors.distractor.get_all_uppercase_distractors import get_all_uppercase_distractors
+from triangles.interactors.distractor.get_all_lowercase_distractors import get_all_lowercase_distractors
 from triangles.models import Distractor
 
 

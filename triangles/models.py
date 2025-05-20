@@ -15,6 +15,16 @@ class ClozeTemplate(models.Model):
     def __str__(self):
         return f"Cloze for {self.topic.name}"
 
+    def get_gap_at_index(self, gap_index: int) -> str:
+        """
+        Returns the word at the given gap index.
+        The gap_index is the index in the list of words where the gap should be.
+        """
+        words = self.content.split()
+        if gap_index >= len(words):
+            raise ValueError(f"Gap index {gap_index} is out of range for template {self}")
+        return words[gap_index]
+
 class ImageExerciseTemplate(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='image_exercises')
     prompt = models.TextField()

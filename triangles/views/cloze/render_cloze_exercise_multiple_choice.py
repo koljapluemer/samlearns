@@ -1,9 +1,9 @@
 from django.shortcuts import get_object_or_404
-from triangles.interactors.distractor import get_random_relevant_distractor
+from triangles.interactors.distractor.get_random_relevant_distractor import get_random_relevant_distractor
 from triangles.models import ClozeTemplate
 from guest_user.decorators import allow_guest_user
 from django.shortcuts import render, redirect, get_object_or_404
-from triangles.interactors.cloze import generate_cloze_exercise
+from triangles.interactors.cloze.generate_cloze_exercise import generate_cloze_exercise
 import random
 
 @allow_guest_user

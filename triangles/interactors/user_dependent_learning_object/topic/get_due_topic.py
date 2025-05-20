@@ -1,5 +1,4 @@
-
-from triangles.interactors.topic import get_random_topic
+from triangles.interactors.topic.get_random_topic import get_random_topic
 from triangles.models import Topic
 from django.contrib.auth.models import User
 
