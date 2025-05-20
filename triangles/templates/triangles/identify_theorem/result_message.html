@@ -1,0 +1,23 @@
+{% if is_correct %}
+<div class="notification is-success">
+    <p class="has-text-centered">
+        <span class="icon-text">
+            <span class="icon">
+                <i class="lucide-check"></i>
+            </span>
+            <span>Correct! The triangles are congruent by {{ selected_theorem }}.</span>
+        </span>
+    </p>
+</div>
+{% else %}
+<div class="notification is-danger">
+    <p class="has-text-centered">
+        <span class="icon-text">
+            <span class="icon">
+                <i class="lucide-x"></i>
+            </span>
+            <span>Incorrect. The correct theorem is {{ correct_theorem }}.</span>
+        </span>
+    </p>
+</div>
+{% endif %} 

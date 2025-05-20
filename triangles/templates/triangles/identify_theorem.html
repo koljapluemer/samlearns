@@ -1,0 +1,46 @@
+{% extends "triangles/base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="columns is-centered">
+        <div class="column is-8">
+            <div class="box">
+                <h1 class="title has-text-centered">Woran kannst du erkennen, dass die beiden Dreiecke kongruent sind?</h1>
+                
+                <div class="columns is-centered mb-6 has-background-light">
+                    <div class="column is-6">
+                        <div class="has-text-centered">
+                            <!-- First Triangle SVG -->
+                            <div class="triangle-container">
+                                {{ triangle_data.svg1|safe }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="has-text-centered">
+                            <!-- Second Triangle SVG -->
+                            <div class="triangle-container">
+                                {{ triangle_data.svg2|safe }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="buttons is-centered">
+                    {% for option in theorem_options %}
+                    <button class="button is-large theorem-option" 
+                            data-theorem="{{ option.id }}"
+                            hx-post="{% url 'triangles:identify_theorem_submit' %}"
+                            hx-vals='{"selected_theorem": "{{ option.id }}", "correct_theorem": "{{ correct_theorem }}"}'
+                            hx-target="#result-message">
+                        {{ option.label }}
+                    </button>
+                    {% endfor %}
+                </div>
+
+                <div id="result-message" class="has-text-centered mt-4"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
