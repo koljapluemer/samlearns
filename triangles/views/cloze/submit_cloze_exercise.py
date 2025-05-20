@@ -42,6 +42,9 @@ def submit_cloze_exercise(request):
     if result == 'correct':
         topic_progress.streak += 1
         gap_progress.streak += 1
+        # Update highest achieved streak if current streak is higher
+        if topic_progress.streak > topic_progress.highest_achieved_streak:
+            topic_progress.highest_achieved_streak = topic_progress.streak
     else:
         topic_progress.streak = 0
         gap_progress.streak = 0

@@ -36,6 +36,9 @@ def submit_theorem_answer(request):
         topic_progress, _ = TopicProgress.objects.get_or_create(user=user, topic=topic)
         if result == 'correct':
             topic_progress.streak += 1
+            # Update highest achieved streak if current streak is higher
+            if topic_progress.streak > topic_progress.highest_achieved_streak:
+                topic_progress.highest_achieved_streak = topic_progress.streak
             messages.success(request, random.choice(POSITIVE_MESSAGES))
         else:
             topic_progress.streak = 0

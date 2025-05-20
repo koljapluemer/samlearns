@@ -36,7 +36,8 @@ class ImageExerciseTemplate(models.Model):
 class TopicProgress(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='topic_progress')
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='user_progress')
-    streak = models.PositiveIntegerField(default=0)
+    streak = models.PositiveIntegerField(default=1)
+    highest_achieved_streak = models.PositiveIntegerField(default=1)
 
     class Meta:
         unique_together = ['user', 'topic']
@@ -48,7 +49,7 @@ class ClozeTemplateGapProgress(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='cloze_progress')
     template = models.ForeignKey(ClozeTemplate, on_delete=models.CASCADE, related_name='user_progress')
     gap_index = models.PositiveIntegerField()
-    streak = models.PositiveIntegerField(default=0)
+    streak = models.PositiveIntegerField(default=1)
 
     class Meta:
         unique_together = ['user', 'template', 'gap_index']
