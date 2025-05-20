@@ -20,6 +20,7 @@
                       foundCorrect: false,
                       nextUrl: '{% url 'triangles:index' %}',
                       shuffled: [],
+                      wasFirstTry: true,
                       init() {
                           this.shuffled = [...this.options].sort(() => Math.random() - 0.5);
                       },
@@ -27,9 +28,23 @@
                           if (this.foundCorrect) return;
                           if (option === this.correct) {
                               this.foundCorrect = true;
-                              setTimeout(() => { window.location.href = this.nextUrl; }, 600);
+                              const result = this.wasFirstTry ? 'correct' : 'incorrect';
+                              fetch('{% url 'triangles:cloze_submit' %}', {
+                                  method: 'POST',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify({
+                                      template_id: '{{ template_id }}',
+                                      gap_index: {{ gap_index }},
+                                      answer_given: option,
+                                      possible_answers: this.shuffled,
+                                      result: result
+                                  })
+                              }).then(() => {
+                                  window.location.href = this.nextUrl;
+                              });
                           } else {
                               this.selected.add(option);
+                              this.wasFirstTry = false;
                           }
                       }
                   }"
