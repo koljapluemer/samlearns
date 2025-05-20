@@ -8,4 +8,5 @@ urlpatterns = [
     path('trees-of-germany/', include('trees_of_germany.urls')),
     path('mushrooms/', include('mushrooms.urls')),
     path('uke-fingerpicking/', include('uke_fingerpicking.urls')),
+    path('triangles/', include('triangles.urls')),
 ]

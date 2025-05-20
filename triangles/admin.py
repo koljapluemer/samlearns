@@ -1,3 +1,11 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Topic, ClozeTemplate, ImageExerciseTemplate, TopicProgress, ClozeTemplateGapProgress, ImageExerciseProgress, LearningEvent
+
+admin.site.register(Topic)  
+admin.site.register(ClozeTemplate)
+admin.site.register(ImageExerciseTemplate)
+admin.site.register(TopicProgress)
+admin.site.register(ClozeTemplateGapProgress)
+admin.site.register(ImageExerciseProgress)
+admin.site.register(LearningEvent)
