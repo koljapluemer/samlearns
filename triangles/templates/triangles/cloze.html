@@ -12,21 +12,38 @@
                     <p class="has-text-centered is-size-5">{{ cloze_text }}</p>
                 </div>
 
-                <form method="post" class="mt-4">
-                    {% csrf_token %}
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" type="text" name="answer" placeholder="Your answer" required>
+                <div 
+                  x-data="{
+                      options: {{ answer_options|safe }},
+                      shuffled: [],
+                      init() {
+                          this.shuffled = [...this.options].sort(() => Math.random() - 0.5);
+                      }
+                  }"
+                >
+                    <form method="post" class="mt-4">
+                        {% csrf_token %}
+                        <div class="field">
+                            <div class="control">
+                                <div class="buttons is-centered">
+                                    <template x-for="option in shuffled" :key="option">
+                                        <button 
+                                            type="button"
+                                            class="button is-primary is-fullwidth mb-2"
+                                            @click="$refs.answer.value = option; $refs.submit.click()"
+                                            x-text="option"
+                                        ></button>
+                                    </template>
+                                    <template x-if="shuffled.length === 0">
+                                        <span class="has-text-danger">Keine Antwortoptionen verfügbar</span>
+                                    </template>
+                                </div>
+                                <input type="hidden" name="answer" x-ref="answer">
+                                <button type="submit" class="is-hidden" x-ref="submit"></button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="field">
-                        <div class="control">
-                            <button class="button is-primary is-fullwidth" type="submit">
-                                {% lucide "check" class="mr-2" %}Check Answer
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

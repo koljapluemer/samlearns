@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from guest_user.decorators import allow_guest_user
 import string
+import re
 
 from triangles.models import ClozeTemplate
-from triangles.utils import get_due_topic, get_due_gap_index_for_cloze_template
+from triangles.utils import get_due_topic, get_due_gap_index_for_cloze_template, get_random_relevant_distractor
 
 def clean_word(word):
     """Remove non-alphanumeric characters from the beginning and end of the word."""
@@ -18,25 +19,39 @@ def render_cloze_exercise(request, template_id, gap_index, level):
     gap_index = int(gap_index)
     level = int(level)
     
-    # Split content into words and create cloze text
+    # Split content into words
     words = template.content.split()
-    words[gap_index] = "_____"
+    
+    # Get the word at the gap index and clean it
+    correct_word = clean_word(words[gap_index])
+    
+    # Get a relevant distractor
+    distractor = get_random_relevant_distractor(correct_word)
+    
+    # Create cloze text by replacing the word with a gap
+    # Keep any punctuation that was part of the original word
+    original_word = words[gap_index]
+    punctuation_before = re.match(r'^[^\w]*', original_word).group()
+    punctuation_after = re.search(r'[^\w]*$', original_word).group()
+    words[gap_index] = f"{punctuation_before}_____{punctuation_after}"
     cloze_text = " ".join(words)
     
     if request.method == 'POST':
         user_answer = clean_word(request.POST.get('answer', ''))
-        correct_word = clean_word(words[gap_index])
-        
         if user_answer == correct_word:
             messages.success(request, "Correct!")
         else:
             messages.error(request, f"Wrong! The correct answer was: {correct_word}")
+    
+    # Prepare answer options
+    answer_options = [correct_word, distractor.content] if distractor else [correct_word]
     
     context = {
         'cloze_text': cloze_text,
         'template_id': template_id,
         'gap_index': gap_index,
         'level': level,
+        'answer_options': answer_options,
     }
     return render(request, 'triangles/cloze.html', context)
 
