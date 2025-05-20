@@ -17,7 +17,7 @@ def generate_cloze_exercise(template_string:str, correct_answer_string:str) -> D
     # Strip punctuation from the correct answer
     stripped_answer = correct_answer_string.strip(string.punctuation)
     
-    # Replace the full correct answer (with punctuation) with "___"
-    modified_template = template_string.replace(correct_answer_string, "___")
+    # Replace ONLY the first occurrence of the full correct answer (with punctuation) with "___"
+    modified_template = template_string.replace(correct_answer_string, "___", 1)
     
     return {"template": modified_template, "answer": stripped_answer} 

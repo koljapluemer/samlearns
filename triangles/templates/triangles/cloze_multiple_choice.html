@@ -15,7 +15,7 @@
                 <div 
                   x-data="{
                       options: {{ answer_options|safe }},
-                      correct: '{{ answer_options.0 }}',
+                      correct: '{{ correct_answer }}',
                       selected: new Set(),
                       foundCorrect: false,
                       nextUrl: '{% url 'triangles:index' %}',

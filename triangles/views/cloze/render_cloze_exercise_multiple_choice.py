@@ -23,7 +23,7 @@ def render_cloze_exercise_multiple_choice(request, template_id, gap_index, level
     distractor_obj = get_random_relevant_distractor(correct_answer)
     distractor = distractor_obj.content if distractor_obj else "(keine)"
     
-    # Randomize answer options
+    # Create answer options and shuffle them
     answer_options = [correct_answer, distractor]
     random.shuffle(answer_options)
 
@@ -32,6 +32,7 @@ def render_cloze_exercise_multiple_choice(request, template_id, gap_index, level
         'gap_index': gap_index,
         'cloze_text': cloze_text,
         'answer_options': answer_options,
+        'correct_answer': correct_answer,  # Pass correct answer separately
     }
     
     return render(request, 'triangles/cloze_multiple_choice.html', context)
