@@ -13,7 +13,7 @@ def redirect_to_next_exercise(request):
     all_topics_learned = True
     
     for topic in congruence_theorems:
-        if topic.get_streak(request.user) < 4:
+        if topic.get_streak(request.user) < 3:
             all_topics_learned = False
             break
     

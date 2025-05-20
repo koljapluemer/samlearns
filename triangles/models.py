@@ -8,6 +8,17 @@ class Topic(models.Model):
     def __str__(self):
         return self.name
 
+    def get_streak(self, user):
+        """
+        Get the current streak for this topic for the given user.
+        Returns 0 if no progress exists.
+        """
+        try:
+            progress = self.user_progress.get(user=user)
+            return progress.streak
+        except TopicProgress.DoesNotExist:
+            return 0
+
 class ClozeTemplate(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='cloze_templates')
     content = models.TextField()
