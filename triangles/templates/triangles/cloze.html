@@ -6,7 +6,7 @@
     <div class="columns is-centered">
         <div class="column is-half">
             <div class="box">
-                <h1 class="title is-4 has-text-centered mb-4">Fill in the missing word</h1>
+                <h1 class="title is-4 has-text-centered mb-4">Fülle die Lücke</h1>
                 
                 <div class="content">
                     <p class="has-text-centered is-size-5">{{ cloze_text }}</p>
@@ -15,34 +15,43 @@
                 <div 
                   x-data="{
                       options: {{ answer_options|safe }},
+                      correct: '{{ answer_options.0 }}',
+                      selected: new Set(),
+                      foundCorrect: false,
+                      nextUrl: '{% url 'triangles:index' %}',
                       shuffled: [],
                       init() {
                           this.shuffled = [...this.options].sort(() => Math.random() - 0.5);
+                      },
+                      handleClick(option) {
+                          if (this.foundCorrect) return;
+                          if (option === this.correct) {
+                              this.foundCorrect = true;
+                              setTimeout(() => { window.location.href = this.nextUrl; }, 600);
+                          } else {
+                              this.selected.add(option);
+                          }
                       }
                   }"
                 >
-                    <form method="post" class="mt-4">
-                        {% csrf_token %}
-                        <div class="field">
-                            <div class="control">
-                                <div class="buttons is-centered">
-                                    <template x-for="option in shuffled" :key="option">
-                                        <button 
-                                            type="button"
-                                            class="button is-primary is-fullwidth mb-2"
-                                            @click="$refs.answer.value = option; $refs.submit.click()"
-                                            x-text="option"
-                                        ></button>
-                                    </template>
-                                    <template x-if="shuffled.length === 0">
-                                        <span class="has-text-danger">Keine Antwortoptionen verfügbar</span>
-                                    </template>
-                                </div>
-                                <input type="hidden" name="answer" x-ref="answer">
-                                <button type="submit" class="is-hidden" x-ref="submit"></button>
-                            </div>
-                        </div>
-                    </form>
+                    <div class="buttons is-centered">
+                        <template x-for="option in shuffled" :key="option">
+                            <button 
+                                type="button"
+                                class="button is-fullwidth mb-2"
+                                :class="{
+                                    'is-success': foundCorrect && option === correct,
+                                    'is-light': selected.has(option) && option !== correct
+                                }"
+                                @click="handleClick(option)"
+                                x-text="option"
+                                :disabled="selected.has(option) || foundCorrect"
+                            ></button>
+                        </template>
+                        <template x-if="shuffled.length === 0">
+                            <span class="has-text-danger">Keine Antwortoptionen verfügbar</span>
+                        </template>
+                    </div>
                 </div>
             </div>
         </div>
