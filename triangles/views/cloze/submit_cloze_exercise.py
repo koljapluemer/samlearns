@@ -37,10 +37,11 @@ def submit_cloze_exercise(request):
     # Upsert ClozeTemplateGapProgress
     gap_progress, _ = ClozeTemplateGapProgress.objects.get_or_create(user=user, template=template, gap_index=gap_index)
 
+    messages.success(request, random.choice(POSITIVE_MESSAGES))
+
     if result == 'correct':
         topic_progress.streak += 1
         gap_progress.streak += 1
-        messages.success(request, random.choice(POSITIVE_MESSAGES))
     else:
         topic_progress.streak = 0
         gap_progress.streak = 0
