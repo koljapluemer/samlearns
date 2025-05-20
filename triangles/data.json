@@ -1,0 +1,288 @@
+[
+{
+  "model": "triangles.topic",
+  "pk": 1,
+  "fields": {
+    "name": "sss",
+    "is_congruence_theorem": true
+  }
+},
+{
+  "model": "triangles.topic",
+  "pk": 2,
+  "fields": {
+    "name": "sws",
+    "is_congruence_theorem": true
+  }
+},
+{
+  "model": "triangles.topic",
+  "pk": 3,
+  "fields": {
+    "name": "wsw",
+    "is_congruence_theorem": true
+  }
+},
+{
+  "model": "triangles.topic",
+  "pk": 4,
+  "fields": {
+    "name": "SsW",
+    "is_congruence_theorem": true
+  }
+},
+{
+  "model": "triangles.clozetemplate",
+  "pk": 1,
+  "fields": {
+    "topic": 1,
+    "content": "Zwei Dreiecke sind zueinander kongruent, wenn sie in allen drei Seitenlängen übereinstimmen.",
+    "possible_gap_indices": [
+      0,
+      1,
+      3,
+      4,
+      8,
+      9,
+      10,
+      11
+    ]
+  }
+},
+{
+  "model": "triangles.clozetemplate",
+  "pk": 2,
+  "fields": {
+    "topic": 2,
+    "content": "Zwei Dreiecke sind zueinander kongruent, wenn sie in den Längen zweier Seiten und der Größe des von diesen Seiten eingeschlossenen Winkels übereinstimmen.",
+    "possible_gap_indices": [
+      0,
+      1,
+      3,
+      4,
+      9,
+      10,
+      11,
+      14,
+      18,
+      19,
+      20,
+      21
+    ]
+  }
+},
+{
+  "model": "triangles.clozetemplate",
+  "pk": 3,
+  "fields": {
+    "topic": 3,
+    "content": "Zwei Dreiecke sind zueinander kongruent, wenn sie in der Länge einer Seite und in den Größen der anliegenden Winkel übereinstimmen.",
+    "possible_gap_indices": [
+      0,
+      1,
+      3,
+      4,
+      9,
+      10,
+      11,
+      12,
+      15,
+      17,
+      18,
+      19
+    ]
+  }
+},
+{
+  "model": "triangles.clozetemplate",
+  "pk": 4,
+  "fields": {
+    "topic": 4,
+    "content": "Zwei Dreiecke sind zueinander kongruent, wenn sie in den Längen zweier Seiten und der Größe des Winkels, der der längeren der beiden Seiten gegenüberliegt, übereinstimmen.",
+    "possible_gap_indices": [
+      0,
+      1,
+      3,
+      4,
+      9,
+      10,
+      11,
+      14,
+      16,
+      19,
+      21,
+      22,
+      23,
+      24
+    ]
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 686,
+  "fields": {
+    "content": "Zwei"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 687,
+  "fields": {
+    "content": "Dreiecke"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 688,
+  "fields": {
+    "content": "zueinander"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 689,
+  "fields": {
+    "content": "kongruent"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 690,
+  "fields": {
+    "content": "allen"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 691,
+  "fields": {
+    "content": "drei"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 692,
+  "fields": {
+    "content": "Seitenlängen"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 693,
+  "fields": {
+    "content": "übereinstimmen"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 694,
+  "fields": {
+    "content": "Längen"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 695,
+  "fields": {
+    "content": "zweier"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 696,
+  "fields": {
+    "content": "Seiten"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 697,
+  "fields": {
+    "content": "Größe"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 698,
+  "fields": {
+    "content": "eingeschlossenen"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 699,
+  "fields": {
+    "content": "Winkels"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 700,
+  "fields": {
+    "content": "Länge"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 701,
+  "fields": {
+    "content": "einer"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 702,
+  "fields": {
+    "content": "Seite"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 703,
+  "fields": {
+    "content": "und"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 704,
+  "fields": {
+    "content": "Größen"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 705,
+  "fields": {
+    "content": "anliegenden"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 706,
+  "fields": {
+    "content": "Winkel"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 707,
+  "fields": {
+    "content": "längeren"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 708,
+  "fields": {
+    "content": "beiden"
+  }
+},
+{
+  "model": "triangles.distractor",
+  "pk": 709,
+  "fields": {
+    "content": "gegenüberliegt"
+  }
+}
+]
