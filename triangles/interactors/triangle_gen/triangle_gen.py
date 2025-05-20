@@ -158,31 +158,37 @@ def generate_svg_triangle(side1, side2, side3, angle, rotation, theorem_type):
     angle_color = "#2196F3"
     a1 = a2 = a3 = ''
     radius = 28
+    # Highlighted sides logic
+    highlight_lines = []
     if theorem_type == 'ssw':
         if side1 >= side2:
+            highlight_lines = [((ax, ay), (bx, by)), ((ax, ay), (cx, cy))]
             p1x, p1y, p2x, p2y = angle_arc_points(bx, by, ax, ay, cx, cy, radius)
             sweep_flag = get_sweep_flag(bx, by, p1x, p1y, p2x, p2y)
             a2 = f'<path d="{arc_path(bx, by, p1x, p1y, p2x, p2y, radius, sweep_flag)}" fill="none" stroke="{angle_color}" stroke-width="2"/>'
         else:
+            highlight_lines = [((ax, ay), (bx, by)), ((bx, by), (cx, cy))]
             p1x, p1y, p2x, p2y = angle_arc_points(ax, ay, bx, by, cx, cy, radius)
             sweep_flag = get_sweep_flag(ax, ay, p1x, p1y, p2x, p2y)
             a1 = f'<path d="{arc_path(ax, ay, p1x, p1y, p2x, p2y, radius, sweep_flag)}" fill="none" stroke="{angle_color}" stroke-width="2"/>'
     else:
+        highlight_lines = [((ax, ay), (bx, by))]
         p1x, p1y, p2x, p2y = angle_arc_points(ax, ay, bx, by, cx, cy, radius)
         sweep_flag1 = get_sweep_flag(ax, ay, p1x, p1y, p2x, p2y)
         a1 = f'<path d="{arc_path(ax, ay, p1x, p1y, p2x, p2y, radius, sweep_flag1)}" fill="none" stroke="{angle_color}" stroke-width="2"/>'
         p1x, p1y, p2x, p2y = angle_arc_points(bx, by, ax, ay, cx, cy, radius)
         sweep_flag2 = get_sweep_flag(bx, by, p1x, p1y, p2x, p2y)
         a2 = f'<path d="{arc_path(bx, by, p1x, p1y, p2x, p2y, radius, sweep_flag2)}" fill="none" stroke="{angle_color}" stroke-width="2"/>'
+    # SVG polygon points string
+    polygon_points = f"{ax},{ay} {bx},{by} {cx},{cy}"
     svg = f'''
     <svg viewBox="0 0 200 200" width="200" height="200">
         <g transform="rotate({rotation} 100 100)">
-            <line x1="{ax}" y1="{ay}" x2="{bx}" y2="{by}" stroke="{side_color if theorem_type == 'wsw' or (theorem_type == 'ssw' and side1 >= side2) else 'black'}" stroke-width="5"/>
-            <line x1="{bx}" y1="{by}" x2="{cx}" y2="{cy}" stroke="{side_color if theorem_type == 'ssw' and side2 > side1 else 'black'}" stroke-width="5"/>
-            <line x1="{cx}" y1="{cy}" x2="{ax}" y2="{ay}" stroke="black" stroke-width="5"/>
             {a1}
             {a2}
             {a3}
+            <polygon points="{polygon_points}" fill="none" stroke="black" stroke-width="5"/>
+            {''.join([f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{side_color}" stroke-width="5"/>' for (x1, y1), (x2, y2) in highlight_lines])}
         </g>
     </svg>
     '''
