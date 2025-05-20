@@ -9,4 +9,5 @@ urlpatterns = [
     path('mushrooms/', include('mushrooms.urls')),
     path('uke-fingerpicking/', include('uke_fingerpicking.urls')),
     path('triangles/', include('triangles.urls')),
+    path('guest/', include('guest_user.urls')),
 ]

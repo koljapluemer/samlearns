@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'storages',
     'lucide',
+    'guest_user',
     # my own stuff
     'shared',
     'cms',
@@ -138,6 +139,11 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'guest_user.backends.GuestBackend',
 ]
 
 
