@@ -3,10 +3,23 @@ from django.contrib import messages
 import random
 import time
 from triangles.interactors.user_dependent_learning_object.topic.get_due_topic import get_due_topic
+from triangles.models import Topic
 from guest_user.decorators import allow_guest_user
 
 @allow_guest_user
 def redirect_to_next_exercise(request):
+    # Check if all congruence theorem topics have a streak of 5
+    congruence_theorems = Topic.objects.filter(is_congruence_theorem=True)
+    all_topics_learned = True
+    
+    for topic in congruence_theorems:
+        if topic.get_streak(request.user) < 5:
+            all_topics_learned = False
+            break
+    
+    if all_topics_learned:
+        return redirect('triangles:all_learned')
+    
     # Seed random with current time to ensure different results
     random.seed(time.time())
     

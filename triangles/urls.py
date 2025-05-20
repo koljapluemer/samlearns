@@ -7,11 +7,13 @@ from triangles.views.identify_theorem.render_random_theorem_exercise import rend
 from triangles.views.identify_theorem.submit_theorem_answer import submit_theorem_answer
 from triangles.views.exercise_flow.redirect_to_next_exercise_of_type_cloze import redirect_to_next_exercise_of_type_cloze
 from triangles.views.exercise_flow.redirect_to_next_exercise_of_type_identify_theorem import redirect_to_next_exercise_of_type_identify_theorem
+from triangles.views.do_something_else import all_topics_learned
 
 app_name = 'triangles'
 
 urlpatterns = [
     path('', redirect_to_next_exercise, name='index'),
+    path('all-learned/', all_topics_learned, name='all_learned'),
     path('cloze/multiple-choice/<int:template_id>/<int:gap_index>/<int:level>/',
          render_cloze_exercise_multiple_choice, name='cloze_multiple_choice'),
     path('cloze/freetext/<int:template_id>/<int:gap_index>/<int:level>/',
