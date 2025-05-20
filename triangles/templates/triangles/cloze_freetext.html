@@ -5,7 +5,7 @@
 <div class="container">
     <div class="columns is-centered">
         <div class="column is-half">
-            <div class="box">
+            <div class="box" :class="{ 'has-background-success-light': foundCorrect }">
                 <h1 class="title is-4 has-text-centered mb-4">Fülle die Lücke.</h1>
                 
                 <div class="content">
@@ -24,6 +24,7 @@
                       cooldown: 5000, // 5 seconds initial
                       cooldownRemaining: 0,
                       cooldownInterval: null,
+                      inputClass: '',
                       startCooldown(duration) {
                           this.cooldownRemaining = duration;
                           const startTime = Date.now();
@@ -64,13 +65,32 @@
                               this.revealedLetters.has(index) ? letter : '_'
                           ).join(' ');
                       },
-                      checkAnswer() {
+                      async checkAnswer() {
                           if (this.foundCorrect) return;
                           
                           // Allow for a string distance of 1
                           const distance = this.levenshteinDistance(this.answer.toLowerCase(), this.correct.toLowerCase());
+                          
+                          // Set input color based on distance
+                          if (distance <= 1) {
+                              this.inputClass = 'is-success';
+                          } else if (distance <= 3) {
+                              this.inputClass = 'is-warning';
+                          } else {
+                              this.inputClass = 'is-danger';
+                          }
+                          
                           if (distance <= 1) {
                               this.foundCorrect = true;
+                              // Show correct answer in input
+                              this.answer = this.correct;
+                              
+                              // Wait for UI to update
+                              await this.$nextTick();
+                              
+                              // Wait 200ms before submitting
+                              await new Promise(resolve => setTimeout(resolve, 200));
+                              
                               const result = this.wasFirstTry && !this.usedTip ? 'correct' : 'incorrect';
                               fetch('{% url 'triangles:cloze_submit' %}', {
                                   method: 'POST',
@@ -123,7 +143,8 @@
                         <div class="control">
                             <input 
                                 type="text" 
-                                class="input" 
+                                class="input"
+                                :class="inputClass"
                                 x-model="answer"
                                 :disabled="foundCorrect"
                                 placeholder="Deine Antwort"

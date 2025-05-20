@@ -5,7 +5,7 @@
 <div class="container">
     <div class="columns is-centered">
         <div class="column is-half">
-            <div class="box">
+            <div class="box" :class="{ 'has-background-success-light': foundCorrect }">
                 <h1 class="title is-4 has-text-centered mb-4">Fülle die Lücke.</h1>
                 
                 <div class="content">
@@ -24,10 +24,17 @@
                       init() {
                           this.shuffled = [...this.options].sort(() => Math.random() - 0.5);
                       },
-                      handleClick(option) {
+                      async handleClick(option) {
                           if (this.foundCorrect) return;
                           if (option === this.correct) {
                               this.foundCorrect = true;
+                              
+                              // Wait for UI to update
+                              await this.$nextTick();
+                              
+                              // Wait 200ms before submitting
+                              await new Promise(resolve => setTimeout(resolve, 200));
+                              
                               const result = this.wasFirstTry ? 'correct' : 'incorrect';
                               fetch('{% url 'triangles:cloze_submit' %}', {
                                   method: 'POST',
