@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 from triangles.models import Topic, TopicProgress, LearningEvent
 
 @csrf_exempt  # for JS POST
@@ -39,16 +40,7 @@ def submit_theorem_answer(request):
             answer_given=selected_theorem
         )
         
-        # Render the result message
-        result_html = render_to_string(
-            'triangles/identify_theorem/result_message.html',
-            {
-                'is_correct': is_correct,
-                'selected_theorem': selected_theorem,
-                'correct_theorem': correct_theorem
-            }
-        )
-        
-        return HttpResponse(result_html)
+        # Redirect to next exercise
+        return redirect('triangles:index')
     
     return HttpResponse('Invalid request method', status=400) 

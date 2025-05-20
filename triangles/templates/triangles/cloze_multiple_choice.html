@@ -18,7 +18,6 @@
                       correct: '{{ correct_answer }}',
                       selected: new Set(),
                       foundCorrect: false,
-                      nextUrl: '{% url 'triangles:index' %}',
                       shuffled: [],
                       wasFirstTry: true,
                       init() {
@@ -35,20 +34,7 @@
                               // Wait 200ms before submitting
                               await new Promise(resolve => setTimeout(resolve, 200));
                               
-                              const result = this.wasFirstTry ? 'correct' : 'incorrect';
-                              fetch('{% url 'triangles:cloze_submit' %}', {
-                                  method: 'POST',
-                                  headers: { 'Content-Type': 'application/json' },
-                                  body: JSON.stringify({
-                                      template_id: '{{ template_id }}',
-                                      gap_index: {{ gap_index }},
-                                      answer_given: option,
-                                      possible_answers: this.shuffled,
-                                      result: result
-                                  })
-                              }).then(() => {
-                                  window.location.href = this.nextUrl;
-                              });
+                              this.$refs.form.submit();
                           } else {
                               this.selected.add(option);
                               this.wasFirstTry = false;
@@ -56,24 +42,33 @@
                       }
                   }"
                 >
-                    <div class="buttons is-centered">
-                        <template x-for="option in shuffled" :key="option">
-                            <button 
-                                type="button"
-                                class="button is-fullwidth mb-2"
-                                :class="{
-                                    'is-success': foundCorrect && option === correct,
-                                    'is-light': selected.has(option) && option !== correct
-                                }"
-                                @click="handleClick(option)"
-                                x-text="option"
-                                :disabled="selected.has(option) || foundCorrect"
-                            ></button>
-                        </template>
-                        <template x-if="shuffled.length === 0">
-                            <span class="has-text-danger">Keine Antwortoptionen verfügbar</span>
-                        </template>
-                    </div>
+                    <form method="post" action="{% url 'triangles:cloze_submit' %}" x-ref="form">
+                        {% csrf_token %}
+                        <input type="hidden" name="template_id" value="{{ template_id }}">
+                        <input type="hidden" name="gap_index" value="{{ gap_index }}">
+                        <input type="hidden" name="answer_given" :value="correct">
+                        <input type="hidden" name="possible_answers" :value="JSON.stringify(shuffled)">
+                        <input type="hidden" name="result" :value="wasFirstTry ? 'correct' : 'incorrect'">
+                        
+                        <div class="buttons is-centered">
+                            <template x-for="option in shuffled" :key="option">
+                                <button 
+                                    type="button"
+                                    class="button is-fullwidth mb-2"
+                                    :class="{
+                                        'is-success': foundCorrect && option === correct,
+                                        'is-light': selected.has(option) && option !== correct
+                                    }"
+                                    @click="handleClick(option)"
+                                    x-text="option"
+                                    :disabled="selected.has(option) || foundCorrect"
+                                ></button>
+                            </template>
+                            <template x-if="shuffled.length === 0">
+                                <span class="has-text-danger">Keine Antwortoptionen verfügbar</span>
+                            </template>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

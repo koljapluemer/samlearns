@@ -1,7 +1,8 @@
-
 from guest_user.decorators import allow_guest_user
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import redirect
+import json
 
 from triangles.models import ClozeTemplate, Topic, TopicProgress, ClozeTemplateGapProgress, LearningEvent, Distractor
 
@@ -14,14 +15,13 @@ from triangles.models import ClozeTemplate, Topic, TopicProgress, ClozeTemplateG
 def submit_cloze_exercise(request):
     if request.method != 'POST':
         return JsonResponse({'error': 'Only POST allowed'}, status=405)
-    import json
-    data = json.loads(request.body)
+    
     user = request.user
-    template_id = data.get('template_id')
-    gap_index = data.get('gap_index')
-    answer_given = data.get('answer_given')
-    possible_answers = data.get('possible_answers')
-    result = data.get('result')
+    template_id = request.POST.get('template_id')
+    gap_index = request.POST.get('gap_index')
+    answer_given = request.POST.get('answer_given')
+    possible_answers = json.loads(request.POST.get('possible_answers', '[]'))
+    result = request.POST.get('result')
 
     template = ClozeTemplate.objects.get(id=template_id)
     topic = template.topic
@@ -49,4 +49,6 @@ def submit_cloze_exercise(request):
         possible_answers=possible_answers,
         answer_given=answer_given
     )
-    return JsonResponse({}, status=204)
+    
+    # Redirect to next exercise
+    return redirect('triangles:index')

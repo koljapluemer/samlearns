@@ -1,10 +1,13 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from triangles.models import Topic, ClozeTemplateGapProgress
 from triangles.interactors.cloze.get_random_cloze_template_for_topic import get_random_cloze_template_for_topic
 from triangles.interactors.user_dependent_learning_object.cloze.get_due_gap_index_for_cloze_template import get_due_gap_index_for_cloze_template
 
 
-def redirect_to_next_exercise_of_type_cloze(request, topic: Topic):
+def redirect_to_next_exercise_of_type_cloze(request, topic_id):
+    # Get the topic
+    topic = get_object_or_404(Topic, id=topic_id)
+    
     # Get random cloze template from topic
     template = get_random_cloze_template_for_topic(topic)
     if not template:

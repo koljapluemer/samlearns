@@ -3,8 +3,6 @@ from django.contrib import messages
 import random
 import time
 from triangles.interactors.user_dependent_learning_object.topic.get_due_topic import get_due_topic
-from triangles.views.exercise_flow.redirect_to_next_exercise_of_type_cloze import redirect_to_next_exercise_of_type_cloze
-from triangles.views.exercise_flow.redirect_to_next_exercise_of_type_identify_theorem import redirect_to_next_exercise_of_type_identify_theorem
 from guest_user.decorators import allow_guest_user
 
 @allow_guest_user
@@ -23,7 +21,7 @@ def redirect_to_next_exercise(request):
     
     if rand_val < 0.5:
         print("redirecting to identify theorem exercise")
-        return redirect_to_next_exercise_of_type_identify_theorem(request, topic)
+        return redirect('triangles:next_theorem', topic_id=topic.id)
     else:
         print("redirecting to cloze exercise")
-        return redirect_to_next_exercise_of_type_cloze(request, topic)
+        return redirect('triangles:next_cloze', topic_id=topic.id)
