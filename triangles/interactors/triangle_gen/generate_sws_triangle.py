@@ -1,7 +1,7 @@
 import math
 import random
 from triangles.interactors.triangle_gen.utils import (
-    arc_path, angle_arc_points, get_sweep_flag, canonical_triangle_points, rotate_and_scale_points
+    arc_path, angle_arc_points, get_sweep_flag, canonical_triangle_points, rotate_and_scale_points, normalize_and_scale_triangles
 )
 
 
@@ -22,9 +22,20 @@ def generate_sws_triangle():
     side3 = math.sqrt(side1**2 + side2**2 - 2*side1*side2*math.cos(angle_rad))
     
     points = canonical_triangle_points(side1, side2, angle)
-    t1 = rotate_and_scale_points(points, 0)
+    t1_points = points
     rotation = random.uniform(30, 330)
-    t2 = rotate_and_scale_points(points, rotation)
+    # Rotate around centroid
+    def rotate_point(x, y, angle_deg, cx, cy):
+        angle_rad = math.radians(angle_deg)
+        x0, y0 = x - cx, y - cy
+        xr = x0 * math.cos(angle_rad) - y0 * math.sin(angle_rad)
+        yr = x0 * math.sin(angle_rad) + y0 * math.cos(angle_rad)
+        return xr + cx, yr + cy
+    centroid_x = sum(x for x, y in points) / 3
+    centroid_y = sum(y for x, y in points) / 3
+    t2_points = [rotate_point(x, y, rotation, centroid_x, centroid_y) for x, y in points]
+    # Normalize and scale both triangles together
+    t1, t2 = normalize_and_scale_triangles(t1_points, t2_points)
     side_color = "#4CAF50"
     angle_color = "#2196F3"
     radius = 28

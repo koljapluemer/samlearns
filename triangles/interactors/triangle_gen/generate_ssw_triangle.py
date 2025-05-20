@@ -1,7 +1,7 @@
 import math
 import random
 from triangles.interactors.triangle_gen.utils import (
-    arc_path, angle_arc_points, get_sweep_flag, canonical_triangle_points, rotate_and_scale_points
+    arc_path, angle_arc_points, get_sweep_flag, canonical_triangle_points, rotate_and_scale_points, normalize_and_scale_triangles
 )
 
 
@@ -9,11 +9,17 @@ def generate_ssw_triangle():
     # Generate a random triangle with two sides and the angle opposite the longer side
     # Returns data for two congruent triangles with different rotations
     
-    # Generate random side lengths (ensuring triangle inequality)
+    # Generate random side lengths (ensuring triangle inequality and 30% longer constraint)
     side1 = random.uniform(50, 100)
     side2 = random.uniform(50, 100)
-    while abs(side1 - side2) < 10:  # Ensure sides are noticeably different
-        side2 = random.uniform(50, 100)
+    
+    # Ensure one side is at least 30% longer than the other
+    if side1 > side2:
+        if side1 < side2 * 1.3:  # If side1 is not 30% longer
+            side1 = side2 * 1.3  # Make side1 30% longer
+    else:
+        if side2 < side1 * 1.3:  # If side2 is not 30% longer
+            side2 = side1 * 1.3  # Make side2 30% longer
     
     # Generate random angle (in degrees)
     angle = random.uniform(30, 150)
@@ -23,9 +29,19 @@ def generate_ssw_triangle():
     side3 = math.sqrt(side1**2 + side2**2 - 2*side1*side2*math.cos(angle_rad))
     
     points = canonical_triangle_points(side1, side2, angle)
-    t1 = rotate_and_scale_points(points, 0)
+    t1_points = points
     rotation = random.uniform(30, 330)
-    t2 = rotate_and_scale_points(points, rotation)
+    def rotate_point(x, y, angle_deg, cx, cy):
+        angle_rad = math.radians(angle_deg)
+        x0, y0 = x - cx, y - cy
+        xr = x0 * math.cos(angle_rad) - y0 * math.sin(angle_rad)
+        yr = x0 * math.sin(angle_rad) + y0 * math.cos(angle_rad)
+        return xr + cx, yr + cy
+    centroid_x = sum(x for x, y in points) / 3
+    centroid_y = sum(y for x, y in points) / 3
+    t2_points = [rotate_point(x, y, rotation, centroid_x, centroid_y) for x, y in points]
+    # Normalize and scale both triangles together
+    t1, t2 = normalize_and_scale_triangles(t1_points, t2_points)
     side_color = "#4CAF50"
     angle_color = "#2196F3"
     radius = 28

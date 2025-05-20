@@ -142,3 +142,30 @@ def generate_svg_triangle(side1, side2, side3, angle, rotation, theorem_type):
     </svg>
     '''
     return svg 
+
+def normalize_and_scale_triangles(points1, points2, margin=10, viewbox_size=200):
+    """
+    Given two triangles' points (each a list or tuple of 3 (x, y)),
+    compute a shared bounding box, and return both triangles' points
+    transformed to fit the same viewBox with margin.
+    """
+    points1 = list(points1)
+    points2 = list(points2)
+    all_points = points1 + points2
+    min_x = min(x for x, y in all_points)
+    max_x = max(x for x, y in all_points)
+    min_y = min(y for x, y in all_points)
+    max_y = max(y for x, y in all_points)
+    width = max_x - min_x
+    height = max_y - min_y
+    if width == 0: width = 1  # Prevent division by zero
+    if height == 0: height = 1
+    scale = min((viewbox_size - 2 * margin) / width, (viewbox_size - 2 * margin) / height)
+    def transform(pt):
+        x, y = pt
+        x = (x - min_x) * scale + margin
+        y = (y - min_y) * scale + margin
+        return (x, y)
+    t1 = [transform(pt) for pt in points1]
+    t2 = [transform(pt) for pt in points2]
+    return t1, t2 
