@@ -4,7 +4,8 @@ from .models import Distractor, Topic, ClozeTemplate, ImageExerciseTemplate, Top
 
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'is_congruence_theorem')
+    list_filter = ('is_congruence_theorem',)
     search_fields = ('name',)
 
 @admin.register(ClozeTemplate)

@@ -3,7 +3,7 @@ from django.conf import settings
 
 class Topic(models.Model):
     name = models.CharField(max_length=255)
-    is_congruence_theorem = models.BooleanField(default=False)
+    is_congruence_theorem = models.BooleanField(default=False, help_text="If True, this topic represents a triangle congruence theorem (SSS, SSW, SWS, or WSW)")
 
     def __str__(self):
         return self.name

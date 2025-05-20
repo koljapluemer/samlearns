@@ -3,46 +3,6 @@ import math
 
 
 
-def generate_wsw_triangle():
-    # Generate a random triangle with one side and its two adjacent angles
-    # Returns data for two congruent triangles with different rotations
-    
-    # Generate random side length
-    side = random.uniform(50, 100)
-    
-    # Generate random angles (ensuring they sum to less than 180)
-    angle1 = random.uniform(30, 60)
-    angle2 = random.uniform(30, 60)
-    while angle1 + angle2 >= 150:  # Leave room for third angle
-        angle1 = random.uniform(30, 60)
-        angle2 = random.uniform(30, 60)
-    
-    # Calculate third angle
-    angle3 = 180 - angle1 - angle2
-    
-    # Calculate other sides using law of sines
-    angle1_rad = math.radians(angle1)
-    angle2_rad = math.radians(angle2)
-    angle3_rad = math.radians(angle3)
-    side1 = side * math.sin(angle1_rad) / math.sin(angle3_rad)
-    side2 = side * math.sin(angle2_rad) / math.sin(angle3_rad)
-    
-    # Generate SVG data for two triangles
-    # First triangle
-    svg1 = generate_svg_triangle(side, side1, side2, angle1, 0, 'wsw')
-    # Second triangle (rotated)
-    rotation = random.uniform(30, 330)
-    svg2 = generate_svg_triangle(side, side1, side2, angle1, rotation, 'wsw')
-    
-    return {
-        'svg1': svg1,
-        'svg2': svg2,
-        'type': 'wsw',
-        'highlighted_elements': {
-            'side': side,  # The side that is the same
-            'angles': [angle1, angle2]  # The two angles adjacent to the side
-        }
-    }
 
 def arc_path(cx, cy, p1x, p1y, p2x, p2y, radius, sweep_flag):
     # SVG arc path from p1 to p2 with center at (cx, cy) and given radius
@@ -70,63 +30,52 @@ def angle_arc_points(vx, vy, v1x, v1y, v2x, v2y, radius):
     return p1x, p1y, p2x, p2y
 
 def generate_svg_triangle(side1, side2, side3, angle, rotation, theorem_type):
+    # Step 1: Canonical triangle points (unrotated)
     ax, ay = 0, 0
     bx, by = side1, 0
     angle_rad = math.radians(angle)
     cx = side2 * math.cos(angle_rad)
     cy = side2 * math.sin(angle_rad)
     points = [(ax, ay), (bx, by), (cx, cy)]
+
+    # Step 2: Rotate all points
     def rotate_point(x, y, angle_deg, cx=0, cy=0):
         angle_rad = math.radians(angle_deg)
         x0, y0 = x - cx, y - cy
         xr = x0 * math.cos(angle_rad) - y0 * math.sin(angle_rad)
         yr = x0 * math.sin(angle_rad) + y0 * math.cos(angle_rad)
         return xr + cx, yr + cy
-    svg_center = (100, 100)
-    margin = 30
-    min_x = min(x for x, y in points)
-    max_x = max(x for x, y in points)
-    min_y = min(y for x, y in points)
-    max_y = max(y for x, y in points)
+    # Rotate around centroid for best visual centering
+    centroid_x = sum(x for x, y in points) / 3
+    centroid_y = sum(y for x, y in points) / 3
+    rotated_points = [rotate_point(x, y, rotation, centroid_x, centroid_y) for x, y in points]
+
+    # Step 3: Compute bounding box of rotated points
+    min_x = min(x for x, y in rotated_points)
+    max_x = max(x for x, y in rotated_points)
+    min_y = min(y for x, y in rotated_points)
+    max_y = max(y for x, y in rotated_points)
     width = max_x - min_x
     height = max_y - min_y
-    scale = min((200 - 2 * margin) / width, (200 - 2 * margin) / height)
-    center_x = (min_x + max_x) / 2
-    center_y = (min_y + max_y) / 2
+
+    # Step 4: Compute scale and translation to fit in viewBox
+    margin = 30
+    viewbox_size = 200
+    scale = min((viewbox_size - 2 * margin) / width, (viewbox_size - 2 * margin) / height)
+    # Center after scaling
     def transform_point(x, y):
-        x = (x - center_x) * scale + 100
-        y = (y - center_y) * scale + 100
+        x = (x - min_x) * scale + margin
+        y = (y - min_y) * scale + margin
         return x, y
-    ax, ay = transform_point(ax, ay)
-    bx, by = transform_point(bx, by)
-    cx, cy = transform_point(cx, cy)
-    points = [(ax, ay), (bx, by), (cx, cy)]
-    rotated_points = [rotate_point(x, y, rotation, 100, 100) for x, y in points]
-    min_rx = min(x for x, y in rotated_points)
-    max_rx = max(x for x, y in rotated_points)
-    min_ry = min(y for x, y in rotated_points)
-    max_ry = max(y for x, y in rotated_points)
-    dx = 0
-    dy = 0
-    if min_rx < margin:
-        dx = margin - min_rx
-    elif max_rx > 200 - margin:
-        dx = (200 - margin) - max_rx
-    if min_ry < margin:
-        dy = margin - min_ry
-    elif max_ry > 200 - margin:
-        dy = (200 - margin) - max_ry
-    ax += dx
-    bx += dx
-    cx += dx
-    ay += dy
-    by += dy
-    cy += dy
+    ax, ay = transform_point(*rotated_points[0])
+    bx, by = transform_point(*rotated_points[1])
+    cx, cy = transform_point(*rotated_points[2])
+
+    # Step 5: SVG drawing logic (unchanged)
     side_color = "#4CAF50"
     angle_color = "#2196F3"
     a1 = a2 = a3 = ''
     radius = 28
-    # Highlighted sides logic
     highlight_lines = []
     if theorem_type == 'ssw':
         if side1 >= side2:
@@ -147,11 +96,10 @@ def generate_svg_triangle(side1, side2, side3, angle, rotation, theorem_type):
         p1x, p1y, p2x, p2y = angle_arc_points(bx, by, ax, ay, cx, cy, radius)
         sweep_flag2 = get_sweep_flag(bx, by, p1x, p1y, p2x, p2y)
         a2 = f'<path d="{arc_path(bx, by, p1x, p1y, p2x, p2y, radius, sweep_flag2)}" fill="none" stroke="{angle_color}" stroke-width="2"/>'
-    # SVG polygon points string
     polygon_points = f"{ax},{ay} {bx},{by} {cx},{cy}"
     svg = f'''
     <svg viewBox="0 0 200 200" width="200" height="200">
-        <g transform="rotate({rotation} 100 100)">
+        <g>
             {a1}
             {a2}
             {a3}
