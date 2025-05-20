@@ -29,16 +29,29 @@ def render_random_theorem_exercise(request):
     else:
         raise ValueError(f"Unknown theorem type: {theorem_type}")
     
-    # Prepare context for template
+    # Hardcoded German explanations
+    raw_options = [
+        {'id': 'sws', 'label': 'Kongruenzsatz sws: Zwei Seiten haben die gleiche Länge, und der eingeschlossene Winkel ist gleich groß.'},
+        {'id': 'sss', 'label': 'Kongruenzsatz sss: Alle drei Seitenlängen stimmen überein'},
+        {'id': 'wsw', 'label': 'Kongruenzsatz wsw: Eine Seitenlänge und die beiden anliegenden Winkel stimmen überein'},
+        {'id': 'ssw', 'label': 'Kongruenzsatz SsW: Zwei Seiten und die Größe des Winkels gegenüber der längeren Seite stimmen überein'},
+    ]
+    theorem_options = []
+    for opt in raw_options:
+        if ':' in opt['label']:
+            title, explanation = opt['label'].split(':', 1)
+        else:
+            title, explanation = opt['label'], ''
+        theorem_options.append({
+            'id': opt['id'],
+            'title': title.strip(),
+            'explanation': explanation.strip(),
+        })
+    
     context = {
         'triangle_data': triangle_data,
         'correct_theorem': theorem_type,
-        'theorem_options': [
-            {'id': 'sss', 'label': 'SSS'},
-            {'id': 'ssw', 'label': 'SSW'},
-            {'id': 'sws', 'label': 'SWS'},
-            {'id': 'wsw', 'label': 'WSW'},
-        ]
+        'theorem_options': theorem_options,
     }
     
     return render(request, 'triangles/identify_theorem.html', context)

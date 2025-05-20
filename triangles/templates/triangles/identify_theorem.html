@@ -4,7 +4,7 @@
 <div class="container">
     <div class="columns is-centered">
         <div class="column is-8">
-            <div class="box">
+            <div>
                 <h1 class="title has-text-centered">Woran kannst du erkennen, dass die beiden Dreiecke kongruent sind?</h1>
                 
                 <div class="columns is-centered mb-6 has-background-light">
@@ -26,15 +26,21 @@
                     </div>
                 </div>
 
-                <div class="buttons is-centered">
+                <div class="columns is-multiline is-centered is-flex is-align-items-stretch">
                     {% for option in theorem_options %}
-                    <button class="button is-large theorem-option" 
-                            data-theorem="{{ option.id }}"
-                            hx-post="{% url 'triangles:identify_theorem_submit' %}"
-                            hx-vals='{"selected_theorem": "{{ option.id }}", "correct_theorem": "{{ correct_theorem }}"}'
-                            hx-target="#result-message">
-                        {{ option.label }}
-                    </button>
+                    <div class="column is-6 is-flex is-align-items-stretch">
+                        <form method="post" style="margin-bottom: 0; width: 100%;">
+                            <button type="button" class="button is-large box has-shadow theorem-option mb-5" 
+                                    data-theorem="{{ option.id }}"
+                                    hx-post="{% url 'triangles:identify_theorem_submit' %}"
+                                    hx-vals='{"selected_theorem": "{{ option.id }}", "correct_theorem": "{{ correct_theorem }}"}'
+                                    hx-target="#result-message"
+                                    style="width: 100%; text-align: left; white-space: normal; height: 100%; display: flex; flex-direction: column; align-items: flex-start;">
+                                <span class="is-block has-text-weight-bold is-size-4">{{ option.title }}</span>
+                                <span class="is-block is-size-7 has-text-grey" style="white-space: normal; word-break: break-word;">{{ option.explanation }}</span>
+                            </button>
+                        </form>
+                    </div>
                     {% endfor %}
                 </div>
 
