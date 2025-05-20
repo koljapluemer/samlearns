@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from guest_user.decorators import allow_guest_user
 import string
@@ -6,7 +6,7 @@ import re
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from triangles.models import ClozeTemplate, Topic, TopicProgress, ClozeTemplateGapProgress, LearningEvent
+from triangles.models import ClozeTemplate, Topic, TopicProgress, ClozeTemplateGapProgress, LearningEvent, Distractor
 from triangles.utils import get_due_topic, get_due_gap_index_for_cloze_template, get_random_relevant_distractor
 
 def clean_word(word):
@@ -16,38 +16,76 @@ def clean_word(word):
     return cleaned
 
 @allow_guest_user
-def render_cloze_exercise(request, template_id, gap_index, level):
-    template = ClozeTemplate.objects.get(id=template_id)
-    gap_index = int(gap_index)
-    level = int(level)
+def render_cloze_exercise_freetext(request, template_id, gap_index, level):
+    template = get_object_or_404(ClozeTemplate, id=template_id)
+    topic = template.topic
     
-    # Split content into words
+    # Get user's progress for this topic
+    progress = TopicProgress.objects.get_or_create(
+        user=request.user,
+        topic=topic
+    )[0]
+    
+    # If streak is below 3, redirect to multiple choice
+    if progress.streak < 3:
+        return redirect('triangles:cloze', template_id=template_id, gap_index=gap_index, level=level)
+    
+    # Build cloze text with gap
     words = template.content.split()
-    
-    # Get the word at the gap index and clean it
-    correct_word = clean_word(words[gap_index])
-    
-    # Get a relevant distractor
-    distractor = get_random_relevant_distractor(correct_word)
-    
-    # Create cloze text by replacing the word with a gap
-    # Keep any punctuation that was part of the original word
+    gap_index = int(gap_index)
     original_word = words[gap_index]
     punctuation_before = re.match(r'^[^\w]*', original_word).group()
     punctuation_after = re.search(r'[^\w]*$', original_word).group()
     words[gap_index] = f"{punctuation_before}_____{punctuation_after}"
     cloze_text = " ".join(words)
-    
-    # Prepare answer options
-    answer_options = [correct_word, distractor.content] if distractor else [correct_word]
+    correct_answer = clean_word(original_word)
     
     context = {
-        'cloze_text': cloze_text,
         'template_id': template_id,
         'gap_index': gap_index,
-        'level': level,
+        'cloze_text': cloze_text,
+        'correct_answer': correct_answer,
+    }
+    
+    return render(request, 'triangles/cloze_freetext.html', context)
+
+@allow_guest_user
+def render_cloze_exercise(request, template_id, gap_index, level):
+    template = get_object_or_404(ClozeTemplate, id=template_id)
+    topic = template.topic
+    
+    # Get user's progress for this topic
+    progress = TopicProgress.objects.get_or_create(
+        user=request.user,
+        topic=topic
+    )[0]
+    
+    # If streak is 3 or higher, redirect to freetext
+    if progress.streak >= 3:
+        return redirect('triangles:cloze_freetext', template_id=template_id, gap_index=gap_index, level=level)
+
+    # Build cloze text with gap
+    words = template.content.split()
+    gap_index = int(gap_index)
+    original_word = words[gap_index]
+    punctuation_before = re.match(r'^[^\w]*', original_word).group()
+    punctuation_after = re.search(r'[^\w]*$', original_word).group()
+    words[gap_index] = f"{punctuation_before}_____{punctuation_after}"
+    cloze_text = " ".join(words)
+    correct_answer = clean_word(original_word)
+
+    # Use util to get a relevant distractor with matching case
+    distractor_obj = get_random_relevant_distractor(correct_answer)
+    distractor = distractor_obj.content if distractor_obj else "(keine)"
+    answer_options = [correct_answer, distractor]
+
+    context = {
+        'template_id': template_id,
+        'gap_index': gap_index,
+        'cloze_text': cloze_text,
         'answer_options': answer_options,
     }
+    
     return render(request, 'triangles/cloze.html', context)
 
 @allow_guest_user

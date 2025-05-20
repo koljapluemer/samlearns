@@ -1,0 +1,109 @@
+{% extends "triangles/base.html" %}
+{% load lucide %}
+
+{% block content %}
+<div class="container">
+    <div class="columns is-centered">
+        <div class="column is-half">
+            <div class="box">
+                <h1 class="title is-4 has-text-centered mb-4">Fülle die Lücke.</h1>
+                
+                <div class="content">
+                    <p class="has-text-centered is-size-5">{{ cloze_text }}</p>
+                </div>
+
+                <div 
+                  x-data="{
+                      correct: '{{ correct_answer }}',
+                      answer: '',
+                      foundCorrect: false,
+                      nextUrl: '{% url 'triangles:index' %}',
+                      wasFirstTry: true,
+                      checkAnswer() {
+                          if (this.foundCorrect) return;
+                          
+                          // Allow for a string distance of 1
+                          const distance = this.levenshteinDistance(this.answer.toLowerCase(), this.correct.toLowerCase());
+                          console.log('[CLOZE FREETEXT] User input:', this.answer);
+                          console.log('[CLOZE FREETEXT] Correct answer:', this.correct);
+                          console.log('[CLOZE FREETEXT] String distance:', distance);
+                          if (distance <= 1) {
+                              this.foundCorrect = true;
+                              const result = this.wasFirstTry ? 'correct' : 'incorrect';
+                              console.log('[CLOZE FREETEXT] Evaluation: CORRECT (' + result + ')');
+                              fetch('{% url 'triangles:cloze_submit' %}', {
+                                  method: 'POST',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify({
+                                      template_id: '{{ template_id }}',
+                                      gap_index: {{ gap_index }},
+                                      answer_given: this.answer,
+                                      possible_answers: [this.correct],
+                                      result: result
+                                  })
+                              }).then(() => {
+                                  window.location.href = this.nextUrl;
+                              });
+                          } else {
+                              this.wasFirstTry = false;
+                              console.log('[CLOZE FREETEXT] Evaluation: INCORRECT');
+                          }
+                      },
+                      levenshteinDistance(a, b) {
+                          if (a.length === 0) return b.length;
+                          if (b.length === 0) return a.length;
+                          
+                          const matrix = [];
+                          for (let i = 0; i <= b.length; i++) {
+                              matrix[i] = [i];
+                          }
+                          for (let j = 0; j <= a.length; j++) {
+                              matrix[0][j] = j;
+                          }
+                          
+                          for (let i = 1; i <= b.length; i++) {
+                              for (let j = 1; j <= a.length; j++) {
+                                  if (b.charAt(i - 1) === a.charAt(j - 1)) {
+                                      matrix[i][j] = matrix[i - 1][j - 1];
+                                  } else {
+                                      matrix[i][j] = Math.min(
+                                          matrix[i - 1][j - 1] + 1,
+                                          matrix[i][j - 1] + 1,
+                                          matrix[i - 1][j] + 1
+                                      );
+                                  }
+                              }
+                          }
+                          return matrix[b.length][a.length];
+                      }
+                  }"
+                >
+                    <div class="field">
+                        <div class="control">
+                            <input 
+                                type="text" 
+                                class="input" 
+                                x-model="answer"
+                                :disabled="foundCorrect"
+                                placeholder="Deine Antwort"
+                            >
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <button 
+                                type="button"
+                                class="button is-primary is-fullwidth"
+                                @click="checkAnswer"
+                                :disabled="foundCorrect"
+                            >
+                                Antwort prüfen
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
