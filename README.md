@@ -1,7 +1,9 @@
 # Sam Learns
+![homescreen screenshot](doc/screenshot-rocks(4).png)
+
+*Archived Project. Building learning apps in Django templates feels clunky, and sharing a repo not worth it*
 
 A Django-based learning platform.
-
 ## Stack
 
 - Django, app-based
